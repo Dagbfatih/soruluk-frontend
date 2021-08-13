@@ -1,0 +1,95 @@
+<div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<div class="row">
+    <div class="mb-3 d-flex" style="padding-top: 1%;">
+        <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search" />
+        <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="mb-3">
+                <!-- <label for="exampleFormControlInput1" class="form-label">Marka</label> -->
+                <select [(ngModel)]="categoryId" class="form-select" aria-label="Default select example">
+                    <option value="0" selected>{{getTranslate("noFilter")}}</option>
+                    <option *ngFor="let category of categories" [value]="category.categoryId">
+                        {{ category.categoryName }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="mb-3">
+                <button [routerLink]="getFilterRouterClass()" type="button" class="btn btn-success">
+                    {{getTranslate("filter")}}
+                </button>
+            </div>
+        </div>
+        <div class="col-md-7 text-end">
+            <div class="mb-3">
+                <button (click)="openAddQuestionModal()" type="button" class="btn btn-primary">
+                    {{getTranslate("addQuestion")}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- data manage -->
+    <h3 class="text-center" *ngIf="questions.length === 0">{{getTranslate("noResults")}}</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div *ngFor="
+        let question of questions | questionFilterPipe: filterText;
+        let i = index
+      " class="col">
+            <div class="card h-100 border-success bg-secondary">
+                <div class="card-header bg-success">
+                    <div class="row">
+                        <h5 class="col card-title">{{ i + 1 }}. {{getTranslate("question")}}</h5>
+                        <div class="col text-end">
+                            <i *ngIf="question.starQuestion" class="fa fa-star"
+                                style="font-size: 36px; color: rgb(156, 156, 43)"></i>
+                            <i *ngIf="!question.starQuestion" class="fa fa-star-o"
+                                style="font-size: 36px; color: rgb(156, 156, 43)"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body bg-secondary">
+                    <p class="card-text">{{ question.questionText }}</p>
+
+                    <div>
+                        <ul class="list-group-mine list-group-flush">
+                            <li *ngFor="let option of question.options; let i = index"
+                                class="list-group-item list-group-item-action">
+                                <button type="button" class="btn button5 btn-primary">
+                                    {{ getOption(i) }}
+                                </button>
+                                {{ option.optionText }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- <div class="card-footer text-end"> -->
+
+                <!-- </div> -->
+                <div class="card-footer text-center">
+                    <small *ngFor="let category of question.categories; let last = last" class="">{{
+                        category.categoryName }}{{ last ? "" : " - " }}</small>
+                </div>
+                <div class="card-footer text-center">
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-primary" style="width: 100px"
+                            (click)="openUpdateQuestionModal(question.questionId)">
+                            {{getTranslate("update")}}
+                        </button>
+                        <button type="button" class="btn btn-danger" style="width: 100px"
+                            (click)="openDeleteQuestionModal(question.questionId)">
+                            {{getTranslate("delete")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

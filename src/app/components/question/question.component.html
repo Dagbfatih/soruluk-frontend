@@ -1,0 +1,22 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<table *ngIf="dataLoaded != false" class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>{{getTranslate("question")}}</th>
+            <th>{{getTranslate("star")}}</th>
+            <th>{{getTranslate("broken")}}</th>
+            <th>{{getTranslate("userName")}}</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let question of questions">
+        <td>{{question.questionId}}</td>
+        <td>{{question.questionText}}</td>
+        <td>{{question.starQuestion}}</td>
+        <td>{{question.brokenQuestion}}</td>
+        <td>{{question.userName}}</td>
+    </tr>
+</table>

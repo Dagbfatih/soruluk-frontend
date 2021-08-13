@@ -1,0 +1,139 @@
+<div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <form [formGroup]="profileImageUpdateForm">
+                    <div class="profile-img">
+                        <a class="img">
+                            <div class="img__overlay">
+                                <div class="col">
+                                    <div class="row">
+                                        <label for="imagePath"><i class="fa fa-upload fa-6"
+                                                aria-hidden="true"></i></label>
+                                        <input #imageInput class="form-control" type="file" id="imagePath"
+                                            accept="image/*" (change)="onFileChange(imageInput)"
+                                            formControlName="imagePath" style="display: none; visibility: hidden;" />
+                                    </div>
+                                    <div class="row">
+                                        <button *ngIf="profileImage.id !== 0" type="button"
+                                            class="btn btn-outline-light"
+                                            (click)="deleteProfileImage()">{{getTranslate("delete")}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <img *ngIf="profileImage" [src]="baseUrl  + profileImage.imagePath" />
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{customer.firstName + " " + customer.lastName}}
+                    </h5>
+                    <h6>
+                        {{customer.status?getTranslate("online") : getTranslate("offline")}}
+                    </h6>
+                    <p class="proile-rating"><span>{{getTranslate(customer.roleName + " fromDb")}}</span></p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">{{getTranslate("about")}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <!-- <button type="button" class="btn btn-primary" routerLink="/user/profile/edit">Profili Düzenle</button> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- <div class="profile-work">
+                    <p>WORK LINK</p>
+                    <a href="">Website Link</a><br />
+                    <a href="">Bootsnipp Profile</a><br />
+                    <a href="">Bootply Profile</a>
+                    <p>SKILLS</p>
+                    <a href="">Web Designer</a><br />
+                    <a href="">Web Developer</a><br />
+                    <a href="">WordPress</a><br />
+                    <a href="">WooCommerce</a><br />
+                    <a href="">PHP, .Net</a><br />
+                </div> -->
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <form [formGroup]="profileUpdateForm">
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <label for="firstName">{{getTranslate("firstName")}}</label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text" id="firstName" formControlName="firstName" class="form-control"
+                                        placeholder="İsminiz" />
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <label for="lastName">{{getTranslate("lastName")}}</label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text" id="lastName" formControlName="lastName" class="form-control"
+                                        placeholder="İsminiz" />
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <label for="email">{{getTranslate("email")}}</label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="email" id="email" formControlName="email" class="form-control"
+                                        placeholder="E-posta adresiniz" />
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <label for="status">{{getTranslate("status")}}</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-check form-switch form-switch-lg">
+                                            <input class="form-check-input" type="checkbox" id="status"
+                                                formControlName="status">
+                                            <label class="form-check-label" for="status">
+                                                <h6 *ngIf="checkStatus()">{{getTranslate("online")}}</h6>
+                                                <h6 *ngIf="!checkStatus()">{{getTranslate("offline")}}</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-12 text-end">
+                                    <button type="button" class="btn btn-success"
+                                        (click)="update()">{{getTranslate("update")}}</button>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-md-6">
+                                    <label for="role">Role</label>
+                                </div>
+                                <div class="form-floating col-md-6">
+                                    <select class="form-select form-select" id="role" formControlName="role"
+                                        aria-label="Floating label select example">
+                                        <option *ngFor="let role of roles" [value]="role.id">
+                                            {{ role.roleName }}
+                                        </option>
+                                    </select>
+                                    <label for="categoryId">Rol Seçin</label>
+                                </div>
+                            </div> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

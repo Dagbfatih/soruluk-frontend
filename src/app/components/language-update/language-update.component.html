@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{getTranslate("updateLanguage")}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="languageUpdateForm">
+        <div class="mb-3">
+            <label for="languageName">{{getTranslate("languageName")}}</label>
+            <div class="form-group">
+                <input type="text" id="languageName" formControlName="languageName" class="form-control"
+                    placeholder="ex: turkish, english..." />
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="code">{{getTranslate("code")}}</label>
+            <div class="form-group">
+                <input type="text" id="code" formControlName="code" class="form-control"
+                    placeholder="ex: TR-tr, EN-en..." />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()"
+        data-bs-dismiss="modal">{{getTranslate("close")}}</button>
+    <button type="button" class="btn btn-primary" (click)="update()">{{getTranslate("add")}}</button>
+</div>

@@ -1,0 +1,67 @@
+<h3 class="text-center" *ngIf="userOperationClaims.length === 0">{{getTranslate("noResults")}}</h3>
+<table *ngIf="dataLoaded != false && userOperationClaims.length !== 0" class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>{{getTranslate("userId")}}</th>
+            <th>{{getTranslate("firstName")}}</th>
+            <th>{{getTranslate("email")}}</th>
+            <th>{{getTranslate("approvalStatus")}}</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{user.id}}</td>
+            <td>{{user.firstName + " " + user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td>
+                <h6><small><em>{{!getUserClaims(user).includes("notConfirmedInstructor")?'confirmed':"waiting..."}}</em></small></h6>
+            </td>
+            <td>
+                <ng-template #popTitle>
+                    {{getTranslate("operationClaims")}}
+                </ng-template>
+                <ng-template #popContent>
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item" id="available">
+                            <h6 *ngIf="getAvailableClaims(user.id).length !== 0">
+                                <span *ngFor="let claim of getAvailableClaims(user.id)" class="badge bg-warning">
+                                    <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                                        (click)="delete(claim)"></button>
+                                    {{claim.operationClaim.name}}
+                                </span>
+                            </h6>
+                            <h6 *ngIf="getAvailableClaims(user.id).length === 0">
+                                {{getTranslate("notAvailableClaim")}}
+                            </h6>
+                        </li>
+
+                        <li class="list-group-item" id="not available">
+                            <h6 *ngIf="getNotAvailableClaims(user.id).length !== 0">
+                                <span *ngFor="let claim of getNotAvailableClaims(user.id)" class="badge bg-warning">
+                                    <a class="btn btn-warning" aria-label="Close" (click)="add(claim, user.id)">
+                                        <h6 class="text-white">+</h6>
+                                    </a>
+                                    {{claim.name}}
+                                </span>
+                            </h6>
+                            <h6 *ngIf="getNotAvailableClaims(user.id).length === 0">
+                                {{getTranslate("notAvailableClaim")}}
+                            </h6>
+                        </li>
+
+                    </ul>
+                </ng-template>
+                <button type="button" #popover="ngbPopover" class="btn btn-info" [ngbPopover]="popContent"
+                    [popoverTitle]="popTitle" placement="right">{{getTranslate("setClaims")}}</button>
+            </td>
+            <td><button [disabled]="!getUserClaims(user).includes('notConfirmedInstructor')" type="button" class="btn btn-warning"
+                    (click)="confirmAccount(user.id)">Confirm Account</button></td>
+        </tr>
+    </tbody>
+</table>

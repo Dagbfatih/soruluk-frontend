@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{getTranslate("updateTranslate")}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="translateAddForm">
+        <div class="mb-3">
+            <label for="key">{{getTranslate("key")}}</label>
+            <div class="form-group">
+                <input type="text" id="key" formControlName="key" class="form-control"
+                    placeholder="ex: button_text, label_text..." />
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-floating">
+                <select class="form-select form-select" id="languageId" formControlName="languageId"
+                    aria-label="Floating label select example">
+                    <option *ngFor="let language of languages" [value]="language.id">
+                        {{ language.languageName + " - " + language.code }}
+                    </option>
+                </select>
+                <label for="languageId">{{getTranslate("selectLanguage")}}</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="value">{{getTranslate("value")}}</label>
+            <div class="form-group">
+                <input type="text" id="value" formControlName="value" class="form-control"
+                    placeholder="ex: Add, Sil, Güncelle..." />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()" data-bs-dismiss="modal">{{getTranslate("close")}}</button>
+    <button type="button" class="btn btn-primary" (click)="update()">{{getTranslate("update")}}</button>
+</div>

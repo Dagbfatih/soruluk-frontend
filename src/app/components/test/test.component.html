@@ -1,0 +1,24 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<table *ngIf="dataLoaded != false" class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>{{getTranslate("userId")}}</th>
+            <th>{{getTranslate("testName")}}</th>
+            <th>{{getTranslate("note")}}</th>
+            <th>TPQ</th>
+            <th>{{getTranslate("privacy")}}</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let test of tests">
+        <td>{{test.id}}</td>
+        <td>{{test.userId}}</td>
+        <td>{{test.testName}}</td>
+        <td>{{test.testNotes}}</td>
+        <td>{{test.testTime}}</td>
+        <td>{{test.privacy}}</td>
+    </tr>
+</table>

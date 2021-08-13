@@ -1,0 +1,35 @@
+<div class="col">
+    <div class="row mb-3 text-center">
+        <h1>{{getTranslate("settings")}}</h1>
+    </div>
+    <div class="row mb-3">
+        <ul class="list-group list-group-flush mb-5">
+            <li class="list-group-item">
+                <h3 class="text-muted">{{getTranslate("language")}}</h3>
+            </li>
+            <li class="list-group-item">
+                <div class="w-25 mb-3">
+                    <div class="form-floating">
+                        <select class="form-select form-select" id="languageCode" [(ngModel)]="languageCode"
+                            aria-label="Floating label select example" (change)="onLanguageChanged($event)">
+                            <option *ngFor="let language of languages" [value]="language.code">
+                                {{ language.languageName }}
+                            </option>
+                        </select>
+                        <label for="languageCode">Dil Seçin</label>
+                    </div>
+                </div>
+            </li>
+            <!-- <li class="list-group-item">
+                <h3 class="text-muted">{{getTranslate("theme")}}</h3>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-3 oval">
+                    <div class="oval" [ngClass]="{ovalSelected: theme == 'bootstrap'}" (click)="toggleTheme()">
+                        <div class="button" [ngClass]="{buttonSelected: theme == 'bootstrap'}"></div>
+                    </div>
+                </div>
+            </li> -->
+        </ul>
+    </div>
+</div>

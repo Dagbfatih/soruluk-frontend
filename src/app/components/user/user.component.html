@@ -1,0 +1,53 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<div class="mb-3 d-flex" style="padding-top: 1%;">
+    <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search">
+    <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
+</div>
+
+<div class="users.length === 0">
+    <h3 class="text-center" *ngIf="users.length === 0 ">{{getTranslate("noResults")}}</h3>
+    <table *ngIf="dataLoaded != false && users.length !== 0" class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Id</th>
+                <th>{{getTranslate("firstName")}}</th>
+                <th>{{getTranslate("lastName")}}</th>
+                <th>{{getTranslate("email")}}</th>
+                <th>{{getTranslate("status")}}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users |userFilterPipe : filterText; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{user.id}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.status}}</td>
+                <td>
+                    <ng-template #popTitle>
+                        {{getTranslate("operationClaims")}}
+                    </ng-template>
+                    <ng-template #popContent>
+                        <ul class="list-group list-group-flush">
+                            <li *ngFor="let claim of getUserOperationClaims(user.id)" class="list-group-item">
+                                {{claim}}
+                            </li>
+                        </ul>
+                    </ng-template>
+                    <button type="button" class="btn btn-info" [ngbPopover]="popContent" [popoverTitle]="popTitle"
+                        placement="right" #popover="ngbPopover">{{getTranslate("operationClaims")}}</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger"
+                        (click)="openDeleteModal(user)">{{getTranslate("delete")}}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

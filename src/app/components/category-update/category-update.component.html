@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{getTranslate("add")}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="categoryUpdateForm">
+        <div class="mb-3">
+            <label for="categoryName">{{getTranslate("categoryName")}}</label>
+            <div class="form-group">
+                <input type="text" id="categoryName" formControlName="categoryName" class="form-control" placeholder="ex: fruit, electronic..."/>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()" data-bs-dismiss="modal">{{getTranslate("close")}}</button>
+    <button type="button" class="btn btn-primary" (click)="add()">{{getTranslate("update")}}</button>
+</div>

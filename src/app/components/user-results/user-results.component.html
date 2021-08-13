@@ -1,0 +1,31 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<table *ngIf="dataLoaded != false" class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>{{getTranslate("testName")}}</th>
+            <th>{{getTranslate("questionCount")}}</th>
+            <th>{{getTranslate("correctNumber")}}</th>
+            <th>{{getTranslate("incorrectNumber")}}</th>
+            <th>{{getTranslate("emptyNumber")}}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let testResult of testResults; let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{testResult.testDetails.testName}}</td>
+            <td>{{testResult.questionResults.length}}</td>
+            <td>{{getCorrectNumber(testResult)}}</td>
+            <td>{{getIncorrectNumber(testResult)}}</td>
+            <td>{{getEmptyNumber(testResult)}}</td>
+            <td>
+                <button (click)="openResultDetailsModal(testResult.resultDetails.id!)" class="btn btn-outline-info"
+                    type="button">{{getTranslate("details")}}</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

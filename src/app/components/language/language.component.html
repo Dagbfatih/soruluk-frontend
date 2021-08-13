@@ -1,0 +1,43 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<h3 class="text-center" *ngIf="languages.length === 0">{{getTranslate("noResults")}}</h3>
+
+<div *ngIf="languages.length !== 0" class="col">
+
+    <div class="row">
+        <div class="col-md-12 mb-3 text-end">
+            <button type="button" class="btn btn-primary" (click)="openAddModal()">{{getTranslate("add")}}</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <table *ngIf="dataLoaded != false" class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Id</th>
+                    <th>{{getTranslate("languageName")}}</th>
+                    <th>{{getTranslate("code")}}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let language of languages; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{language.id}}</td>
+                    <td>{{language.languageName}}</td>
+                    <td>{{language.code}}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-danger" (click)="openDeleteModal(language)">{{getTranslate("delete")}}</button>
+                    </td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-primary" (click)="openUpdateModal(language)">{{getTranslate("update")}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

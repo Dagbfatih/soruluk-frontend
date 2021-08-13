@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{getTranslate("testResultDetails")}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+
+<div class="modal-body">
+    <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+        <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+    </div>
+
+
+    <div class="panel-fullscreen">
+        <div *ngIf="dataLoaded" class="card" style="min-height: 49.7vw;">
+            <div class="card-header">
+                <h5 class="card-title">{{questionOrder+1}}.</h5>
+                <p class="card-text">{{getQuestion().questionText}}</p>
+            </div>
+
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+
+                    <li *ngFor="let option of getQuestion().options; let i = index;" class="list-group-item"
+                        [ngClass]="{'bg-light-success':getIsCorrect(option.questionId, option.id)}">
+
+                        <input type="radio" class="btn-check" name="options-outlined" [id]="i" autocomplete="off"
+                            [value]="option.id" [checked]="getCheckedClass(questionOrder, i)" disabled>
+                        <label class="btn btn-outline-primary" [for]="i">{{getOptionNumber(i)}}</label>
+                        {{option.optionText}}
+
+                    </li>
+
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col text-start">
+                        <button type="button" style="width: 10rem; height: 5rem; border-radius: 40rem;"
+                            class="btn btn-outline-info" (click)="previousQuestion()" [disabled]="questionOrder === 0">
+                            <i class="fa fa-angle-left fa-4x"></i>
+                        </button>
+                    </div>
+
+                    <div class="col text-end">
+                        <button type="button" style="width: 10rem; height: 5rem; border-radius: 40rem;"
+                            class="btn btn-outline-info" (click)="nextQuestion()"
+                            [disabled]="this.questionOrder === this.testResult.questionResults.length - 1">
+                            <i class="fa fa-angle-right fa-4x"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div *ngFor="let question of testResult.questionResults; let i = index" class="col-md-1 text-center"
+                        style="width: 4rem;">
+
+                        <h3 *ngIf="getQuestionResult(question.questionId).selectedOptionId === 0">
+                            <span class="badge rounded-pill bg-light text-dark"
+                                [ngClass]="{'badge-outline'   : getQuestion().questionId === question.questionId}">{{i+1}}
+                            </span>
+                        </h3>
+
+                        <h3
+                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 && getQuestionResult(question.questionId).accuracy">
+                            <span class="badge rounded-pill bg-success text-dark"
+                                [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
+                            </span>
+                        </h3>
+
+                        <h3
+                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 && !getQuestionResult(question.questionId).accuracy">
+                            <span class="badge rounded-pill bg-danger text-dark"
+                                [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
+                            </span>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

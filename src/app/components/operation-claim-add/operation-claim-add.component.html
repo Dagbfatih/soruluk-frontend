@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{getTranslate("addOperationClaim")}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="operationClaimAddForm">
+        <div class="mb-3">
+            <label for="claimName">{{getTranslate("claimName")}}</label>
+            <div class="form-group">
+                <input type="text" id="claimName" formControlName="name" class="form-control"
+                    placeholder="ex: admin, user, moderator..." />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()"
+        data-bs-dismiss="modal">{{getTranslate("close")}}</button>
+    <button type="button" class="btn btn-primary" (click)="add()">{{getTranslate("add")}}</button>
+</div>

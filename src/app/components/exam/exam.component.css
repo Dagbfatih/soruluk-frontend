@@ -1,0 +1,24 @@
+.panel-fullscreen {
+  height: 100%;
+}
+
+.hide-radio>.btn-group-vertical>.btn input[type=radio] {
+  position: absolute;
+  clip: rect(0,0,0,0);
+  pointer-events: none;
+}
+
+.badge-outline {
+  color: black;
+  border: 5px solid rgb(0, 0, 0);
+  background-color: transparent;
+  border-radius: 50rem !important;
+}
+
+.badge-outline.badge-info {
+  border-color: rgb(45, 160, 0);
+}
+
+.badge-outline.badge-light {
+  border-color: rgb(45, 160, 0);
+}

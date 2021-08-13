@@ -1,0 +1,89 @@
+<div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<div class="panel-fullscreen">
+    <div *ngIf="dataLoaded" class="card" style="min-height: 49.7vw;">
+        <div class="card-header text-center">
+            <div class="row text-center">
+                <h3 class="text-center" style="color: dodgerblue;">
+                    {{minutes}}
+                </h3>
+            </div>
+            <div class="row text-center">
+                <small class="text-muted">Minutes</small>
+            </div>
+        </div>
+        <div class="card-header">
+            <h5 class="card-title">{{questionOrder+1}}.</h5>
+            <p class="card-text" style="white-space: pre-line; word-wrap: break-word;">{{getQuestion().questionText}}</p>
+        </div>
+
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+
+                <li *ngFor="let option of getQuestion().options; let i = index;" class="list-group-item">
+                    <input type="radio" class="btn-check" name="options-outlined" [id]="i" autocomplete="off"
+                        [value]="option.id" [checked]="getCheckedClass(questionOrder, i)"
+                        (change)="optionSelected($event)">
+                    <label class="btn btn-outline-primary" [for]="i">{{getOptionNumber(i)}}</label>
+                    {{option.optionText}}
+                </li>
+
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-outline-primary"
+                        (click)="setEmpty()">{{getTranslate("leaveBlank")}}</button>
+                </li>
+
+            </ul>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col text-start">
+                    <button type="button" style="width: 10rem; height: 5rem; border-radius: 40rem;"
+                        class="btn btn-outline-info" (click)="previousQuestion()" [disabled]="questionOrder === 0">
+                        <i class="fa fa-angle-left fa-4x"></i>
+                    </button>
+                </div>
+
+                <div class="col text-center">
+                    <button type="button" style="width: 15rem; height: 5rem; border-radius: 40rem;"
+                        class="btn btn-outline-danger" (click)="finishOnUserRequest()">
+                        <h3>{{getTranslate("finishExam")}}</h3>
+                    </button>
+                </div>
+
+                <div class="col text-end">
+                    <button type="button" style="width: 10rem; height: 5rem; border-radius: 40rem;"
+                        class="btn btn-outline-info" (click)="nextQuestion()"
+                        [disabled]="this.questionOrder === this.test.questions.length - 1">
+                        <i class="fa fa-angle-right fa-4x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div *ngFor="let question of test.questions; let i = index" class="col-md-1 text-center"
+                    style="width: 4rem;">
+
+                    <h3
+                        *ngIf="getQuestionResult(question.questionId).selectedOptionId === 0">
+                        <span class="badge rounded-pill bg-light text-dark"
+                            [ngClass]="{'badge-outline'   : getQuestion().questionId === question.questionId}">{{i+1}}
+                        </span>
+                    </h3>
+
+                    <h3
+                        *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0">
+                        <span class="badge rounded-pill bg-info text-dark"
+                            [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<countdown-timer [countDownTimerConfig]="testConfig" style="visibility: hidden;"></countdown-timer>

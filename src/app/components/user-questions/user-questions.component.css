@@ -1,0 +1,23 @@
+.no-padding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.myCustomModalClass .modal-dialog {
+  max-width: 1140px;
+}
+
+.myCustomCard {
+  max-height: 438;
+}
+
+.list-group-mine .list-group-item {
+  background-color: #6c757d;
+  border-top: 1px solid #6c757d;
+  border-left-color: #6c757d;
+  border-right-color: #6c757d;
+}
+
+.list-group-mine .list-group-item:hover {
+  background-color: #8c9399;
+}

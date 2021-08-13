@@ -1,0 +1,18 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<table *ngIf="dataLoaded != false" class="table">
+    <thead>
+        <tr>
+            <th>{{getTranslate("text")}}</th>
+            <th>{{getTranslate("questionId")}}</th>
+            <th>{{getTranslate("accuracy")}}</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let option of options">
+        <td>{{option.optionText}}</td>
+        <td>{{option.questionId}}</td>
+        <td>{{option.accuracy}}</td>
+    </tr>
+</table>

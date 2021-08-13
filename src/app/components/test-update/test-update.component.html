@@ -1,0 +1,191 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{getTranslate("updateTest")}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+
+<div class="modal-body">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card border-success mx-auto">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>{{getTranslate("updateTest")}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form [formGroup]="testUpdateForm" class="form">
+                            <ul class="list-group list-group-flush">
+
+                                <!-- testName -->
+                                <li class="list-group-item mb-3">
+                                    <div class="mb-3">
+                                        <label for="testName" class="mb-1">
+                                            <h5>{{getTranslate("testName")}}</h5>
+                                        </label>
+                                        <div class="form-group">
+                                            <input class="form-control" id="testName" formControlName="testName"
+                                                placeholder="Test ismini girin" />
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- testNotes -->
+                                <li class="list-group-item mb-3">
+                                    <div class="mb-3">
+                                        <label for="testNotes" class="mb-1">
+                                            <h5>{{getTranslate("testNotes")}}</h5>
+                                        </label>
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="testNotes" formControlName="testNotes"
+                                                rows="3" placeholder="Test ile ilgili notlar"></textarea>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- testTime -->
+                                <li class="list-group-item mb-3">
+                                    <div class="mb-3">
+                                        <label for="testTime" class="mb-1">
+                                            <h5>{{getTranslate("testTime")}}</h5>
+                                        </label>
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" id="testTime"
+                                                formControlName="testTime" placeholder="Test süresi" />
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- Privacy -->
+                                <li class="list-group-item mb-3">
+                                    <div class="mb-3">
+                                        <label for="privacy" class="mb-1">
+                                            <h5>{{getTranslate("privacy")}}</h5>
+                                        </label>
+                                        <div class="form-group">
+                                            <div class="form-check form-switch form-switch-lg">
+                                                <input class="form-check-input" type="checkbox" id="privacy"
+                                                    formControlName="privacy">
+                                                <label class="form-check-label" for="privacy">
+                                                    <h6 *ngIf="checkPrivacy()" class="">{{getTranslate("public")}}</h6>
+                                                    <h6 *ngIf="!checkPrivacy()">{{getTranslate("private")}}</h6>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- question -->
+                                <li class="list-group-item mb-3">
+                                    <label class="mb-1">
+                                        <h5>{{getTranslate("addedQuestions")}}</h5>
+                                    </label>
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div *ngFor="let questionControl of questionsArray.controls; let i = index"
+                                            class="accordion-item">
+                                            <h2 class="accordion-header" [id]="'heading'+i">
+                                                <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }"
+                                                    type="button" data-bs-toggle="collapse"
+                                                    [attr.data-bs-target]="'#collapse'+i" aria-expanded="false"
+                                                    [attr.aria-controls]="'collapse'+i">
+                                                    {{questionControl.value.questionText}}
+                                                </button>
+                                            </h2>
+                                            <div [id]="'collapse'+i" class="accordion-collapse collapse"
+                                                [ngClass]="{ 'show': i == 0 }" [attr.aria-labelledby]="'heading'+i"
+                                                data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
+                                                    <ul class="list-group list-group-flush">
+                                                        <li *ngFor="let option of questionControl.value.options; let i = index"
+                                                            class="list-group-item">
+                                                            <span class="badge rounded-pill bg-primary">
+                                                                {{getOption(i)}})
+                                                            </span>
+                                                            {{option.optionText}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+
+                <!-- question list-->
+                <div class="col-md-12 mb-3">
+                    <div class="card border-success mx-auto">
+                        <div class="card-header">
+                            <label class="mb-3">
+                                <h4>{{getTranslate("selectQuestionsYouWantToAdd")}}</h4>
+                            </label>
+                        </div>
+                        <div class="card-body">
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                <div *ngFor="let question of questions; let i = index;" class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <h5 class="col card-title">{{question.userName}}</h5>
+                                                <div class="col text-end">
+                                                    <i *ngIf="question.starQuestion" class="fa fa-star"
+                                                        style="font-size:36px; color: rgb(156, 156, 43);"></i>
+                                                    <i *ngIf="!question.starQuestion" class="fa fa-star-o"
+                                                        style="font-size:36px; color: rgb(156, 156, 43);"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{question.questionText}}</h5>
+
+                                            <ul class="list-group list-group-flush">
+                                                <li *ngFor="let option of question.options; let i = index"
+                                                    class="list-group-item">
+                                                    <span class="badge rounded-pill bg-primary">{{getOption(i)}})</span>
+                                                    {{option.optionText}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col text-start">
+                                                    <button *ngIf="!ifQuestionExists(question)" type="button"
+                                                        class="btn btn-success" (click)="addQuestion(question) ">
+                                                        <i class="fa fa-plus" aria-hidd en="true"></i>
+                                                    </button>
+                                                    <button *ngIf="ifQuestionExists(question)" type="button"
+                                                        class="btn btn-danger" (click)="removeQuestion(question)">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col text-end">
+                                                    <small *ngFor="let category of question.categories; let last = last"
+                                                        class="text-muted">{{category.categoryName
+                                                        }}{{last?"":"
+                                                        - "}}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()" data-bs-dismiss="modal">{{getTranslate("close")}}</button>
+    <button type="button" class="btn btn-primary" (click)="update()">{{getTranslate("saveChanges")}}</button>
+</div>

@@ -1,0 +1,85 @@
+<div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<div class="row">
+
+    <div class="mb-3 d-flex" style="padding-top: 1%;">
+        <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search">
+        <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 text-start">
+            <form>
+                <div class="row mb-3">
+                    <label for="inputEmail3" class="col-sm-4 col-form-label">{{getTranslate("optionNumber")}}</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" id="optionNumberFilter"
+                            placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3 text-start">
+            <div class="row mb-3">
+                <label for="categoryFilter" class="col-sm-4 col-form-label">{{getTranslate("categories")}}</label>
+                <div class="col-sm-8">
+                    <select [(ngModel)]="categoryId" class="form-select" aria-label="Default select example"
+                        id="categoryFilter">
+                        <option *ngFor="let category of categories" [value]="category.categoryId">
+                            {{getTranslate(category.categoryName+" fromDb")}}
+                        </option>
+                        <option [value]="0">
+                            {{getTranslate("noFilter")}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 text-start">
+            <div class="mb-3">
+                <button [routerLink]="getFilterRouterClass()" type="button"
+                    class="btn btn-success">{{getTranslate("filter")}}</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- data manage -->
+    <h3 class="text-center" *ngIf="questions.length === 0 && dataLoaded">{{getTranslate("noResults")}}</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div *ngFor="let question of questions | questionFilterPipe : filterText : optionNumberFilter; let i = index"
+            class="col">
+            <div class="card h-100 border-success">
+
+                <div class="card-header" style="background-color: #4099ff;">
+                    <img *ngIf="getProfileImage(question.userId)"
+                        [src]="baseUrl + getProfileImage(question.userId).imagePath" class="rounded-circle" width="30"
+                        height="30">
+                    <div style="display: inline-block; margin-left: 6px;">
+                        <h6 class="card-title text-start">{{question.userName}}</h6>
+                    </div>
+                </div>
+                <div class="card-body" style="background-color: #4099ff;">
+                    <p class="card-text" style="white-space: pre-line; word-wrap: break-word;">{{question.questionText}}
+                    </p>
+
+                    <div class="text-start">
+                        <ul class="list-group-mine list-group-flush" style="background-color: #4099ff;">
+                            <li *ngFor="let option of question.options; let i = index"
+                                class="list-group-item list-group-item-action">
+                                <button type="button" class="btn btn-success">{{getOption(i)}}</button>
+                                {{option.optionText}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer text-end" style="background-color: #4099ff;">
+                    <small *ngFor="let category of question.categories; let last = last"
+                        class="text-dark">{{getTranslate(category.categoryName+" fromDb")}}{{last?"":" - "}}</small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+</div>
+
+<h3 class="text-center" *ngIf="branches.length === 0 && dataLoaded">{{getTranslate("noResults")}}</h3>
+
+<div *ngIf="branches.length !== 0" class="col">
+
+    <div class="mb-3 d-flex" style="padding-top: 1%;">
+        <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-3 text-end">
+            <button type="button" class="btn btn-primary" (click)="openAddModal()">{{getTranslate("add")}}</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <table *ngIf="dataLoaded != false" class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Id</th>
+                    <th>{{getTranslate("branch")}}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let branch of branches | branchFilterPipe : filterText; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{branch.id}}</td>
+                    <td>{{branch.name}}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-primary"
+                            (click)="openUpdateModal(branch)">{{getTranslate("update")}}</button>
+                    </td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-danger"
+                            (click)="openDeleteModal(branch)">{{getTranslate("delete")}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

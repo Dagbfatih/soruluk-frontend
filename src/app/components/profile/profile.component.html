@@ -1,0 +1,101 @@
+<div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <div class="img">
+                        <img *ngIf="profileImage" [src]="baseUrl  + profileImage.imagePath" width="15" height="15"
+                            class="rounded-circle">
+                    </div>
+                    <!-- <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="file" />
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{customer.firstName + " " + customer.lastName}}
+                    </h5>
+                    <h6>
+                        {{customer.status?getTranslate("online") : getTranslate("offline")}}
+                    </h6>
+                    <p class="proile-rating">
+                        <span placement="right" ngbTooltip="fsdf">
+                            {{customer.roleName=="Instructor"? getTranslate("instructor"):getTranslate("student")}}
+                            <em class="text-muted">
+                                {{getIsConfirmed()}}
+                            </em>
+                        </span>
+                    </p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="home"
+                                aria-selected="true">{{getTranslate("about")}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary"
+                    routerLink="/user/profile/edit">{{getTranslate("editProfile")}}</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- <div class="profile-work">
+                    <p>WORK LINK</p>
+                    <a href="">Website Link</a><br />
+                    <a href="">Bootsnipp Profile</a><br />
+                    <a href="">Bootply Profile</a>
+                    <p>SKILLS</p>
+                    <a href="">Web Designer</a><br />
+                    <a href="">Web Developer</a><br />
+                    <a href="">WordPress</a><br />
+                    <a href="">WooCommerce</a><br />
+                    <a href="">PHP, .Net</a><br />
+                </div> -->
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label>{{getTranslate("name")}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{customer.firstName + " " + customer.lastName}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label>{{getTranslate("email")}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{customer.email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label>{{getTranslate("role")}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{getTranslate(customer.roleName + " fromDb")}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label>{{getTranslate("status")}}</label>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <p>{{customer.status?getTranslate("online") : getTranslate("offline")}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

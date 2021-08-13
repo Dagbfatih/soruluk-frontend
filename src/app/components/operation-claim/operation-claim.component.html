@@ -1,0 +1,38 @@
+<h3 class="text-center" *ngIf="operationClaims.length === 0">{{getTranslate("noResults")}}</h3>
+
+<div *ngIf="operationClaims.length !== 0" class="col">
+
+    <div class="row">
+        <div class="col-md-12 mb-3 text-end">
+            <button type="button" class="btn btn-primary" (click)="openAddModal()">{{getTranslate("addOperationClaim")}}</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <table *ngIf="dataLoaded != false && operationClaims.length !== 0" class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Id</th>
+                    <th>{{getTranslate("claimName")}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let operationClaim of operationClaims; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{operationClaim.id}}</td>
+                    <td>{{operationClaim.name}}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-danger"
+                            (click)="openDeleteModal(operationClaim)">{{getTranslate("delete")}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- <button type="button" class="btn btn-danger" ngbPopover="fs"
+popoverTitle="fsfds">Delete</button> -->
