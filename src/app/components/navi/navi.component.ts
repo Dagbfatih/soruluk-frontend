@@ -31,6 +31,10 @@ export class NaviComponent implements OnInit {
     this.isLog() ? this.getUserProfileImage() : null;
   }
 
+  checkRouterContains(searchedItem: string): boolean {
+    return this.router.url.includes(searchedItem);
+  }
+
   isLog(): boolean {
     if (this.tokenService.getTokenFromCookie() !== null) {
       return true;
@@ -38,17 +42,17 @@ export class NaviComponent implements OnInit {
     return false;
   }
 
-  getUserRoles():string[]{
+  getUserRoles(): string[] {
     return this.tokenService.getUserRolesWithJWTFromCookie();
   }
 
-  userRolesContains(claim:string):boolean{
+  userRolesContains(claim: string): boolean {
     return this.getUserRoles().includes(claim);
   }
 
   signOut() {
     this.authService.signOut();
-    sessionStorage.removeItem("adminCurrentPage");
+    sessionStorage.removeItem('adminCurrentPage');
     this.toastrService.info('Going to homepage...', 'Logged Out');
     this.router.navigate(['']);
   }
@@ -70,7 +74,7 @@ export class NaviComponent implements OnInit {
     return alltranslates.get(key);
   }
 
-  userIsAdmin(){
-    return this.tokenService.getUserRolesWithJWTFromCookie().includes("admin");
+  userIsAdmin() {
+    return this.tokenService.getUserRolesWithJWTFromCookie().includes('admin');
   }
 }

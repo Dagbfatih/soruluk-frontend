@@ -17,6 +17,10 @@ import { CookieManageService } from 'src/app/services/cookie-manage.service';
 import { TokenService } from 'src/app/services/token.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { alltranslates } from 'src/app/constants/TranslateManager';
+import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
+import { BranchService } from 'src/app/services/branch.service';
+import { CustomerService } from 'src/app/services/customer.service';
+import { Customer } from 'src/app/models/entities/customer';
 
 @Component({
   selector: 'app-question-add',
@@ -30,6 +34,7 @@ export class QuestionAddComponent implements OnInit {
   accuracyIndex: number;
   categories: Category[] = [];
   starQuestion: boolean = false;
+  customer: Customer;
 
   constructor(
     private questionService: QuestionService,
@@ -39,12 +44,14 @@ export class QuestionAddComponent implements OnInit {
     private optionNumberGeneratorService: OptionNumberGeneratorService,
     private errorService: ErrorService,
     private tokenService: TokenService,
-    private activeModal:NgbActiveModal
+    private activeModal: NgbActiveModal,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
     this.getAllCategories();
     this.createQuestionAddForm();
+    this.getCustomer();
   }
 
   setStarQuestion() {
@@ -123,17 +130,29 @@ export class QuestionAddComponent implements OnInit {
     this.categoriesArray.removeAt(index);
   }
 
+  getCustomer() {
+    this.customerService
+      .getByUser(this.tokenService.getUserWithJWTFromCookie()?.id)
+      .subscribe((response) => {
+        this.customer = response.data;
+      });
+  }
+
   add() {
     if (this.questionAddForm.valid) {
-      let questionModel = Object.assign({}, this.questionAddForm.value);
+      let questionModel: QuestionDetailsDto = Object.assign(
+        {},
+        this.questionAddForm.value
+      );
+
       this.setCategoryIds(questionModel);
       this.setOptionAccuracies();
       questionModel.userId = this.tokenService.getUserWithJWTFromCookie()?.id;
-      console.log(questionModel);
-
+      questionModel.branchId = this.customer.branchId;
+      
       this.questionService.addWithDetails(questionModel).subscribe(
         (response) => {
-          this.toastrService.success("Eklendi", environment.successMessage)
+          this.toastrService.success('Eklendi', environment.successMessage);
         },
         (responseError) => {
           this.errorService.writeErrorMessages(responseError);

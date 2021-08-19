@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   ActivatedRoute,
   Event,
@@ -85,6 +92,8 @@ export class ExamComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onTimerStatusChange.unsubscribe();
     this.onSecondChange.unsubscribe();
+    localStorage.removeItem('testResult');
+    localStorage.removeItem('questionOrder');
   }
 
   getTestDetails(id: number) {
@@ -117,16 +126,20 @@ export class ExamComponent implements OnInit, OnDestroy {
         'leftTime',
         JSON.stringify(this.countdownTimerService.timerValue)
       );
+
       this.pushTestResultToLocalStorage();
+
       localStorage.setItem('questionOrder', this.questionOrder.toString());
     };
   }
 
   pushTestResultToLocalStorage() {
-    this.testResult.questionResults.map((qr) => (qr.correctOptionId = 0));
-    this.testResult.questionResults
-      .map((qr) => qr.question)
-      .forEach((q) => q.options.forEach((o) => (o.accuracy = false)));
+    // Güvenlik açığı düzeltilecek
+
+    // this.testResult.questionResults.map((qr) => (qr.correctOptionId = 0));
+    // this.testResult.questionResults
+    //   .map((qr) => qr.question)
+    //   .forEach((q) => q.options.forEach((o) => (o.accuracy = false)));
 
     localStorage.setItem('testResult', JSON.stringify(this.testResult));
   }
@@ -135,19 +148,21 @@ export class ExamComponent implements OnInit, OnDestroy {
     this.testResult = JSON.parse(localStorage.getItem('testResult')!);
     localStorage.removeItem('testResult');
 
-    for (let i = 0; i < this.testResult.questionResults.length; i++) {
-      this.testResult.questionResults[i].correctOptionId = this.test.questions[
-        i
-      ].options.find((o) => o.accuracy)?.id!;
-    }
+    // Güvenlik açığı düzeltilecek
 
-    for (let i = 0; i < this.testResult.questionResults.length; i++) {
-      this.testResult.questionResults[i].question.options.forEach((o) => {
-        o.accuracy = this.test.questions[i].options.find(
-          (op) => op.id == o.id
-        )?.accuracy!;
-      });
-    }
+    // for (let i = 0; i < this.testResult.questionResults.length; i++) {
+    //   this.testResult.questionResults[i].correctOptionId = this.test.questions[
+    //     i
+    //   ].options.find((o) => o.accuracy)?.id!;
+    // }
+
+    // for (let i = 0; i < this.testResult.questionResults.length; i++) {
+    //   this.testResult.questionResults[i].question.options.forEach((o) => {
+    //     o.accuracy = this.test.questions[i].options.find(
+    //       (op) => op.id == o.id
+    //     )?.accuracy!;
+    //   });
+    // }
   }
 
   setTestResultForStart() {
@@ -169,6 +184,7 @@ export class ExamComponent implements OnInit, OnDestroy {
         testId: this.test.testId,
         userId: this.user.id,
         id: 0,
+        finishDate: 0,
       };
 
       this.testResult.questionResults = [];
@@ -217,7 +233,6 @@ export class ExamComponent implements OnInit, OnDestroy {
         if (status == 'STOP') {
           this.finishOnTimerExpire();
         }
-        console.log(status);
       });
   }
 
@@ -266,10 +281,6 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   getCheckedClass(i: number, j: number): boolean {
-    console.log(
-      this.testResult.questionResults[i].selectedOptionId ===
-        this.test.questions[i].options[j].id
-    );
     return (
       this.testResult.questionResults[i].selectedOptionId ===
       this.test.questions[i].options[j].id
@@ -289,7 +300,7 @@ export class ExamComponent implements OnInit, OnDestroy {
           {},
           this.testResult
         );
-
+        testResultModel.resultDetails.finishDate = this.minutes;
         this.testResultService.addWithDetails(testResultModel).subscribe(
           (response) => {
             this.toastrService.success(
@@ -310,12 +321,14 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   finishOnTimerExpire() {
-    let testResultModal: TestResultDetailsDto = Object.assign(
+    let testResultModel: TestResultDetailsDto = Object.assign(
       {},
       this.testResult
     );
 
-    this.testResultService.addWithDetails(testResultModal).subscribe(
+    testResultModel.resultDetails.finishDate = this.minutes;
+
+    this.testResultService.addWithDetails(testResultModel).subscribe(
       (response) => {
         this.toastrService.success(
           response.message,

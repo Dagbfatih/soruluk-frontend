@@ -1,4 +1,8 @@
-::ng-deep .custom-modal .modal-dialog{
-    max-width: 100%;
-    width: 95%;
+::ng-deep .custom-modal .modal-dialog {
+  max-width: 100%;
+  width: 95%;
+}
+
+.h-custom {
+  min-height: 900px;
 }

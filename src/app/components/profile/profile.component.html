@@ -22,12 +22,24 @@
                         {{customer.status?getTranslate("online") : getTranslate("offline")}}
                     </h6>
                     <p class="proile-rating">
-                        <span placement="right" ngbTooltip="fsdf">
-                            {{customer.roleName=="Instructor"? getTranslate("instructor"):getTranslate("student")}}
-                            <em class="text-muted">
+                        <span #t="ngbTooltip" placement="right" [ngbTooltip]="tipContent" triggers="click:hover">
+                            {{customer.roleName == "Teacher"? getTranslate("instructor") : getTranslate("student")}}
+
+                            <em class="streched-link text-muted">
                                 {{getIsConfirmed()}}
                             </em>
                         </span>
+
+                        <ng-template #tipContent>
+                            <p>
+                                Öğretmen hesaplar kayıt olduktan sonra yetkililer tarafından onaylanmadan soru
+                                ekleyemezler.
+                                Onaylanma süresi en fazla 3 güne kadar uzayabilir. Bu süre zarfında sistemdeki
+                                sorulardan
+                                testler oluşturabilir ve çözebilirsiniz.
+                                Daha fazlası için <a href="#scrollspyHeading1">Learn more</a>
+                            </p>
+                        </ng-template>
                     </p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">

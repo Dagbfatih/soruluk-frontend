@@ -8,6 +8,7 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
+  min-height: 900px;
 }
 
 .form-signin {
@@ -35,4 +36,12 @@ body {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.btn:hover{
+	transform: scale(1.2);
+}
+
+.btn{
+  transition: transform .2s;
 }

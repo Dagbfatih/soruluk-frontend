@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  FormArray,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { alltranslates } from 'src/app/constants/TranslateManager';
@@ -22,6 +23,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FeedbackComponent implements OnInit {
   giveFeedbackForm: FormGroup;
+  fromAddressesArray: FormArray;
   user: User;
 
   constructor(
@@ -46,6 +48,18 @@ export class FeedbackComponent implements OnInit {
     this.giveFeedbackForm = this.formBuilder.group({
       subject: ['', Validators.required],
       content: ['', Validators.required],
+      fromAddresses: this.formBuilder.array([this.createMailAddress()]),
+    });
+
+    this.fromAddressesArray = this.giveFeedbackForm.get(
+      'fromAddresses'
+    ) as FormArray;
+  }
+
+  createMailAddress(): FormGroup {
+    return this.formBuilder.group({
+      name: [this.user.firstName + ' ' + this.user.lastName],
+      address: ['', Validators.required],
     });
   }
 
@@ -55,13 +69,8 @@ export class FeedbackComponent implements OnInit {
         {},
         this.giveFeedbackForm.value
       );
-      emailMessageModel.fromAddresses = [
-        {
-          name: this.user.firstName + ' ' + this.user.lastName,
-          address: this.user.email,
-        },
-      ];
-      emailMessageModel.subject += ' - Feedback';
+
+      emailMessageModel = this.setEmail(emailMessageModel);
 
       this.emailService.send(emailMessageModel).subscribe(
         (response) => {
@@ -75,6 +84,42 @@ export class FeedbackComponent implements OnInit {
         }
       );
     }
+  }
+
+  setEmail(emailMessageModel: EmailMessage): EmailMessage {
+    let date = new Date();
+
+    emailMessageModel.subject += ' - Feedback';
+
+    emailMessageModel.content +=
+      '<label>' +
+      '<br><br>' +
+      'Email: ' +
+      emailMessageModel.fromAddresses[0].address +
+      '<br>' +
+      'Name: ' +
+      '<a>' +
+      emailMessageModel.fromAddresses[0].name +
+      '</a>' +
+      '<br>' +
+      '</label>' +
+      'Feedback ' +
+      '<a>' +
+      date.getDay() +
+      '.' +
+      date.getMonth() +
+      '.' +
+      date.getFullYear() +
+      ' - ' +
+      date.getHours() +
+      ':' +
+      date.getMinutes() +
+      ':' +
+      date.getSeconds() +
+      '</a>' +
+      ' Tarihinde gönderildi';
+
+    return emailMessageModel;
   }
 
   getTranslate(key: string) {

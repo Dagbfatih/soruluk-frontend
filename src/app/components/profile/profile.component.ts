@@ -39,7 +39,6 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           this.customer = response.data;
-          console.log(this.customer.roleName)
         },
         (responseError) => {
           this.errorService.writeErrorMessages(responseError);
@@ -59,7 +58,6 @@ export class ProfileComponent implements OnInit {
       .getProfileImageByUser(this.tokenService.getUserWithJWTFromCookie().id)
       .subscribe((response) => {
         this.profileImage = response.data;
-        console.log(this.profileImage);
       });
   }
 
@@ -69,10 +67,12 @@ export class ProfileComponent implements OnInit {
 
   getIsConfirmed(): string {
     let roles = this.tokenService.getUserRolesWithJWTFromCookie();
-    if (!roles.includes('notConfirmedInstructor') && roles.includes("Instructor")) {
+    if (
+      !roles.includes('notConfirmedInstructor') &&
+      roles.includes('Instructor')
+    ) {
       return '';
     }
     return ' (waiting confirmation...)';
   }
-  
 }

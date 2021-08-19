@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { CountdownTimerService } from 'ngx-timer';
 import { Subscription } from 'rxjs';
-import { TranslateManager } from './constants/TranslateManager';
+import { alltranslates, TranslateManager } from './constants/TranslateManager';
 import { SettingsService } from './services/settings.service';
 import { ThemeService } from './services/theme.service';
 
@@ -55,6 +55,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getLanguageCode(): string {
     return this.settingsService.getLanguageCodeFromLocalStorage();
+  }
+
+  getTranslate(key: string) {
+    return alltranslates.get(key);
   }
 
   // checkTheme() {

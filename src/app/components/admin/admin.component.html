@@ -1,78 +1,80 @@
-<div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
-    <span class="visually-hidden">Loading...</span>
+<div class="container h-custom">
+    <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    
+    <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' :   pageIsUsers()}" aria-current="page"
+                (click)="currentPage = 'users'; setCurrentPage('users')">
+                <h6>{{getTranslate("users")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsUserClaims()}" aria-current="page"
+                (click)="currentPage = 'userClaims'; setCurrentPage('userClaims')">
+                <h6>{{getTranslate("userOperationClaims")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsClaims()}" aria-current="page"
+                (click)="currentPage = 'claims'; setCurrentPage('claims')">
+                <h6>{{getTranslate("operationClaims")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsCategories()}" aria-current="page"
+                (click)="currentPage = 'categories'; setCurrentPage('categories')">
+                <h6>{{getTranslate("categories")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsLanguages()}" aria-current="page"
+                (click)="currentPage = 'languages'; setCurrentPage('languages')">
+                <h6>{{getTranslate("languages")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsTranslates()}" aria-current="page"
+                (click)="currentPage = 'translates'; setCurrentPage('translates')">
+                <h6>{{getTranslate("translates")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsRoles()}" aria-current="page"
+                (click)="currentPage = 'roles'; setCurrentPage('roles')">
+                <h6>{{getTranslate("roles")}}</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active' : pageIsBranches()}" aria-current="page"
+                (click)="currentPage = 'branches'; setCurrentPage('branches')">
+                <h6>{{getTranslate("branches")}}</h6>
+            </a>
+        </li>
+    </ul>
+    
+    <!-- User Operation Claims -->
+    <app-user-operation-claim *ngIf="currentPage === 'userClaims'"></app-user-operation-claim>
+    
+    <!-- Operation Claims -->
+    <app-operation-claim *ngIf="currentPage === 'claims'"></app-operation-claim>
+    
+    <!-- Users -->
+    <app-user *ngIf="currentPage==='users'"></app-user>
+    
+    <!-- Categories -->
+    <app-category *ngIf="currentPage === 'categories'"></app-category>
+    
+    <!-- Languages -->
+    <app-language *ngIf="currentPage === 'languages'"></app-language>
+    
+    <!-- Translates -->
+    <app-translate *ngIf="currentPage === 'translates'"></app-translate>
+    
+    <!-- Roles -->
+    <app-role *ngIf="currentPage === 'roles'"></app-role>
+    
+    <!-- Branches -->
+    <app-branch *ngIf="currentPage === 'branches'"></app-branch>
 </div>
-
-<ul class="nav nav-tabs nav-justified">
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' :   pageIsUsers()}" aria-current="page"
-            (click)="currentPage = 'users'; setCurrentPage('users')">
-            <h6>{{getTranslate("users")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsUserClaims()}" aria-current="page"
-            (click)="currentPage = 'userClaims'; setCurrentPage('userClaims')">
-            <h6>{{getTranslate("userOperationClaims")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsClaims()}" aria-current="page"
-            (click)="currentPage = 'claims'; setCurrentPage('claims')">
-            <h6>{{getTranslate("operationClaims")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsCategories()}" aria-current="page"
-            (click)="currentPage = 'categories'; setCurrentPage('categories')">
-            <h6>{{getTranslate("categories")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsLanguages()}" aria-current="page"
-            (click)="currentPage = 'languages'; setCurrentPage('languages')">
-            <h6>{{getTranslate("languages")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsTranslates()}" aria-current="page"
-            (click)="currentPage = 'translates'; setCurrentPage('translates')">
-            <h6>{{getTranslate("translates")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsRoles()}" aria-current="page"
-            (click)="currentPage = 'roles'; setCurrentPage('roles')">
-            <h6>{{getTranslate("roles")}}</h6>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : pageIsBranches()}" aria-current="page"
-            (click)="currentPage = 'branches'; setCurrentPage('branches')">
-            <h6>{{getTranslate("branches")}}</h6>
-        </a>
-    </li>
-</ul>
-
-<!-- User Operation Claims -->
-<app-user-operation-claim *ngIf="currentPage === 'userClaims'"></app-user-operation-claim>
-
-<!-- Operation Claims -->
-<app-operation-claim *ngIf="currentPage === 'claims'"></app-operation-claim>
-
-<!-- Users -->
-<app-user *ngIf="currentPage==='users'"></app-user>
-
-<!-- Categories -->
-<app-category *ngIf="currentPage === 'categories'"></app-category>
-
-<!-- Languages -->
-<app-language *ngIf="currentPage === 'languages'"></app-language>
-
-<!-- Translates -->
-<app-translate *ngIf="currentPage === 'translates'"></app-translate>
-
-<!-- Roles -->
-<app-role *ngIf="currentPage === 'roles'"></app-role>
-
-<!-- Branches -->
-<app-branch *ngIf="currentPage === 'branches'"></app-branch>

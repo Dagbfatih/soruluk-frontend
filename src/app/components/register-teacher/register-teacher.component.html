@@ -1,47 +1,50 @@
-<main class="form-signin">
-    <form [formGroup]="registerForm">
-        <h1 class="h3 mb-3 fw-normal">{{getTranslate("pleaseSignup")}}</h1>
+<body class="text-center">
 
-        <div class="form-floating">
-            <input formControlName="firstName" type="text" class="form-control" id="floatingInput1"
-                placeholder="First name">
-            <label for="floatingInput1">{{getTranslate("firstName")}}</label>
-        </div>
-        <div class="form-floating">
-            <input formControlName="lastName" type="text" class="form-control" id="floatingInput2"
-                placeholder="Last name">
-            <label for="floatingInput2">{{getTranslate("lastName")}}</label>
-        </div>
-        <div class="form-floating">
-            <input formControlName="email" type="email" class="form-control" id="floatingInput3"
-                placeholder="name@example.com">
-            <label for="floatingInput3">{{getTranslate("email")}}</label>
-        </div>
-        <div class="form-floating">
-            <input formControlName="password" type="password" class="form-control" id="floatingPassword"
-                placeholder="Password">
-            <label for="floatingPassword">{{getTranslate("password")}}</label>
-        </div>
+    <main class="form-signin">
+        <form [formGroup]="registerForm">
+            <h1 class="h3 mb-3 fw-normal">{{getTranslate("pleaseSignup")}}</h1>
 
-        <div class="mb-3">
+            <div class="form-floating">
+                <input formControlName="firstName" type="text" class="form-control" id="floatingInput1"
+                    placeholder="First name">
+                <label for="floatingInput1">{{getTranslate("firstName")}}</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="lastName" type="text" class="form-control" id="floatingInput2"
+                    placeholder="Last name">
+                <label for="floatingInput2">{{getTranslate("lastName")}}</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="email" type="email" class="form-control" id="floatingInput3"
+                    placeholder="name@example.com">
+                <label for="floatingInput3">{{getTranslate("email")}}</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="password" type="password" class="form-control" id="floatingPassword"
+                    placeholder="Password">
+                <label for="floatingPassword">{{getTranslate("password")}}</label>
+            </div>
 
-        </div>
+            <div class="mb-3">
 
-        <div class="form-floating">
-            <select formControlName="branchId" class="form-select form-select" id="branchId"
-                aria-label="Floating label select example">
-                <option *ngFor="let branch of branches" [value]="branch.id">
-                    {{ branch.name }}
-                </option>
-            </select>
-            <label for="branchId">{{getTranslate("selectBranch")}}</label>
-        </div>
+            </div>
 
-        <div class="mb-3">
-        </div>
+            <div class="form-floating">
+                <select formControlName="branchId" class="form-select form-select" id="branchId"
+                    aria-label="Floating label select example">
+                    <option *ngFor="let branch of branches" [value]="branch.id">
+                        {{ branch.name }}
+                    </option>
+                </select>
+                <label for="branchId">{{getTranslate("selectBranch")}}</label>
+            </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit"
-            (click)="register()">{{getTranslate("signup")}}</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-    </form>
-</main>
+            <div class="mb-3">
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit"
+                (click)="register()">{{getTranslate("signup")}}</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+        </form>
+    </main>
+</body>

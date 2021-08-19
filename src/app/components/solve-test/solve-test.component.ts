@@ -50,6 +50,8 @@ export class SolveTestComponent implements OnInit {
   start() {
     if (this.test) {
       this.router.navigate(['/exam/' + encodeURIComponent(this.test.testId)]);
+      localStorage.removeItem('testResult');
+      localStorage.removeItem('testTime');
     } else {
       this.toastrService.error('Test error', environment.errorMessage);
     }

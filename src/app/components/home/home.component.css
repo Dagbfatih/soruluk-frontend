@@ -1,15 +1,27 @@
-.started-bg{
+.started-bg {
   background-color: rgb(1, 216, 169);
 }
 
 /* background-color: rgba(37, 193, 160, 255); */
 
-.btn-info{
-border-color: white;
-border-width: 2px;
+.btn-info {
+  border-color: white;
+  border-width: 2px;
 }
 
-.btn-info:hover{
+.btn-info:hover {
   border-color: rgba(255, 255, 255, 0);
   border-width: 2px;
-  }
+}
+
+a.link {
+  text-decoration: none;
+}
+
+a.link:hover {
+  text-decoration: underline;
+}
+
+a.unlink{
+  text-decoration: none;
+}

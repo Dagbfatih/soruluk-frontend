@@ -31,7 +31,7 @@
                 <tr *ngFor="let category of categories | categoryFilterPipe : filterText; let i = index;">
                     <td>{{i+1}}</td>
                     <td>{{category.categoryId}}</td>
-                    <td>{{getTranslate(category.categoryName+" fromDb")}}</td>
+                    <td>{{category.categoryName}}</td>
                     <td class="text-end">
                         <button type="button" class="btn btn-primary"
                             (click)="openUpdateModal(category)">{{getTranslate("update")}}</button>

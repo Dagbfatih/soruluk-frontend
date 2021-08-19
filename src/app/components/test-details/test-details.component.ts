@@ -58,7 +58,7 @@ export class TestDetailsComponent implements OnInit {
 
   getDetailsByMinAndMaxTime(minTime: number, maxTime: number) {
     this.testService
-      .getTestDetails()
+      .getTestDetailsByPublic()
       .subscribe((response) => {
         this.tests = response.data.filter(
           (t) => t.testTime >= minTime && t.testTime <= maxTime

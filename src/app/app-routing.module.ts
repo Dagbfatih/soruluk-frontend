@@ -115,7 +115,6 @@ const routes: Routes = [
   {
     path: 'give-feedback',
     component: FeedbackComponent,
-    canActivate: [LoginGuard],
   },
 ];
 

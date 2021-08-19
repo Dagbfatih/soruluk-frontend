@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title">{{getTranslate("testAdd")}}</h5>
+    <h5 class="modal-title">{{getTranslate("add")}}</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
 </div>
 
@@ -11,7 +11,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h3>{{getTranslate("testAdd")}}</h3>
+                                <h3>{{getTranslate("add")}}</h3>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                                 <div *ngFor="let question of questions | questionFilterPipe:'':optionNumberFilter; let i = index;"
                                     class="col-md-4">
                                     <div class="card h-100">
-                                        <div class="card-header bg-success">
+                                        <div class="card-header">
                                             <div class="row">
                                                 <h6 class="col card-title">{{question.userName}}</h6>
                                                 <div class="col text-end">
@@ -160,10 +160,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body bg-secondary">
+                                        <div class="card-body">
                                             <p class="card-title"><strong>{{question.questionText}}</strong></p>
 
-                                            <ul class="list-group-mine list-group-flush bg-secondary">
+                                            <ul class="list-group-mine list-group-flush">
                                                 <li *ngFor="let option of question.options; let i = index"
                                                     class="list-group-item list-group-item-action">
                                                     <label class="badge bg-primary">{{getOption(i)}}</label>
@@ -171,7 +171,7 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="card-footer bg-secondary">
+                                        <div class="card-footer">
                                             <div class="row">
                                                 <div class="col text-start">
                                                     <button *ngIf="!ifQuestionExists(question)" type="button"

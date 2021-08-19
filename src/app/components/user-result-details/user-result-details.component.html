@@ -26,9 +26,13 @@
                             [value]="option.id" [checked]="getCheckedClass(questionOrder, i)" disabled>
                         <label class="btn btn-outline-primary" [for]="i">{{getOptionNumber(i)}}</label>
                         {{option.optionText}}
-
                     </li>
 
+                    <li class="list-group-item">
+                        <input type="radio" class="btn-check" name="options-outlined" id="leaveBlank" autocomplete="off"
+                            [value]="0" [checked]="getCheckedClass(questionOrder)" disabled>
+                        <label class="btn btn-outline-primary" for="leaveBlank">{{getTranslate('leaveBlank')}}</label>
+                    </li>
                 </ul>
             </div>
             <div class="card-footer">
@@ -51,7 +55,7 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <div *ngFor="let question of testResult.questionResults; let i = index" class="col-md-1 text-center"
+                    <div *ngFor="let question of testResult.questionResults; let i = index;" class="col-md-1 text-center"
                         style="width: 4rem;">
 
                         <h3 *ngIf="getQuestionResult(question.questionId).selectedOptionId === 0">
@@ -61,14 +65,16 @@
                         </h3>
 
                         <h3
-                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 && getQuestionResult(question.questionId).accuracy">
+                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 && 
+                            (getQuestionResult(question.questionId).selectedOptionId === getQuestionResult(question.questionId).correctOptionId)">
                             <span class="badge rounded-pill bg-success text-dark"
                                 [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
                             </span>
                         </h3>
 
                         <h3
-                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 && !getQuestionResult(question.questionId).accuracy">
+                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 
+                            && !(getQuestionResult(question.questionId).selectedOptionId === getQuestionResult(question.questionId).correctOptionId)">
                             <span class="badge rounded-pill bg-danger text-dark"
                                 [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
                             </span>

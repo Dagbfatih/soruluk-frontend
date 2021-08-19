@@ -38,7 +38,7 @@ export class UserTestsComponent implements OnInit {
     private optionNumberGenerator: OptionNumberGeneratorService,
     private router: Router,
     private tokenService: TokenService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class UserTestsComponent implements OnInit {
 
   openUpdateTestModal(testId: number) {
     var modalReferance = this.modalService.open(TestUpdateComponent, {
-      size: 'xl',
+      windowClass: 'custom-modal',
     });
 
     modalReferance.componentInstance.test = this.tests.find(
@@ -91,9 +91,9 @@ export class UserTestsComponent implements OnInit {
     );
   }
 
-  openAddTestModal(){
+  openAddTestModal() {
     var modalReferance = this.modalService.open(TestAddComponent, {
-      windowClass:"custom-modal"
+      windowClass: 'custom-modal',
     });
   }
 

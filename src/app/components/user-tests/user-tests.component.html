@@ -1,80 +1,82 @@
-<div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
-    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
-</div>
-
-<div class="row mb-3">
-
-    <div class="mb-3 d-flex" style="padding-top: 1%;">
-        <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search">
-        <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
+<div class="container h-custom">
+    <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+        <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
-
-    <div class="row">
-        <div class="col-md-1">
-            <label for="testName" class="mb-0">
-                <h6>{{getTranslate("time")}}</h6>
-            </label>
+    
+    <div class="row mb-3">
+    
+        <div class="mb-3 d-flex" style="padding-top: 1%;">
+            <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search">
+            <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
         </div>
-        <div class="col-md-2">
-            <div class="mb-3">
-                <input type="number" class="form-control" id="minTime" placeholder="{{getTranslate('minimumTime')}}"
-                    [(ngModel)]="minTime">
+    
+        <div class="row">
+            <div class="col-md-1">
+                <label for="testName" class="mb-0">
+                    <h6>{{getTranslate("time")}}</h6>
+                </label>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="mb-3">
-                <input type="number" class="form-control" id="maxTime" placeholder="{{getTranslate('maximumTime')}}"
-                    [(ngModel)]="maxTime">
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="row">
-                <div class="col">
-                    <button [routerLink]="getFilterRouterClass()" type="button"
-                        class="btn btn-success">{{getTranslate('filter')}}</button>
-                </div>
-                <div class="col">
-                    <button *ngIf="getUrl() != '/user/tests'" routerLink="/user/tests" type="button"
-                        class="btn btn-danger">{{getTranslate('clear')}}</button>
+            <div class="col-md-2">
+                <div class="mb-3">
+                    <input type="number" class="form-control" id="minTime" placeholder="{{getTranslate('minimumTime')}}"
+                        [(ngModel)]="minTime">
                 </div>
             </div>
-        </div>
-        <div class="col-md-5 text-end">
-            <button (click)="openAddTestModal()" type="button"
-                class="btn btn-primary">{{getTranslate('add')}}</button>
-        </div>
-    </div>
-
-    <h3 class="text-center" *ngIf="tests.length === 0">{{getTranslate('noResults')}}</h3>
-    <table *ngIf="dataLoaded != false && tests.length !== 0" class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>{{getTranslate('firstName')}}</th>
-                <th>{{getTranslate('testNotes')}}</th>
-                <th>{{getTranslate('time')}}</th>
-                <th>{{getTranslate('questionCount')}}</th>
-                <th>{{getTranslate('privacy')}}</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let test of tests; let i = index">
-                <td>{{i+1}}</td>
-                <td>{{test.testName}}</td>
-                <td>{{test.testNotes}}</td>
-                <td>{{test.testTime}}</td>
-                <td>{{test.questions.length}}</td>
-                <td>{{test.privacy ? getTranslate('public') : getTranslate('private') }}</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                        <button class="btn btn-primary" type="button" style="width: 100px;"
-                            (click)="openUpdateTestModal(test.testId)">{{getTranslate('update')}}</button>
-                        <button class="btn btn-danger" type="button" (click)="openDeleteTestModal(test.testId)"><i
-                                class="fa fa-trash"></i></button>
+            <div class="col-md-2">
+                <div class="mb-3">
+                    <input type="number" class="form-control" id="maxTime" placeholder="{{getTranslate('maximumTime')}}"
+                        [(ngModel)]="maxTime">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col">
+                        <button [routerLink]="getFilterRouterClass()" type="button"
+                            class="btn btn-success">{{getTranslate('filter')}}</button>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <div class="col">
+                        <button *ngIf="getUrl() != '/user/tests'" routerLink="/user/tests" type="button"
+                            class="btn btn-danger">{{getTranslate('clear')}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 text-end">
+                <button (click)="openAddTestModal()" type="button"
+                    class="btn btn-primary">{{getTranslate('add')}}</button>
+            </div>
+        </div>
+    
+        <h3 class="text-center" *ngIf="tests.length === 0">{{getTranslate('noResults')}}</h3>
+        <table *ngIf="dataLoaded != false && tests.length !== 0" class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{getTranslate('firstName')}}</th>
+                    <th>{{getTranslate('testNotes')}}</th>
+                    <th>{{getTranslate('time')}}</th>
+                    <th>{{getTranslate('questionCount')}}</th>
+                    <th>{{getTranslate('privacy')}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let test of tests; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{test.testName}}</td>
+                    <td>{{test.testNotes}}</td>
+                    <td>{{test.testTime}}</td>
+                    <td>{{test.questions.length}}</td>
+                    <td>{{test.privacy ? getTranslate('public') : getTranslate('private') }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button class="btn btn-primary" type="button" style="width: 100px;"
+                                (click)="openUpdateTestModal(test.testId)">{{getTranslate('update')}}</button>
+                            <button class="btn btn-danger" type="button" (click)="openDeleteTestModal(test.testId)"><i
+                                    class="fa fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

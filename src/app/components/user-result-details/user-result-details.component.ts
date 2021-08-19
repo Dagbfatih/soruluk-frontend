@@ -65,7 +65,13 @@ export class UserResultDetailsComponent implements OnInit {
     }
   }
 
-  getCheckedClass(i: number, j: number): boolean {
+  getCheckedClass(i: number, j: number = -1): boolean {
+    if (j == -1) {
+      return this.testResult.questionResults[i].selectedOptionId == 0
+        ? true
+        : false;
+    }
+
     if (
       this.testResult.questionResults[i].selectedOptionId ===
       this.testResult.questionResults[i].question.options[j].id

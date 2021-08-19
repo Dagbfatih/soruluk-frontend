@@ -78,16 +78,22 @@ export class RegisterStudentComponent implements OnInit {
         {},
         this.registerForm.value
       );
-      registerDtoModel.roleId = this.roles.find((r) => r.roleName == 'Student')?.id!;
+
+      registerDtoModel.roleId = this.roles.find(
+        (r) => r.roleName == 'Student'
+      )?.id!;
       registerDtoModel.branchId = 0;
       let registerModel: CustomerForRegisterDto =
         this.createCustomerForRegisterDto(registerDtoModel);
-      console.log(registerModel);
 
       this.authService.registerWithCustomer(registerModel).subscribe(
         (response) => {
-          this.toastrService.success('Kullanıcı kaydedildi');
+          this.toastrService.success(
+            response.message,
+            environment.successMessage
+          );
           this.tokenService.setTokenOnCookie(response.data.token);
+          window.location.reload();
           this.router.navigate(['/user/profile/edit']);
         },
         (responseError) => {

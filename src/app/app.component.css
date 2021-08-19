@@ -1,3 +1,8 @@
-.app-bg-color {
-  background-color: darkgrey;
+.row {
+  overflow-x: auto;
+}
+
+.col{
+  padding-left: 0px;
+  padding-right: 0px;
 }

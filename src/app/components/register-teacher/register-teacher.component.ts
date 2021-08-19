@@ -68,9 +68,7 @@ export class RegisterTeacherComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
-      roleId: [
-        this.roles.find((r) => r.roleName == 'Instructor')?.id,
-      ],
+      roleId: [this.roles.find((r) => r.roleName == 'Teacher')?.id],
       branchId: [0, Validators.required],
     });
   }
@@ -81,15 +79,17 @@ export class RegisterTeacherComponent implements OnInit {
         {},
         this.registerForm.value
       );
-      registerDtoModel.roleId = this.roles.find((r) => r.roleName == 'Instructor')?.id!;
+
+      registerDtoModel.roleId = this.roles.find(
+        (r) => r.roleName == 'Teacher'
+      )?.id!;
       registerDtoModel.branchId = +registerDtoModel.branchId;
       let registerModel: CustomerForRegisterDto =
         this.createCustomerForRegisterDto(registerDtoModel);
-      console.log(registerModel);
 
       this.authService.registerWithCustomer(registerModel).subscribe(
         (response) => {
-          this.toastrService.success('Kullanıcı kaydedildi');
+          this.toastrService.success(response.message, environment.successMessage);
           this.tokenService.setTokenOnCookie(response.data.token);
           this.router.navigate(['/user/profile/edit']);
         },

@@ -20,7 +20,6 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #f7f7f7;
   -webkit-transition: left 0.15s ease-in-out, background-color 0.15s ease-in-out;
   transition: left 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
@@ -28,4 +27,8 @@
 .buttonSelected {
   left: 25px;
   background-color: #919191;
+}
+
+.container.h-custom {
+  min-height: 850px;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { alltranslates } from 'src/app/constants/TranslateManager';
 
 @Component({
   selector: 'app-home',
@@ -12,4 +13,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getTranslate(key: string) {
+    return alltranslates.get(key);
+  }
 }

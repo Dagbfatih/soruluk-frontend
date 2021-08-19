@@ -68,14 +68,16 @@ export class QuestionDetailsComponent implements OnInit {
   }
 
   getProfileImages() {
-    this.profileImageService.getAllByUsers(this.questions.map(q=>q.userId)).subscribe(
-      (response) => {
-        this.profileImages = response.data;
-      },
-      (responseError) => {
-        this.errorService.writeErrorMessages(responseError);
-      }
-    );
+    this.profileImageService
+      .getAllByUsers(this.questions.map((q) => q.userId))
+      .subscribe(
+        (response) => {
+          this.profileImages = response.data;
+        },
+        (responseError) => {
+          this.errorService.writeErrorMessages(responseError);
+        }
+      );
   }
 
   getProfileImage(userId: number): ProfileImage {
