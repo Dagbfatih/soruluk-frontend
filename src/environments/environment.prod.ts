@@ -9,3 +9,4 @@ export const environment = {
   successMessage:"Başarılı",
   errorMessage:"hata"
 };
+ 
