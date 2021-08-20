@@ -54,7 +54,6 @@ export class QuestionDeleteComponent implements OnInit {
           response.message,
           environment.successMessage
         );
-        this.pageService.reloadPage(this.router.url);
         this.close();
       },
       (responseError) => {
