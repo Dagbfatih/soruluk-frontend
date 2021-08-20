@@ -63,7 +63,7 @@ export class UserResultsComponent implements OnInit {
 
   openResultDetailsModal(testResultId: number) {
     var modalReferance = this.modalService.open(UserResultDetailsComponent, {
-      size: 'xl',
+      windowClass: 'custom-modal',
     });
     console.log(
       this.testResults.find((t) => t.resultDetails.id == testResultId)

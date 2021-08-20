@@ -188,7 +188,6 @@ export class QuestionUpdateComponent implements OnInit {
             response.message,
             environment.successMessage
           );
-          this.pageService.reloadPage(this.router.url);
         },
         (responseError) => {
           this.errorService.writeErrorMessages(responseError);

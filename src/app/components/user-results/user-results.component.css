@@ -1,4 +1,8 @@
 .container.h-custom {
-    min-height: 900px;
-  }
-  
+  min-height: 900px;
+}
+
+::ng-deep .custom-modal .modal-dialog {
+  max-width: 100%;
+  width: 95%;
+}
