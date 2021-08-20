@@ -116,6 +116,7 @@ const routes: Routes = [
     path: 'give-feedback',
     component: FeedbackComponent,
   },
+  {path: '**', component: PageNotFoundComponent},
 ];
 
 @NgModule({
