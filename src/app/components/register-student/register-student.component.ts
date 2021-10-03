@@ -82,7 +82,7 @@ export class RegisterStudentComponent implements OnInit {
       registerDtoModel.roleId = this.roles.find(
         (r) => r.roleName == 'Student'
       )?.id!;
-      registerDtoModel.branchId = 0;
+      registerDtoModel.lessonId = 0;
       let registerModel: CustomerForRegisterDto =
         this.createCustomerForRegisterDto(registerDtoModel);
 
@@ -92,7 +92,7 @@ export class RegisterStudentComponent implements OnInit {
             response.message,
             environment.successMessage
           );
-          this.tokenService.setTokenOnCookie(response.data.token);
+          this.tokenService.setCookie(response.data.accessToken.token);
           window.location.reload();
           this.router.navigate(['/user/profile/edit']);
         },
@@ -116,7 +116,7 @@ export class RegisterStudentComponent implements OnInit {
         userId: 0,
         isConfirmed: registerDtoModel.isConfirmed,
         roleId: registerDtoModel.roleId,
-        branchId: registerDtoModel.branchId,
+        lessonId: registerDtoModel.lessonId,
       },
       user: {
         firstName: registerDtoModel.firstName,

@@ -13,10 +13,10 @@
         </tr>
     </thead>
     <tr *ngFor="let question of questions">
-        <td>{{question.questionId}}</td>
-        <td>{{question.questionText}}</td>
-        <td>{{question.starQuestion}}</td>
-        <td>{{question.brokenQuestion}}</td>
+        <td>{{question.question.questionId}}</td>
+        <td>{{question.question.questionText}}</td>
+        <td>{{question.question.starQuestion}}</td>
+        <td>{{question.question.brokenQuestion}}</td> 
         <td>{{question.userName}}</td>
     </tr>
 </table>

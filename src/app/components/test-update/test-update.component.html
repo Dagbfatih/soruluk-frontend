@@ -20,28 +20,29 @@
                         <form [formGroup]="testUpdateForm" class="form">
                             <ul class="list-group list-group-flush">
 
-                                <!-- testName -->
+                                <!-- title -->
                                 <li class="list-group-item mb-3">
                                     <div class="mb-3">
-                                        <label for="testName" class="mb-1">
-                                            <h5>{{getTranslate("testName")}}</h5>
+                                        <label for="title" class="mb-1">
+                                            <h5>{{getTranslate("title")}}</h5>
                                         </label>
                                         <div class="form-group">
-                                            <input class="form-control" id="testName" formControlName="testName"
+                                            <input class="form-control" id="title" formControlName="title"
                                                 placeholder="Test ismini girin" />
                                         </div>
                                     </div>
                                 </li>
 
-                                <!-- testNotes -->
+                                <!-- description -->
                                 <li class="list-group-item mb-3">
                                     <div class="mb-3">
-                                        <label for="testNotes" class="mb-1">
-                                            <h5>{{getTranslate("testNotes")}}</h5>
+                                        <label for="description" class="mb-1">
+                                            <h5>{{getTranslate("description")}}</h5>
                                         </label>
                                         <div class="form-group">
-                                            <textarea class="form-control" id="testNotes" formControlName="testNotes"
-                                                rows="3" placeholder="Test ile ilgili notlar"></textarea>
+                                            <textarea class="form-control" id="description"
+                                                formControlName="description" rows="3"
+                                                placeholder="Test ile ilgili notlar"></textarea>
                                         </div>
                                     </div>
                                 </li>
@@ -95,7 +96,7 @@
                                                 </button>
                                             </h2>
                                             <div [id]="'collapse'+i" class="accordion-collapse collapse"
-                                                [ngClass]="{ 'show': i == 0 }" [attr.aria-labelledby]="'heading'+i"
+                                                [ngClass]="{ 'show': false }" [attr.aria-labelledby]="'heading'+i"
                                                 data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body">
                                                     <ul class="list-group list-group-flush">
@@ -136,15 +137,15 @@
                                             <div class="row">
                                                 <h5 class="col card-title">{{question.userName}}</h5>
                                                 <div class="col text-end">
-                                                    <i *ngIf="question.starQuestion" class="fa fa-star"
+                                                    <i *ngIf="question.question.starQuestion" class="fa fa-star"
                                                         style="font-size:36px; color: rgb(156, 156, 43);"></i>
-                                                    <i *ngIf="!question.starQuestion" class="fa fa-star-o"
+                                                    <i *ngIf="!question.question.starQuestion" class="fa fa-star-o"
                                                         style="font-size:36px; color: rgb(156, 156, 43);"></i>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">{{question.questionText}}</h5>
+                                            <h5 class="card-title">{{question.question.questionText}}</h5>
 
                                             <ul class="list-group list-group-flush">
                                                 <li *ngFor="let option of question.options; let i = index"
@@ -166,12 +167,6 @@
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
-                                                <div class="col text-end">
-                                                    <small *ngFor="let category of question.categories; let last = last"
-                                                        class="text-muted">{{category.categoryName
-                                                        }}{{last?"":"
-                                                        - "}}</small>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -186,6 +181,7 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="close()" data-bs-dismiss="modal">{{getTranslate("close")}}</button>
+    <button type="button" class="btn btn-secondary" (click)="close()"
+        data-bs-dismiss="modal">{{getTranslate("close")}}</button>
     <button type="button" class="btn btn-primary" (click)="update()">{{getTranslate("saveChanges")}}</button>
 </div>

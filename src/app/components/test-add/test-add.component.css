@@ -1,15 +1,10 @@
-.bg-custom {
-  background-color: rgba(37, 37, 38, 0.2);
+body {
+  height: 100%;
+  align-items: center;
+  display: flex;
+  height: 95vh;
 }
 
-.list-group-mine .list-group-item {
-  /* background-color: #6c757d;
-    border-top: 1px solid #6c757d;
-    border-left-color: #6c757d;
-    border-right-color: #6c757d; */
-}
-
-.list-group-mine .list-group-item:hover {
-  /* background-color: #8c9399;
-    color: #000; */
+.container{
+  max-width: 460px;
 }

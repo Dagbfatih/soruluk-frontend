@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { NaviComponent } from './components/navi/navi.component';
 import { QuestionComponent } from './components/question/question.component';
 import { TestComponent } from './components/test/test.component';
-import { CategoryComponent } from './components/category/category.component';
 import { OptionComponent } from './components/option/option.component';
 import { UserComponent } from './components/user/user.component';
 import { QuestionDetailsComponent } from './components/question-details/question-details.component';
@@ -43,17 +42,21 @@ import { FinishConfirmModalComponent } from './modals/finish-confirm-modal/finis
 import { UserResultsComponent } from './components/user-results/user-results.component';
 import { UserResultDetailsComponent } from './components/user-result-details/user-result-details.component';
 import { AdminComponent } from './components/admin/admin.component';
-import { NgbCarouselModule, NgbDropdownModule, NgbModule, NgbPopover, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCarouselModule,
+  NgbDropdownModule,
+  NgbModule,
+  NgbPopover,
+  NgbPopoverModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { OperationClaimAddComponent } from './components/operation-claim-add/operation-claim-add.component';
 import { OperationClaimComponent } from './components/operation-claim/operation-claim.component';
 import { UserOperationClaimComponent } from './components/user-operation-claim/user-operation-claim.component';
 import { UserOperationClaimAddComponent } from './components/user-operation-claim-add/user-operation-claim-add.component';
 import { OperationClaimDeleteComponent } from './components/operation-claim-delete/operation-claim-delete.component';
-import { CategoryAddComponent } from './components/category-add/category-add.component';
 import { UserDeleteComponent } from './components/user-delete/user-delete.component';
 import { UserOperationClaimDeleteComponent } from './components/user-operation-claim-delete/user-operation-claim-delete.component';
-import { CategoryDeleteComponent } from './components/category-delete/category-delete.component';
 import { LanguageComponent } from './components/language/language.component';
 import { TranslateComponent } from './components/translate/translate.component';
 import { LanguageAddComponent } from './components/language-add/language-add.component';
@@ -63,9 +66,6 @@ import { TranslateDeleteComponent } from './components/translate-delete/translat
 import { SettingsComponent } from './components/settings/settings.component';
 import { TranslateUpdateComponent } from './components/translate-update/translate-update.component';
 import { LanguageUpdateComponent } from './components/language-update/language-update.component';
-import { TranslateInterceptor } from './interceptors/translate.interceptor';
-import { CategoryUpdateComponent } from './components/category-update/category-update.component';
-import { CategoryFilterPipePipe } from './pipes/category-filter-pipe.pipe';
 import { TranslateFilterPipePipe } from './pipes/translate-filter-pipe.pipe';
 import { UserFilterPipePipe } from './pipes/user-filter-pipe.pipe';
 import { FeedbackComponent } from './components/feedback/feedback.component';
@@ -81,6 +81,14 @@ import { BranchUpdateComponent } from './components/branch-update/branch-update.
 import { BranchFilterPipePipe } from './pipes/branch-filter-pipe.pipe';
 import { RegisterStudentComponent } from './components/register-student/register-student.component';
 import { RegisterTeacherComponent } from './components/register-teacher/register-teacher.component';
+import { AppFooterComponent } from './components/app-footer/app-footer.component';
+import { SelectQuestionsComponent } from './components/select-questions/select-questions.component';
+import { TestAddService } from './services/test-add.service';
+import { IocModule } from './modules/ioc/ioc.module';
+import { ValdemortModule } from 'ngx-valdemort';
+import { TestAddConfirmComponent } from './components/test-add-confirm/test-add-confirm.component';
+import { DevArchitectureHomePageComponent } from './components/dev-architecture-home-page/dev-architecture-home-page.component';
+import { DevArchitectureTutorialComponent } from './components/dev-architecture-tutorial/dev-architecture-tutorial.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +96,6 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
     NaviComponent,
     QuestionComponent,
     TestComponent,
-    CategoryComponent,
     OptionComponent,
     UserComponent,
     QuestionDetailsComponent,
@@ -122,10 +129,8 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
     UserOperationClaimComponent,
     UserOperationClaimAddComponent,
     OperationClaimDeleteComponent,
-    CategoryAddComponent,
     UserDeleteComponent,
     UserOperationClaimDeleteComponent,
-    CategoryDeleteComponent,
     LanguageComponent,
     TranslateComponent,
     LanguageAddComponent,
@@ -135,8 +140,6 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
     SettingsComponent,
     TranslateUpdateComponent,
     LanguageUpdateComponent,
-    CategoryUpdateComponent,
-    CategoryFilterPipePipe,
     TranslateFilterPipePipe,
     UserFilterPipePipe,
     FeedbackComponent,
@@ -152,6 +155,11 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
     BranchFilterPipePipe,
     RegisterStudentComponent,
     RegisterTeacherComponent,
+    AppFooterComponent,
+    SelectQuestionsComponent,
+    TestAddConfirmComponent,
+    DevArchitectureHomePageComponent,
+    DevArchitectureTutorialComponent,
   ],
   imports: [
     BrowserModule,
@@ -167,6 +175,8 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
     NgbCarouselModule,
     NgbDropdownModule,
     NgbPopoverModule,
+    ValdemortModule,
+    IocModule,
     CookieModule.forRoot({
       secure: true,
       sameSite: 'strict',
@@ -176,9 +186,8 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
     }),
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TranslateInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    CookieService
+    CookieService,
   ],
   bootstrap: [AppComponent],
 })

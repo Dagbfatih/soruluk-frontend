@@ -1,4 +1,4 @@
-<div class="container mb-5 h-custom">
+<div class="container mb-5">
     <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
         <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
@@ -12,80 +12,55 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 text-start">
-                <form>
-                    <div class="row mb-3">
-                        <label for="inputEmail3"
-                            class="col-sm-4 col-form-label">{{getTranslate("optionNumber")}}</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="optionNumberFilter"
-                                placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-3 text-start">
+            <div class="col-md-3">
                 <div class="row mb-3">
-                    <label for="categoryFilter" class="col-sm-4 col-form-label">{{getTranslate("categories")}}</label>
-                    <div class="col-sm-8">
-                        <select [(ngModel)]="categoryId" class="form-select" aria-label="Default select example"
-                            id="categoryFilter">
-                            <option *ngFor="let category of categories" [value]="category.categoryId">
-                                {{getTranslate(category.categoryName+" fromDb")}}
-                            </option>
-                            <option [value]="0">
-                                {{getTranslate("noFilter")}}
-                            </option>
-                        </select>
+                    <label for="optionNumberFilter"
+                        class="col-sm-6 col-form-label">{{getTranslate("optionNumber")}}</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" id="optionNumberFilter"
+                            placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
                     </div>
-                </div>
-            </div>
-            <div class="col-md-1 text-start">
-                <div class="mb-3">
-                    <button [routerLink]="getFilterRouterClass()" type="button"
-                        class="btn btn-success">{{getTranslate("filter")}}</button>
                 </div>
             </div>
         </div>
 
         <!-- data manage -->
         <h3 class="text-center" *ngIf="questions.length === 0 && dataLoaded">{{getTranslate("noResults")}}</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4"  style="margin-left: 0px;">
-            <div *ngFor="let question of questions | questionFilterPipe : filterText : optionNumberFilter; let i = index"
-                class="col">
-                <div class="card h-100 border-success">
+        <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-left: 0px;">
+            <div *ngFor="let question of questions 
+            | questionFilterPipe : filterText : optionNumberFilter
+            | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;; let i = index" class="col">
+                <div class="card h-100">
 
-                    <div class="card-header bg-custom">
-                        <img *ngIf="getProfileImage(question.userId)"
-                            [src]="baseUrl + getProfileImage(question.userId).imagePath" class="rounded-circle"
+                    <div class="card-header">
+                        <img *ngIf="getProfileImage(question.question.userId)"
+                            [src]="baseUrl + getProfileImage(question.question.userId).imagePath" class="rounded-circle mb-4"
                             width="30" height="30">
                         <div style="display: inline-block; margin-left: 6px;">
-                            <h6 class="card-title text-start">{{question.userName}}</h6>
+                            <h6 class="card-title text-start mb-0">{{question.userName}}</h6>
+                            <small class="text-muted mt-0">{{getCustomer(question.question.userId).lesson.name}}</small>
                         </div>
                     </div>
                     <div class="card-body bg-custom">
                         <p class="card-text" style="white-space: pre-line; word-wrap: break-word;">
-                            {{question.questionText}}
+                            {{question.question.questionText}}
                         </p>
 
                         <div class="text-start">
                             <ul class="list-group-mine list-group-flush bg-custom">
-                                <li *ngFor="let option of question.options; let i = index"
-                                    class="list-group-item list-group-item-action">
-                                    <button type="button" class="btn btn-danger">{{getOption(i)}}</button>
-                                    {{option.optionText}}
+                                <li *ngFor="let option of question.options; let i = index" class="list-group-item">
+                                        <strong>{{ getOption(i) }})</strong>
+                                        {{ option.optionText }}
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="card-footer text-center bg-custom">
-                        <small *ngFor="let category of question.categories; let last = last" class="text-dark">
-                            {{getTranslate(category.categoryName + " fromDb")}}{{last?"":" - "}}
-                        </small>
-                    </div>
-
                 </div>
             </div>
+        </div>
+        <div class="text-center d-flex justify-content-center pt-3">
+            <ngb-pagination [pageSize]="pageSize" [collectionSize]="collectionSize" [(page)]="page" class="mb-0">
+            </ngb-pagination>
         </div>
     </div>
 </div>

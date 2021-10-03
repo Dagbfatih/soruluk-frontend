@@ -10,7 +10,7 @@ export class TestFilterPipePipe implements PipeTransform {
     filterText = filterText ? filterText.toLocaleLowerCase() : '';
     return filterText
       ? value.filter(
-          (t) => t.testName.toLocaleLowerCase().indexOf(filterText) !== -1
+          (t) => t.test.title.toLocaleLowerCase().indexOf(filterText) !== -1
         )
       : value;
   }

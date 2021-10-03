@@ -1,202 +1,36 @@
-body {
-  background: -webkit-linear-gradient(left, #3931af, #00c6ff);
-}
-.emp-profile {
-  padding: 3%;
-  margin-top: 3%;
-  margin-bottom: 3%;
-  border-radius: 0.5rem;
-  background: #fff;
-  min-height: 850px;
-}
-.profile-img {
-  text-align: center;
-}
-.profile-img img {
-  width: 70%;
-  height: 100%;
-}
-.profile-img .file {
+.custom-c {
   position: relative;
-  overflow: hidden;
-  margin-top: -20%;
-  width: 70%;
-  border: none;
-  border-radius: 0;
-  font-size: 15px;
-  background: #212529b8;
+  text-align: center;
+  color: white;
 }
-.profile-img .file input {
+
+/* Bottom right text */
+.bottom-right {
   position: absolute;
-  opacity: 0;
-  right: 0;
-  top: 0;
+  bottom: -33px;
+  right: -10px;
 }
-.profile-head h5 {
-  color: #333;
+
+input[type="file"] {
+  display: none;
 }
-.profile-head h6 {
-  color: #0062cc;
-}
-.profile-edit-btn {
-  border: none;
-  border-radius: 1.5rem;
-  width: 70%;
-  padding: 2%;
-  font-weight: 600;
-  color: #6c757d;
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
   cursor: pointer;
-}
-.proile-rating {
-  font-size: 12px;
-  color: #818182;
-  margin-top: 5%;
-}
-.proile-rating span {
-  color: #495057;
-  font-size: 15px;
-  font-weight: 600;
-}
-.profile-head .nav-tabs {
-  margin-bottom: 5%;
-}
-.profile-head .nav-tabs .nav-link {
-  font-weight: 600;
-  border: none;
-}
-.profile-head .nav-tabs .nav-link.active {
-  border: none;
-  border-bottom: 2px solid #0062cc;
-}
-.profile-work {
-  padding: 14%;
-  margin-top: -15%;
-}
-.profile-work p {
-  font-size: 12px;
-  color: #818182;
-  font-weight: 600;
-  margin-top: 10%;
-}
-.profile-work a {
-  text-decoration: none;
-  color: #495057;
-  font-weight: 600;
-  font-size: 14px;
-}
-.profile-work ul {
-  list-style: none;
-}
-.profile-tab label {
-  font-weight: 600;
-}
-.profile-tab p {
-  font-weight: 600;
-  color: #0062cc;
+  border: 0px;
 }
 
-/* https://codepen.io/davidelvar/pen/dYMgrR */
-
-body {
-  font-family: "Open Sans", San-Serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+i.fa {
+  color: black;
 }
 
-h1 {
-  margin-top: 80px;
-  font-weight: bold;
+button.btn:hover i.fa {
+  color: white;
+  -webkit-transition: color 100ms linear;
+  -moz-transition: color 100ms linear;
+  -o-transition: color 100ms linear;
+  -ms-transition: color 100ms linear;
+  transition: color 100ms linear;
 }
-
-p {
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
-.btn {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-/* Boostrap Buttons Styling */
-
-.btn-default {
-  font-family: Raleway-SemiBold;
-  font-size: 13px;
-  color: rgba(108, 88, 179, 0.75);
-  letter-spacing: 1px;
-  line-height: 15px;
-  border: 2px solid rgba(108, 89, 179, 0.75);
-  border-radius: 40px;
-  background: transparent;
-  transition: all 0.3s ease 0s;
-}
-
-.btn-default:hover {
-  color: #fff;
-  background: rgba(108, 88, 179, 0.75);
-  border: 2px solid rgba(108, 89, 179, 0.75);
-}
-
-.btn-primary {
-  font-family: Raleway-SemiBold;
-  font-size: 13px;
-  color: rgba(58, 133, 191, 0.75);
-  letter-spacing: 1px;
-  line-height: 15px;
-  border: 2px solid rgba(58, 133, 191, 0.75);
-  border-radius: 40px;
-  background: transparent;
-  transition: all 0.3s ease 0s;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background: rgba(58, 133, 191, 0.75);
-  border: 2px solid rgba(58, 133, 191, 0.75);
-}
-
-/* image upload */
-
-.img {
-    border-radius: 100%;
-    display: flex;
-    flex: 0 0 288px;
-    height: 288px;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    width: 288px;
-  }
-
-  .img img {
-    height: 100%;
-  }
-
-  .img img {
-    width: 100%;
-  }
-
-  .img__overlay {
-    align-items: center;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    left: 0;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: opacity 0.25s;
-    z-index: 1;
-  }
-
-  .img__overlay:hover {
-    opacity: 1;
-  }
-
-  .img__overlay {
-    background-color: rgba(46,204,113,0.4);
-    background: linear-gradient(65deg, rgba(46,204,113,0.4), rgba(243,156,18,0.4));
-    color: #fafafa;
-    font-size: 100px;
-  }

@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Category } from '../models/entities/category';
 import { ListResponseModel } from '../models/responseModels/ListResponseModel';
 import { Question } from '../models/entities/question';
 import { QuestionDetailsDto } from '../models/dtos/questionDetailsDto';
@@ -57,14 +56,6 @@ export class QuestionService {
   getAllDetailsByPublic(): Observable<ListResponseModel<QuestionDetailsDto>> {
     return this.httpClient.get<ListResponseModel<QuestionDetailsDto>>(
       this.apiUrl + 'getalldetailsbypublic'
-    );
-  }
-
-  getDetailsByCategory(
-    categoryId: number
-  ): Observable<ListResponseModel<QuestionDetailsDto>> {
-    return this.httpClient.get<ListResponseModel<QuestionDetailsDto>>(
-      this.apiUrl + 'getdetailsbycategory?categoryId=' + categoryId
     );
   }
 

@@ -1,0 +1,45 @@
+<body class="text-center">
+    <div class="container w-100">
+        <div class="card mt-3 mb-3 text-center my-card">
+            <div class="card-body">
+                <h5 class="card-title">{{addedTest.test.title}}</h5>
+                <p class="card-text">{{addedTest.test.description}}</p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        {{getTranslate('testTimeIs')}}
+                        {{addedTest.test.testTime}}
+                        {{getTranslate('minutes')}}
+                    </small>
+                </p>
+                <p *ngIf="addedTest.test.privacy" class="card-text text-primary">
+                    {{getTranslate('public')}}
+                </p>
+                <p *ngIf="!addedTest.test.privacy" class="card-text text-danger">
+                    {{getTranslate('private')}}
+                </p>
+                <a class="btn btn-outline-dark me-1" routerLink="/user/tests/add/select-questions" style="width: 5%;">
+                    <i class="fa fa-arrow-left" style="font-size: 20px;"></i>
+                </a>
+                <a class="btn btn-outline-dark" (click)="add()" style="width: 20%;">Add This Test</a>
+            </div>
+        </div>
+        <div class="card mt-3 mb-3 text-center">
+            <div class="card-body">
+                <h5 class="card-title">{{getTranslate('selectQuestionsWantToAdd')}}</h5>
+            </div>
+            <ul class="list-group list-group-flush list-group-numbered text-start">
+                <li *ngFor="let question of addedTest.questions; let i = index;"
+                    class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">
+                            <span class="d-inline-block text-truncate" style="max-width: 300px;">
+                                {{question.question.questionText}}
+                            </span>
+                        </div>
+                        {{question.userName}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>

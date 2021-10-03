@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { alltranslates } from 'src/app/constants/TranslateManager';
 import { CustomerDetailsDto } from 'src/app/models/dtos/customerDetailsDto';
-import { ProfileImage } from 'src/app/models/entities/ProfileImage';
+import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
+import { TestDetailsDto } from 'src/app/models/dtos/testDetailsDto';
+import { ProfileImage } from 'src/app/models/entities/profileImage';
 import { User } from 'src/app/models/entities/user';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { ProfileImageService } from 'src/app/services/profile-image.service';
+import { QuestionService } from 'src/app/services/question.service';
+import { TestService } from 'src/app/services/test.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
@@ -19,23 +23,47 @@ export class ProfileComponent implements OnInit {
   profileImage: ProfileImage = {} as ProfileImage;
   baseUrl = environment.baseUrl;
   customer: CustomerDetailsDto = {} as CustomerDetailsDto;
+  questions: QuestionDetailsDto[] = [];
+  tests: TestDetailsDto[] = [];
+  userToken: User;
 
   constructor(
     private tokenService: TokenService,
     private profileImageService: ProfileImageService,
     private userService: UserService,
     private errorService: ErrorService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private questionService: QuestionService,
+    private testService: TestService
   ) {}
 
   ngOnInit(): void {
+    this.userToken = this.tokenService.getUserWithJWT();
     this.getUserProfileImage();
     this.getCustomerDetails();
+    this.getAllQuestionDetails();
+    this.getAllTestDetails();
+  }
+
+  getAllQuestionDetails() {
+    this.questionService
+      .getDetailsByUser(this.userToken.id)
+      .subscribe((response) => {
+        this.questions = response.data;
+      });
+  }
+
+  getAllTestDetails() {
+    this.testService
+      .getTestDetailsByUser(this.userToken.id)
+      .subscribe((response) => {
+        this.tests = response.data;
+      });
   }
 
   getCustomerDetails() {
     this.customerService
-      .getDetailsByUser(this.tokenService.getUserWithJWTFromCookie().id)
+      .getDetailsByUser(this.userToken.id)
       .subscribe(
         (response) => {
           this.customer = response.data;
@@ -47,7 +75,7 @@ export class ProfileComponent implements OnInit {
   }
 
   isLog(): boolean {
-    if (this.tokenService.getTokenFromCookie() !== null) {
+    if (this.tokenService.get() !== null) {
       return true;
     }
     return false;
@@ -55,7 +83,7 @@ export class ProfileComponent implements OnInit {
 
   getUserProfileImage() {
     this.profileImageService
-      .getProfileImageByUser(this.tokenService.getUserWithJWTFromCookie().id)
+      .getProfileImageByUser(this.tokenService.getUserWithJWT().id)
       .subscribe((response) => {
         this.profileImage = response.data;
       });
@@ -66,13 +94,10 @@ export class ProfileComponent implements OnInit {
   }
 
   getIsConfirmed(): string {
-    let roles = this.tokenService.getUserRolesWithJWTFromCookie();
-    if (
-      !roles.includes('notConfirmedInstructor') &&
-      roles.includes('Instructor')
-    ) {
-      return '';
+    let roles = this.tokenService.getUserRolesWithJWT();
+    if (roles.includes('instructor')) {
+      return 'Confirmed';
     }
-    return ' (waiting confirmation...)';
+    return 'Not confirmed (waiting confirmation...)';
   }
 }

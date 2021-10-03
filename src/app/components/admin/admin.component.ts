@@ -82,10 +82,6 @@ export class AdminComponent implements OnInit {
     return this.currentPage == 'userClaims';
   }
 
-  pageIsCategories(): boolean {
-    return this.currentPage == 'categories';
-  }
-
   pageIsLanguages(): boolean {
     return this.currentPage == 'languages';
   }

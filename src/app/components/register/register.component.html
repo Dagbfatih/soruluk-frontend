@@ -1,48 +1,15 @@
-<body class="text-center p-0" style="height: 521px;">
-    <div class="container-fluid text-center align-items-center px-4 overflow-hidden" style="height: 700px;">
-        <ngb-carousel #carousel [interval]="0" [showNavigationArrows]="false" [showNavigationIndicators]="false"
-            style="min-height: initial;">
+<body class="text-center">
+    <div class="container text-center">
+        <h2 class="mb-3" style="font-weight: 600;">Kayıt Ol</h2>
 
-            <ng-template ngbSlide>
-                <h1 style="font-weight: 600; margin-bottom: 10%;">Hesabını Oluştur ve Kullanmaya Başla</h1>
-                <div class="row mt-5" style="height: 400px;">
-                    <div class="col-6 col-md-6 align-items-center">
-                        <div class="p-0">
-                            <button class="btn btn-outline-light justify-content me-3 w-75 h-100 btn-rounded"
-                                (click)="setAccountType('student'); next();"
-                                style="min-height: 350px; background-color: rgb(2, 189, 148);">
-                                <h2 class="mb-3">Öğrenci Hesabı Oluştur</h2>
-                                <p class="lead mb-4" style="font-size: 1.2rem; font-weight: 400;">
-                                    Öğretmenlerin önceden
-                                    hazırlamış olduğu testleri çözebilir, tamamen kendinize özel testler
-                                    oluşturabilirsiniz.
-                                </p>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-6 align-items-center">
-                        <div class="p-0">
-                            <button class="btn btn-outline-light ms-3 w-75 h-100 rounded"
-                                (click)="setAccountType('teacher'); next();"
-                                style="min-height: 350px; background-color: rgb(2, 189, 148);">
-                                <h2 class="mb-3">Öğretmen Hesabı Oluştur</h2>
-                                <p class="lead mb-4" style="font-size: 1.2rem; font-weight: 400;">
-                                    Dilediğiniz gibi kendinize ait soru havuzunuzu
-                                    yaratabilir, halka açık veya gizli testler oluşturabilirsiniz.
-                                </p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-
-            <ng-template ngbSlide>
-                <!-- Student -->
-                <app-register-student *ngIf="accountType === 'student'"></app-register-student>
-                <!-- Teacher -->
-                <app-register-teacher *ngIf="accountType === 'teacher'"></app-register-teacher>
-            </ng-template>
-
-        </ngb-carousel>
+        <div class="d-grid gap-2 col-sm-offset-2 col-sm-6 col-xs-6 mx-auto">
+            <button class="btn btn-outline-success btn-lg mb-3" routerLink="/register/student">
+                Öğrenci Hesabı Oluştur
+            </button>
+            <h4 class="mb-3">veya</h4>
+            <button class="btn btn-success btn-lg mb-3" routerLink="/register/instructor">
+                Öğretmen Hesabı Oluştur
+            </button>
+        </div>
     </div>
 </body>

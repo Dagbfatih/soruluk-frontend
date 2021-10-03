@@ -2,16 +2,18 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { alltranslates } from 'src/app/constants/TranslateManager';
+
 export const environment = {
   production: true,
-  apiUrl: 'https://funnytest.somee.com/api/',  
-  baseUrl:"https://funnytest.somee.com/",
-  // apiUrl:"https://localhost:44389/api/",
-  // baseUrl:"https://localhost:44389/",
+  // apiUrl: 'https://funnytest.somee.com/api/',
+  // baseUrl:"https://funnytest.somee.com/",
+  apiUrl: 'https://localhost:44389/api/',
+  baseUrl: 'https://localhost:44389/',
   allFieldsRequired: 'Tüm alanlar zorunludur',
-  warningMessage: 'Uyarı', 
-  successMessage:"Başarılı",
-  errorMessage:"hata"
+  warningMessage: 'Uyarı',
+  successMessage: 'Başarılı',
+  errorMessage: 'Hata',
 };
 
 /*

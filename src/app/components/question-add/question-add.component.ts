@@ -9,8 +9,6 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
-import { Category } from 'src/app/models/entities/category';
-import { CategoryService } from 'src/app/services/category.service';
 import { OptionNumberGeneratorService } from 'src/app/services/option-number-generator.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { CookieManageService } from 'src/app/services/cookie-manage.service';
@@ -21,6 +19,10 @@ import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
 import { BranchService } from 'src/app/services/branch.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { Customer } from 'src/app/models/entities/customer';
+import { Lesson } from 'src/app/models/entities/lesson';
+import { LessonService } from 'src/app/services/lesson.service';
+import { SubjectService } from 'src/app/services/subject.service';
+import { Subject } from 'src/app/models/entities/subject';
 
 @Component({
   selector: 'app-question-add',
@@ -30,28 +32,45 @@ import { Customer } from 'src/app/models/entities/customer';
 export class QuestionAddComponent implements OnInit {
   questionAddForm: FormGroup;
   optionsArray: FormArray;
-  categoriesArray: FormArray;
   accuracyIndex: number;
-  categories: Category[] = [];
   starQuestion: boolean = false;
   customer: Customer;
+  lessons: Lesson[] = [];
+  subjects: Subject[] = [];
+  subjectDataLoaded = false;
+  difficultyWidth: string = 'width:50%;';
 
   constructor(
     private questionService: QuestionService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private categoryService: CategoryService,
     private optionNumberGeneratorService: OptionNumberGeneratorService,
     private errorService: ErrorService,
     private tokenService: TokenService,
     private activeModal: NgbActiveModal,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private lessonService: LessonService,
+    private subjectService: SubjectService
   ) {}
 
   ngOnInit(): void {
-    this.getAllCategories();
+    this.getAllLessons();
     this.createQuestionAddForm();
     this.getCustomer();
+  }
+
+  getAllSubjects(lessonId: number) {
+    this.subjectDataLoaded = false;
+    this.subjectService.getAllByLesson(lessonId).subscribe((response) => {
+      this.subjects = response.data;
+      this.subjectDataLoaded = true;
+    });
+  }
+
+  getAllLessons() {
+    this.lessonService.getAll().subscribe((response) => {
+      this.lessons = response.data;
+    });
   }
 
   setStarQuestion() {
@@ -67,14 +86,12 @@ export class QuestionAddComponent implements OnInit {
     this.activeModal.dismiss('Question add modal dismissed');
   }
 
-  checkPrivacy(): boolean {
-    return this.questionAddForm.get('privacy')?.value;
+  checkLessonIdValue(): number {
+    return this.questionAddForm.get('lessonId')?.value;
   }
 
-  getAllCategories() {
-    this.categoryService.getCategories().subscribe((response) => {
-      this.categories = response.data;
-    });
+  checkPrivacy(): boolean {
+    return this.questionAddForm.get('privacy')?.value;
   }
 
   createQuestionAddForm() {
@@ -84,21 +101,22 @@ export class QuestionAddComponent implements OnInit {
         this.createOption(),
         this.createOption(),
       ]),
-      categories: this.formBuilder.array([this.createCategory()]),
       starQuestion: [''],
-      privacy: [false],
+      privacy: [true],
+      difficultyLevel: [2, Validators.required],
+      lessonId: [0, Validators.required],
+      subjectId: [0, Validators.required],
     });
     this.questionAddForm.get('starQuestion')?.setValue(this.starQuestion);
     this.optionsArray = this.questionAddForm.get('options') as FormArray;
-    this.categoriesArray = this.questionAddForm.get('categories') as FormArray;
   }
 
   getOptions(): FormArray {
     return this.questionAddForm.get('options') as FormArray;
   }
 
-  getCategories(): FormArray {
-    return this.questionAddForm.get('categories') as FormArray;
+  getDifficultyLevel(): number {
+    return this.questionAddForm.get('difficultyLevel')?.value;
   }
 
   createOption(): FormGroup {
@@ -118,21 +136,13 @@ export class QuestionAddComponent implements OnInit {
     this.optionsArray.push(this.createOption());
   }
 
-  addCategory() {
-    this.categoriesArray.push(this.createCategory());
-  }
-
   removeOption(index: number) {
     this.optionsArray.removeAt(index);
   }
 
-  removeCategory(index: number) {
-    this.categoriesArray.removeAt(index);
-  }
-
   getCustomer() {
     this.customerService
-      .getByUser(this.tokenService.getUserWithJWTFromCookie()?.id)
+      .getByUser(this.tokenService.getUserWithJWT()?.id)
       .subscribe((response) => {
         this.customer = response.data;
       });
@@ -144,12 +154,16 @@ export class QuestionAddComponent implements OnInit {
         {},
         this.questionAddForm.value
       );
+      questionModel.question = Object.assign({}, this.questionAddForm.value);
 
-      this.setCategoryIds(questionModel);
       this.setOptionAccuracies();
-      questionModel.userId = this.tokenService.getUserWithJWTFromCookie()?.id;
-      questionModel.branchId = this.customer.branchId;
-      
+      questionModel.question.userId = this.tokenService.getUserWithJWT()?.id;
+      questionModel.question.lessonId = this.customer.lessonId;
+      questionModel.question.lessonId = +questionModel.question.lessonId;
+      questionModel.question.subjectId = +questionModel.question.subjectId;
+
+      console.log(questionModel);
+
       this.questionService.addWithDetails(questionModel).subscribe(
         (response) => {
           this.toastrService.success('Eklendi', environment.successMessage);
@@ -164,9 +178,6 @@ export class QuestionAddComponent implements OnInit {
         environment.warningMessage
       );
     }
-  }
-  setCategoryIds(model: any) {
-    model.categories.map((c: any) => (c.categoryId = +c.categoryId));
   }
 
   getOptionNumberClass(index: number): string {

@@ -3,5 +3,5 @@ export interface Customer{
     userId:number;
     roleId:number;
     isConfirmed:boolean;
-    branchId:number;
+    lessonId:number;
 }

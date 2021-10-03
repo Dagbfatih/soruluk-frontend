@@ -6,5 +6,5 @@ export interface RegisterDtoForFormControl {
   roleId: number;
   roleName:string;
   isConfirmed: boolean;
-  branchId:number;
+  lessonId:number;
 }

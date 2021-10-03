@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/app/services/category.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { OptionNumberGeneratorService } from 'src/app/services/option-number-generator.service';
 import { QuestionService } from 'src/app/services/question.service';
@@ -13,13 +12,18 @@ import {
   FormControl,
   FormBuilder,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
-import { Category } from 'src/app/models/entities/category';
 import { OptionService } from 'src/app/services/option.service';
 import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
 import { Router } from '@angular/router';
 import { PageService } from 'src/app/services/page.service';
 import { alltranslates } from 'src/app/constants/TranslateManager';
+import { Lesson } from 'src/app/models/entities/lesson';
+import { Subject } from 'src/app/models/entities/subject';
+import { SubjectService } from 'src/app/services/subject.service';
+import { LessonService } from 'src/app/services/lesson.service';
+import { Option } from 'src/app/models/entities/option';
 
 @Component({
   selector: 'app-question-update',
@@ -31,26 +35,43 @@ export class QuestionUpdateComponent implements OnInit {
   optionsArray: FormArray;
   categoriesArray: FormArray;
   accuracyIndex: number;
-  categories: Category[] = [];
-  public question: QuestionDetailsDto;
+  question: QuestionDetailsDto;
+  lessons: Lesson[] = [];
+  subjects: Subject[] = [];
+  subjectDataLoaded = false;
+  difficultyWidth: string = 'width:50%;';
 
   constructor(
     private activeModal: NgbActiveModal,
     private questionService: QuestionService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private categoryService: CategoryService,
     private optionNumberGeneratorService: OptionNumberGeneratorService,
     private errorService: ErrorService,
     private tokenService: TokenService,
-    private optionService: OptionService,
     private router: Router,
-    private pageService:PageService
+    private subjectService: SubjectService,
+    private lessonService: LessonService
   ) {}
 
   ngOnInit(): void {
-    this.getAllCategories();
     this.createQuestionUpdateForm();
+    this.getAllLessons();
+    this.getOptionChecked();
+  }
+
+  getAllSubjects(lessonId: number) {
+    this.subjectDataLoaded = false;
+    this.subjectService.getAllByLesson(lessonId).subscribe((response) => {
+      this.subjects = response.data;
+      this.subjectDataLoaded = true;
+    });
+  }
+
+  getAllLessons() {
+    this.lessonService.getAll().subscribe((response) => {
+      this.lessons = response.data;
+    });
   }
 
   close() {
@@ -61,46 +82,56 @@ export class QuestionUpdateComponent implements OnInit {
     this.activeModal.dismiss('Question edit Modal Dismissed');
   }
 
+  getDifficultyLevel(): number {
+    return this.questionAddForm.get('difficultyLevel')?.value;
+  }
+
   setStarQuestion() {
-    this.question.starQuestion = !this.question.starQuestion;
+    this.question.question.starQuestion = !this.question.question.starQuestion;
     this.questionAddForm
       .get('starQuestion')
-      ?.setValue(this.question.starQuestion);
+      ?.setValue(this.question.question.starQuestion);
   }
 
   checkPrivacy(): boolean {
     return this.questionAddForm.get('privacy')?.value;
   }
 
-  getAllCategories() {
-    this.categoryService.getCategories().subscribe((response) => {
-      this.categories = response.data;
-    });
-  }
-
   createQuestionUpdateForm() {
     this.questionAddForm = this.formBuilder.group({
-      questionId: [this.question.questionId],
-      userId: [this.question.userId],
-      questionText: [this.getQuestionText(), Validators.required],
+      questionId: [this.question.question.questionId],
+      userId: [this.question.question.userId],
+      questionText: [this.getQuestionText()],
       options: this.formBuilder.array(this.getQuestionOptions()),
-      categories: this.formBuilder.array(this.getQuestionCategories()),
       starQuestion: [this.getStarQuestion()],
+      difficultyLevel: [2],
       privacy: [this.getQuestionPrivacy()],
     });
     this.questionAddForm
       .get('starQuestion')
-      ?.setValue(this.question.starQuestion);
+      ?.setValue(this.question.question.starQuestion);
     this.optionsArray = this.questionAddForm.get('options') as FormArray;
     this.categoriesArray = this.questionAddForm.get('categories') as FormArray;
+    this.getOptionChecked();
   }
 
   getOptions(): FormArray {
     return this.questionAddForm.get('options') as FormArray;
   }
 
-  getCategories(): FormArray {
-    return this.questionAddForm.get('categories') as FormArray;
+  difficultySelected(difficultyLevel: number) {
+    this.questionAddForm.get('difficultyLevel')?.setValue(difficultyLevel);
+    if (difficultyLevel == 0) {
+      this.difficultyWidth = 'width:' + 6 + '%;';
+    } else if (difficultyLevel == 1) {
+      this.difficultyWidth = 'width:' + 30 + '%;';
+    } else if (difficultyLevel == 2) {
+      this.difficultyWidth = 'width:' + 52 + '%;';
+    } else if (difficultyLevel == 3) {
+      this.difficultyWidth = 'width:' + 74 + '%;';
+    } else {
+      this.difficultyWidth = 'width:' + 100 + '%;';
+    }
   }
 
   createOption(): FormGroup {
@@ -118,6 +149,11 @@ export class QuestionUpdateComponent implements OnInit {
     });
   }
 
+  getOptionChecked() {
+    let options: Option[] = this.getQuestionOptions().map((o) => o.value);
+    this.accuracyIndex = options.find((o) => o.accuracy)?.id!;
+  }
+
   getQuestionOptions(): FormGroup[] {
     let result: FormGroup[] = [];
 
@@ -130,32 +166,20 @@ export class QuestionUpdateComponent implements OnInit {
         })
       );
     });
-    return result;
-  }
 
-  getQuestionCategories(): FormGroup[] {
-    let result: FormGroup[] = [];
-
-    this.question.categories.forEach((c) => {
-      result.push(
-        this.formBuilder.group({
-          categoryId: [c.categoryId, Validators.required],
-        })
-      );
-    });
     return result;
   }
 
   getQuestionText(): string {
-    return this.question.questionText;
+    return this.question.question.questionText;
   }
 
   getStarQuestion(): boolean {
-    return this.question.starQuestion;
+    return this.question.question.starQuestion;
   }
 
   getQuestionPrivacy(): boolean {
-    return this.question.privacy;
+    return this.question.question.privacy;
   }
 
   addOption() {
@@ -176,11 +200,15 @@ export class QuestionUpdateComponent implements OnInit {
 
   update() {
     if (this.questionAddForm.valid) {
-      let questionModel = Object.assign({}, this.questionAddForm.value);
-      this.setCategoryIds(questionModel);
+      let questionModel: QuestionDetailsDto = Object.assign(
+        {},
+        this.questionAddForm.value
+      );
+      questionModel.question = Object.assign({}, this.questionAddForm.value);
       this.setOptionAccuracies();
-      questionModel.questionId = this.question.questionId;
-      questionModel.userId = this.question.userId;
+      questionModel.question.questionId = this.question.question.questionId;
+      questionModel.question.userId = this.question.question.userId;
+      
 
       this.questionService.updateWithDetails(questionModel).subscribe(
         (response) => {
@@ -205,10 +233,6 @@ export class QuestionUpdateComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate([this.router.url]);
-  }
-
-  setCategoryIds(model: any) {
-    model.categories.map((c: any) => (c.categoryId = +c.categoryId));
   }
 
   getOptionNumberClass(index: number): string {

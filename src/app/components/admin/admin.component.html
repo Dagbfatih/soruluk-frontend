@@ -23,12 +23,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active' : pageIsCategories()}" aria-current="page"
-                (click)="currentPage = 'categories'; setCurrentPage('categories')">
-                <h6>{{getTranslate("categories")}}</h6>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" [ngClass]="{'active' : pageIsLanguages()}" aria-current="page"
                 (click)="currentPage = 'languages'; setCurrentPage('languages')">
                 <h6>{{getTranslate("languages")}}</h6>
@@ -62,9 +56,6 @@
     
     <!-- Users -->
     <app-user *ngIf="currentPage==='users'"></app-user>
-    
-    <!-- Categories -->
-    <app-category *ngIf="currentPage === 'categories'"></app-category>
     
     <!-- Languages -->
     <app-language *ngIf="currentPage === 'languages'"></app-language>

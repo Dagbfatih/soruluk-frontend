@@ -1,195 +1,135 @@
-<div class="modal-header">
-    <h5 class="modal-title">{{getTranslate("add")}}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
-</div>
+<body class="text-center">
+    <div class="container w-100">
+        <h2 class="mb-5">{{getTranslate("fillTestInfo")}}</h2>
 
-<div class="modal-body">
-    <div class="content">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card border-success mx-auto">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <h3>{{getTranslate("add")}}</h3>
-                            </div>
-                        </div>
+        <form [formGroup]="testAddForm" class="form">
+            <div class="mb-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="title" formControlName="title" placeholder="Title"
+                        [ngClass]="{ 'is-invalid': submitted && getControls.title.errors , 'is-valid': submitted && getControls.title.valid }">
+                    <label for="title">{{getTranslate('title')}}</label>
+
+                    <div *ngIf="submitted && getControls.title.errors" class="invalid-feedback">
+                        <div *ngIf="getControls.title.errors.required">Title is required</div>
+                    </div>
+                    <div *ngIf="submitted && getControls.title.valid" class="valid-feedback">
+                        <div *ngIf="getControls.title.valid">Looks Good</div>
                     </div>
 
-                    <div class="card-body">
-                        <form [formGroup]="testAddForm" class="form">
-                            <ul class="list-group list-group-flush">
-
-                                <!-- testName -->
-                                <li class="list-group-item mb-3">
-                                    <div class="mb-3">
-                                        <label for="testName" class="mb-1">
-                                            <h5>{{getTranslate("testName")}}</h5>
-                                        </label>
-                                        <div class="form-group">
-                                            <input class="form-control" id="testName" formControlName="testName"
-                                                placeholder="Test ismini girin" />
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <!-- testNotes -->
-                                <li class="list-group-item mb-3">
-                                    <div class="mb-3">
-                                        <label for="testNotes" class="mb-1">
-                                            <h5>{{getTranslate("testNotes")}}</h5>
-                                        </label>
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="testNotes" formControlName="testNotes"
-                                                rows="3" placeholder="Test ile ilgili notlar"></textarea>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <!-- testTime -->
-                                <li class="list-group-item mb-3">
-                                    <div class="mb-3">
-                                        <label for="testTime" class="mb-1">
-                                            <h5>{{getTranslate("testTime")}}</h5>
-                                        </label>
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" id="testTime"
-                                                formControlName="testTime" placeholder="Test süresi" />
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <!-- Privacy -->
-                                <li class="list-group-item mb-3">
-                                    <div class="mb-3">
-                                        <label for="privacy" class="mb-1">
-                                            <h5>{{getTranslate("privacy")}}</h5>
-                                        </label>
-                                        <div class="form-group">
-                                            <div class="form-check form-switch form-switch-lg">
-                                                <input class="form-check-input" type="checkbox" id="privacy"
-                                                    formControlName="privacy">
-                                                <label class="form-check-label" for="privacy">
-                                                    <h6 *ngIf="checkPrivacy()" class="">{{getTranslate("public")}}</h6>
-                                                    <h6 *ngIf="!checkPrivacy()">{{getTranslate("private")}}</h6>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <!-- questions -->
-                                <li class="list-group-item mb-3">
-                                    <label class="mb-1">
-                                        <h5>{{getTranslate("addedQuestions")}}</h5>
-                                    </label>
-                                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                                        <div *ngFor="let questionControl of questionsArray.controls; let i = index"
-                                            class="accordion-item">
-                                            <h2 class="accordion-header" [id]="'heading'+i">
-                                                <button class="accordion-button" [ngClass]="{ 'collapsed': false }"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    [attr.data-bs-target]="'#collapse'+i" aria-expanded="true"
-                                                    [attr.aria-controls]="'collapse'+i">
-                                                    {{(i+1) + '. ' + questionControl.value.questionText}}
-                                                </button>
-                                            </h2>
-                                            <div [id]="'collapse'+i" class="accordion-collapse collapse"
-                                                [ngClass]="{ 'show': false }" [attr.aria-labelledby]="'heading'+i"
-                                                data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">
-                                                    <ul class="list-group list-group-flush">
-                                                        <li *ngFor="let option of questionControl.value.options; let i = index"
-                                                            class="list-group-item">
-                                                            <span class="badge rounded-pill bg-primary">
-                                                                {{getOption(i)}})
-                                                            </span>
-                                                            {{option.optionText}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
-
-                    <div class="card-footer">
-                        <button class="btn btn-fill btn-outline-success" (click)="add()">
-                            {{getTranslate("add")}}
-                        </button>
-                    </div>
                 </div>
             </div>
+            <div class="mb-3">
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="description" style="height: 130px" formControlName="description"
+                        rows="3" placeholder="Açıklama"
+                        [ngClass]="{ 'is-invalid': submitted && getControls.description.errors,'is-valid': submitted && getControls.description.valid }">
+                    </textarea>
+                    <label for="description">{{getTranslate("description")}}</label>
 
-            <div class="col-md-9">
+                    <div *ngIf="submitted && getControls.description.errors" class="invalid-feedback">
+                        <div *ngIf="getControls.description.errors.required">Description is required</div>
+                    </div>
+                    <div *ngIf="submitted && getControls.description.valid" class="valid-feedback">
+                        <div *ngIf="getControls.description.valid">Looks Good</div>
+                    </div>
 
-                <!-- question list-->
-                <div class="col-md-12 mb-3">
-                    <div class="card border-success mx-auto">
-                        <div class="card-header">
-                            <label class="mb-3">
-                                <h4>{{getTranslate("selectQuestionsYouWantToAdd")}}</h4>
-                            </label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="testTime" placeholder="Test süresi"
+                        formControlName="testTime"
+                        [ngClass]="{ 'is-invalid': submitted && getControls.testTime.errors,'is-valid': submitted && getControls.testTime.valid }">
+                    <label for="testTime">{{getTranslate("testTime")}}</label>
+
+                    <div *ngIf="submitted && getControls.testTime.errors" class="invalid-feedback">
+                        <div *ngIf="getControls.testTime.errors.required">Test time is required</div>
+                    </div>
+                    <div *ngIf="submitted && getControls.testTime.valid" class="valid-feedback">
+                        <div *ngIf="getControls.testTime.valid">Looks Good</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input me-3" type="checkbox" id="privacy" formControlName="privacy"
+                        style="float: initial;">
+                    <label class="form-check-label text-start" for="privacy">
+                        {{ getTranslate(checkPrivacy() ?"public":"private") }}
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <div class="form-group">
+            <button class="btn btn-fill btn-outline-dark w-50" (click)="navigateSelectQuestions()">
+                <i class="fa fa-arrow-right" style="font-size: 24px;"></i>
+            </button>
+        </div>
+    </div>
+
+</body>
+
+
+<!-- <div class="col-md-9">
+
+         <div class="col-md-12 mb-3">
+            <div class="card border-success mx-auto">
+                <div class="card-header">
+                    <label class="mb-3">
+                        <h4>{{getTranslate("selectQuestionsYouWantToAdd")}}</h4>
+                    </label>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row mb-3">
+                            <label for="inputEmail3"
+                                class="col-sm-4 col-form-label">{{getTranslate("optionNumber")}}</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="optionNumberFilter"
+                                    placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="row mb-3">
-                                    <label for="inputEmail3"
-                                        class="col-sm-4 col-form-label">{{getTranslate("optionNumber")}}</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" class="form-control" id="optionNumberFilter"
-                                            placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
+                    </form>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div *ngFor="let question of questions | questionFilterPipe:'':optionNumberFilter; let i = index;"
+                            class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <h6 class="col card-title">{{question.userName}}</h6>
+                                        <div class="col text-end">
+                                            <i *ngIf="question.question.starQuestion" class="fa fa-star"
+                                                style="font-size:36px; color: rgb(156, 156, 43);"></i>
+                                            <i *ngIf="!question.question.starQuestion" class="fa fa-star-o"
+                                                style="font-size:36px; color: rgb(156, 156, 43);"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
-                            <div class="row row-cols-1 row-cols-md-3 g-4">
-                                <div *ngFor="let question of questions | questionFilterPipe:'':optionNumberFilter; let i = index;"
-                                    class="col-md-4">
-                                    <div class="card h-100">
-                                        <div class="card-header">
-                                            <div class="row">
-                                                <h6 class="col card-title">{{question.userName}}</h6>
-                                                <div class="col text-end">
-                                                    <i *ngIf="question.starQuestion" class="fa fa-star"
-                                                        style="font-size:36px; color: rgb(156, 156, 43);"></i>
-                                                    <i *ngIf="!question.starQuestion" class="fa fa-star-o"
-                                                        style="font-size:36px; color: rgb(156, 156, 43);"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-title"><strong>{{question.questionText}}</strong></p>
+                                <div class="card-body">
+                                    <p class="card-title"><strong>{{question.question.questionText}}</strong>
+                                    </p>
 
-                                            <ul class="list-group-mine list-group-flush">
-                                                <li *ngFor="let option of question.options; let i = index"
-                                                    class="list-group-item list-group-item-action">
-                                                    <label class="badge bg-primary">{{getOption(i)}}</label>
-                                                    {{option.optionText}}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="card-footer">
-                                            <div class="row">
-                                                <div class="col text-start">
-                                                    <button *ngIf="!ifQuestionExists(question)" type="button"
-                                                        class="btn btn-success" (click)="addQuestion(question) ">
-                                                        <i class="fa fa-plus" aria-hidd en="true"></i>
-                                                    </button>
-                                                    <button *ngIf="ifQuestionExists(question)" type="button"
-                                                        class="btn btn-danger" (click)="removeQuestion(question)">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col text-end">
-                                                    <small *ngFor="let category of question.categories; let last = last"
-                                                        class="text-dark">{{category.categoryName
-                                                        }}{{last?"":"
-                                                        - "}}</small>
-                                                </div>
-                                            </div>
+                                    <ul class="list-group-mine list-group-flush">
+                                        <li *ngFor="let option of question.options; let i = index"
+                                            class="list-group-item list-group-item-action">
+                                            <label class="badge bg-primary">{{getOption(i)}}</label>
+                                            {{option.optionText}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <button *ngIf="!ifQuestionExists(question)" type="button"
+                                                class="btn btn-success" (click)="addQuestion(question) ">
+                                                <i class="fa fa-plus" aria-hidd en="true"></i>
+                                            </button>
+                                            <button *ngIf="ifQuestionExists(question)" type="button"
+                                                class="btn btn-danger" (click)="removeQuestion(question)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -199,5 +139,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div> -->

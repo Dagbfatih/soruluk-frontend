@@ -1,16 +1,9 @@
-import { Category } from '../entities/category';
+import { Branch } from '../entities/branch';
 import { Option } from '../entities/option';
+import { Question } from '../entities/question';
 
 export interface QuestionDetailsDto {
-  questionId: number;
-  questionText: string;
-  categories: Category[];
+  question: Question;
   options: Option[];
-  starQuestion: boolean;
-  brokenQuestion: boolean;
-  privacy: boolean;
-  userId: number;
   userName: string;
-  branchId: number;
-  branchName: string;
 }

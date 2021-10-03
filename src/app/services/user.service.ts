@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Category } from '../models/entities/category';
 import { ListResponseModel } from '../models/responseModels/ListResponseModel';
 import { User } from '../models/entities/user';
 import { ItemResponseModel } from '../models/responseModels/ItemResponseModel';
@@ -30,6 +29,23 @@ export class UserService {
     return this.httpClient.post<ResponseModel>(
       this.apiUrl + 'update',
       userModel
+    );
+  }
+
+  getAllByUsers(
+    userIds: number[]
+  ): Observable<ListResponseModel<User>> {
+    userIds = userIds.filter(
+      (element, i) => i === userIds.indexOf(element)
+    );
+
+    let params: string="";
+    userIds.forEach((userId) => {
+      params += 'userIds=' + userId + '&';
+    });
+
+    return this.httpClient.get<ListResponseModel<User>>(
+      this.apiUrl + 'getallbyids?' + params
     );
   }
 

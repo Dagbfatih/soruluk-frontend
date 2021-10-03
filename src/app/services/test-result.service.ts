@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TestResultDetailsDto } from '../models/dtos/testResultDetailsDto';
-import { TestResult } from '../models/entities/TestResult';
+import { TestResult } from '../models/entities/testResult';
 import { ItemResponseModel } from '../models/responseModels/ItemResponseModel';
 import { ListResponseModel } from '../models/responseModels/ListResponseModel';
 import { ResponseModel } from '../models/responseModels/responseModel';

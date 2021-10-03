@@ -7,9 +7,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { alltranslates } from 'src/app/constants/TranslateManager';
 import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
-import { Category } from 'src/app/models/entities/category';
 import { User } from 'src/app/models/entities/user';
-import { CategoryService } from 'src/app/services/category.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { OptionNumberGeneratorService } from 'src/app/services/option-number-generator.service';
 import { QuestionService } from 'src/app/services/question.service';
@@ -26,7 +24,6 @@ import { QuestionUpdateComponent } from '../question-update/question-update.comp
 export class UserQuestionsComponent implements OnInit {
   dataLoaded = false;
   questions: QuestionDetailsDto[] = [];
-  categories: Category[];
   categoryId: number;
   filterText: string = '';
   user: User = {} as User;
@@ -35,7 +32,6 @@ export class UserQuestionsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private questionService: QuestionService,
     private errorService: ErrorService,
-    private categoryService: CategoryService,
     private optionNumberGenerator: OptionNumberGeneratorService,
     private router: Router,
     private tokenService: TokenService,
@@ -43,7 +39,7 @@ export class UserQuestionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.tokenService.getUserWithJWTFromCookie();
+    this.user = this.tokenService.getUserWithJWT();
     this.activatedRoute.params.subscribe((params) => {
       if (params['categoryId']) {
         this.getDetailsByUserWithCategory(params['categoryId']);
@@ -51,7 +47,6 @@ export class UserQuestionsComponent implements OnInit {
         this.getQuestionsByUser();
       }
     });
-    this.getCategories();
   }
 
   getQuestionsByUser() {
@@ -67,7 +62,7 @@ export class UserQuestionsComponent implements OnInit {
   }
 
   getDetailsByUserWithCategory(categoryId: number) {
-    if (categoryId==0) {
+    if (categoryId == 0) {
       this.questionService.getDetailsByUser(this.user.id).subscribe(
         (response) => {
           this.questions = response.data;
@@ -77,17 +72,17 @@ export class UserQuestionsComponent implements OnInit {
           this.errorService.writeErrorMessages(responseError);
         }
       );
-    }else{
+    } else {
       this.questionService
-      .getDetailsByUserWithId(this.user.id, categoryId)
-      .subscribe((response) => {
-        this.questions = response.data
-        this.dataLoaded = true;
-      });
+        .getDetailsByUserWithId(this.user.id, categoryId)
+        .subscribe((response) => {
+          this.questions = response.data;
+          this.dataLoaded = true;
+        });
     }
   }
 
-  openAddQuestionModal(){
+  openAddQuestionModal() {
     var modalReferance = this.modalService.open(QuestionAddComponent, {
       size: 'xl',
     });
@@ -98,27 +93,21 @@ export class UserQuestionsComponent implements OnInit {
       size: 'xl',
     });
     modalReferance.componentInstance.question = this.questions.find(
-      (q) => q.questionId == questionId
+      (q) => q.question.questionId == questionId
     );
   }
 
-  openDeleteQuestionModal(questionId:number){
+  openDeleteQuestionModal(questionId: number) {
     var modalReferance = this.modalService.open(QuestionDeleteComponent, {
       size: 'm',
     });
     modalReferance.componentInstance.question = this.questions.find(
-      (q) => q.questionId == questionId
+      (q) => q.question.questionId == questionId
     );
   }
 
   getUrl() {
     return this.router.url;
-  }
-
-  getCategories() {
-    this.categoryService.getCategories().subscribe((response) => {
-      this.categories = response.data;
-    });
   }
 
   getOption(index: number) {

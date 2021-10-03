@@ -15,6 +15,9 @@ import { PageService } from 'src/app/services/page.service';
 import { TokenService } from 'src/app/services/token.service';
 import { alltranslates } from 'src/app/constants/TranslateManager';
 import { LoginModel } from 'src/app/models/entities/loginModel';
+import { environment } from 'src/environments/environment';
+import { Token } from 'src/app/models/entities/token';
+import { RefreshTokenService } from 'src/app/services/refresh-token.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +35,8 @@ export class LoginComponent implements OnInit {
     private errorService: ErrorService,
     private router: Router,
     private pageService: PageService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private refreshTokenService: RefreshTokenService
   ) {}
 
   ngOnInit(): void {
@@ -53,17 +57,27 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginModel).subscribe(
         (response) => {
           loginModel.rememberMe
-            ? this.tokenService.setTokenOnCookie(response.data.token)
-            : this.tokenService.setTokenOnSession(response.data.token);
-
-          this.toastrService.success('Giriş Başarılı');
-          this.router.navigate(["/tests/details"]);
-        },
-        (responseError) => {
-          this.errorService.writeErrorMessages(responseError);
+            ? this.setTokenOnLocal(response.data)
+            : this.setTokenOnSession(response.data);
+          this.toastrService.success(
+            response.message,
+            environment.successMessage
+          );
+          console.log(response.data.accessToken.token);
+          this.router.navigate(['/']);
         }
       );
     }
+  }
+
+  setTokenOnLocal(response: Token) {
+    this.tokenService.setLocal(response.accessToken.token);
+    this.refreshTokenService.setLocal(response.refreshToken.token);
+  }
+
+  setTokenOnSession(response: Token) {
+    this.tokenService.setSession(response.accessToken.token);
+    this.refreshTokenService.setSession(response.refreshToken.token);
   }
 
   getTranslate(key: string) {

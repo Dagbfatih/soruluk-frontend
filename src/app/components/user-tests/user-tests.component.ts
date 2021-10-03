@@ -4,9 +4,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { alltranslates } from 'src/app/constants/TranslateManager';
 import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
 import { TestDetailsDto } from 'src/app/models/dtos/testDetailsDto';
-import { Category } from 'src/app/models/entities/category';
 import { User } from 'src/app/models/entities/user';
-import { CategoryService } from 'src/app/services/category.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { OptionNumberGeneratorService } from 'src/app/services/option-number-generator.service';
 import { TestService } from 'src/app/services/test.service';
@@ -34,7 +32,6 @@ export class UserTestsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private testService: TestService,
     private errorService: ErrorService,
-    private categoryService: CategoryService,
     private optionNumberGenerator: OptionNumberGeneratorService,
     private router: Router,
     private tokenService: TokenService,
@@ -42,7 +39,7 @@ export class UserTestsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.tokenService.getUserWithJWTFromCookie();
+    this.user = this.tokenService.getUserWithJWT();
     this.activatedRoute.params.subscribe((params) => {
       if (params['minTime'] || params['maxTime']) {
         this.getDetailsByMinAndMaxTime(params['minTime'], params['maxTime']);
@@ -66,7 +63,7 @@ export class UserTestsComponent implements OnInit {
       .getTestDetailsByUser(this.user.id)
       .subscribe((response) => {
         this.tests = response.data.filter(
-          (t) => t.testTime >= minTime && t.testTime <= maxTime
+          (t) => t.test.testTime >= minTime && t.test.testTime <= maxTime
         );
         this.dataLoaded = true;
       });
@@ -78,7 +75,7 @@ export class UserTestsComponent implements OnInit {
     });
 
     modalReferance.componentInstance.test = this.tests.find(
-      (t) => t.testId == testId
+      (t) => t.test.id == testId
     );
   }
 
@@ -87,14 +84,12 @@ export class UserTestsComponent implements OnInit {
       size: 'm',
     });
     modalReferance.componentInstance.test = this.tests.find(
-      (t) => t.testId == testId
+      (t) => t.test.id == testId
     );
   }
 
-  openAddTestModal() {
-    var modalReferance = this.modalService.open(TestAddComponent, {
-      windowClass: 'custom-modal',
-    });
+  openAddTestComponent() {
+    this.router.navigate(['/tests/add']);
   }
 
   getUrl() {

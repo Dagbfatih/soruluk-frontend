@@ -12,11 +12,12 @@ import { alltranslates } from 'src/app/constants/TranslateManager';
 import { CustomerForRegisterDto } from 'src/app/models/dtos/customerForRegisterDto';
 import { RegisterDtoForFormControl } from 'src/app/models/dtos/registerDtoForFormControl';
 import { Branch } from 'src/app/models/entities/branch';
+import { Lesson } from 'src/app/models/entities/lesson';
 import { Role } from 'src/app/models/entities/role';
 import { AuthService } from 'src/app/services/auth.service';
-import { BranchService } from 'src/app/services/branch.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { LessonService } from 'src/app/services/lesson.service';
 import { RoleService } from 'src/app/services/role.service';
 import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/environment';
@@ -29,13 +30,13 @@ import { environment } from 'src/environments/environment';
 export class RegisterTeacherComponent implements OnInit {
   registerForm: FormGroup;
   roles: Role[] = [];
-  branches: Branch[] = [];
+  lessons: Lesson[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private roleService: RoleService,
     private toastrService: ToastrService,
-    private branchService: BranchService,
+    private lessonService: LessonService,
     private carouselConfig: NgbCarouselConfig,
     private authService: AuthService,
     private customerService: CustomerService,
@@ -46,13 +47,13 @@ export class RegisterTeacherComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRoles();
-    this.getBranches();
+    this.getLessons();
     this.createRegisterForm();
   }
 
-  getBranches() {
-    this.branchService.getAll().subscribe((response) => {
-      this.branches = response.data;
+  getLessons() {
+    this.lessonService.getAll().subscribe((response) => {
+      this.lessons = response.data;
     });
   }
 
@@ -69,7 +70,7 @@ export class RegisterTeacherComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
       roleId: [this.roles.find((r) => r.roleName == 'Teacher')?.id],
-      branchId: [0, Validators.required],
+      lessonId: [0, Validators.required],
     });
   }
 
@@ -83,14 +84,18 @@ export class RegisterTeacherComponent implements OnInit {
       registerDtoModel.roleId = this.roles.find(
         (r) => r.roleName == 'Teacher'
       )?.id!;
-      registerDtoModel.branchId = +registerDtoModel.branchId;
+
+      registerDtoModel.lessonId = +registerDtoModel.lessonId;
       let registerModel: CustomerForRegisterDto =
         this.createCustomerForRegisterDto(registerDtoModel);
 
       this.authService.registerWithCustomer(registerModel).subscribe(
         (response) => {
-          this.toastrService.success(response.message, environment.successMessage);
-          this.tokenService.setTokenOnCookie(response.data.token);
+          this.toastrService.success(
+            response.message,
+            environment.successMessage
+          );
+          this.tokenService.setCookie(response.data.accessToken.token);
           this.router.navigate(['/user/profile/edit']);
         },
         (responseError) => {
@@ -113,7 +118,7 @@ export class RegisterTeacherComponent implements OnInit {
         userId: 0,
         isConfirmed: registerDtoModel.isConfirmed,
         roleId: registerDtoModel.roleId,
-        branchId: registerDtoModel.branchId,
+        lessonId: registerDtoModel.lessonId,
       },
       user: {
         firstName: registerDtoModel.firstName,

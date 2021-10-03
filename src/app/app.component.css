@@ -1,5 +1,6 @@
 .row {
   overflow-x: auto;
+  min-height: 95vh;
 }
 
 .col{

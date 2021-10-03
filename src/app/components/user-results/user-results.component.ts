@@ -43,21 +43,21 @@ export class UserResultsComponent implements OnInit {
   }
 
   getUser() {
-    this.user = this.tokenService.getUserWithJWTFromCookie();
+    this.user = this.tokenService.getUserWithJWT();
   }
 
   getCorrectNumber(testResult: TestResultDetailsDto): number {
-    return testResult.questionResults.filter((q) => q.accuracy).length;
+    return testResult.questionResults.filter((q) => q.questionResult.accuracy).length;
   }
 
   getIncorrectNumber(testResult: TestResultDetailsDto): number {
     return testResult.questionResults.filter(
-      (q) => !q.accuracy && q.selectedOptionId !== 0
+      (q) => !q.questionResult.accuracy && q.questionResult.selectedOptionId !== 0
     ).length;
   }
 
   getEmptyNumber(testResult: TestResultDetailsDto): number {
-    return testResult.questionResults.filter((q) => q.selectedOptionId === 0)
+    return testResult.questionResults.filter((q) => q.questionResult.selectedOptionId === 0)
       .length;
   }
 

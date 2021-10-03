@@ -1,0 +1,65 @@
+<footer *ngIf="!checkIfExam()">
+    <div class="bd-footer py-5" style="background-color: rgb(161, 161, 161);">
+        <!-- bg-light -->
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-3 mb-3">
+                    <ul class="list-unstyled small">
+                        <!-- text-muted -->
+                        <a class="d-inline-flex align-items-center mb-2 link-dark text-decoration-none" href="/"
+                            aria-label="Bootstrap">
+                            <span class="fs-5">Soruluk</span>
+                        </a>
+                        <li class="mb-2">
+                            Soruluk, Selçuklu Fen Lisesi 10. sınıf öğrencisi<br>
+                            Fatih Dağ tarafından 2021 yılında geliştirilmiş<br>
+                            ve kullanıma açılmış bir platformdur.
+                        </li>
+                        <!-- <li class="mb-2">Code licensed <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE"
+                              target="_blank" rel="license noopener">MIT</a>, docs <a
+                              href="https://creativecommons.org/licenses/by/3.0/" target="_blank"
+                              rel="license noopener">CC BY 3.0</a>.</li>
+                      <li class="mb-2">Currently v5.1.0.</li> -->
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-1 offset-lg-1 mb-3">
+                    <h5>{{getTranslate("links")}}</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="link-dark link" href="/soruluk-frontend/give-feedback">Feedback</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2 mb-3">
+                    <h5>{{getTranslate("social")}}</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="link-dark link"
+                                href="https://www.instagram.com/soruluk_/?hl=tr">İnstagram</a></li>
+                        <li class="mb-2"><a class="link-dark link" href="https://twitter.com/Soruluk1">Twitter</a></li>
+                        <li class="mb-2"><a class="link-dark link"
+                                href="https://www.facebook.com/SorulukToplulugu/">Facebook</a></li>
+
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3 mb-3">
+                    <h5>{{getTranslate("contact")}}</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <!-- <small>Contact mail: </small> -->
+                            <a class="link-dark unlink">soruluk.client@gmail.com</a>
+                        </li>
+                        <li class="mb-2">
+                            <!-- <small>Personal mail: </small> -->
+                            <a class="link-dark unlink">dagbfatih@hotmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-1 mb-3">
+                    <h5>{{getTranslate("aboutUs")}}</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="link-dark link" href="#">{{getTranslate("whoAreMe")}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

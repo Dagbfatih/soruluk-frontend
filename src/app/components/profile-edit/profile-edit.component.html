@@ -1,4 +1,107 @@
-<div class="container emp-profile">
+<section class="align-items-center vh-75 mb-3">
+    <div class="container py-5 h-100 align-items-center">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+                        <div class="ms-4 mt-5 d-flex flex-column custom-c" style="width: 150px;">
+                            <div>
+                                <img *ngIf="profileImage" [src]="baseUrl  + profileImage.imagePath"
+                                    class="img-fluid img-thumbnail mt-4 mb-2 rounded-circle img-orbit"
+                                    style="height: 150px; width: 150px; z-index: 1">
+                                <div class="bottom-right">
+                                    <label for="imagePath" class="custom-file-upload">
+                                        <i class="fa fa-plus-circle" style="font-size: 48px;"></i>
+                                    </label>
+                                    <input #imageInput class="form-control" type="file" id="imagePath" accept="image/*"
+                                        (change)="onFileChange(imageInput)" formControlName="imagePath" />
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                routerLink="/user/profile" style="z-index: 1;">
+                                <i class="fa fa-arrow-left"></i>
+                                {{getTranslate("back")}}
+                                
+                            </button>
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            <h5>{{customer.firstName + " " + customer.lastName}}</h5>
+                            <p>{{getTranslate(customer.roleName + " fromDb")}}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                        <div class="d-flex justify-content-end text-center py-1">
+                            <div>
+                                <p class="mb-1 h5">{{questions.length}}</p>
+                                <p class="small text-muted mb-0">{{getTranslate("questions")}}</p>
+                            </div>
+                            <div class="px-3">
+                                <p class="mb-1 h5">{{tests.length}}</p>
+                                <p class="small text-muted mb-0">{{getTranslate("tests")}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-3">
+                            <p class="lead fw-normal mb-1">{{getTranslate("about")}}</p>
+                            <div class="p-4" style="background-color: #f8f9fa;">
+                                <form [formGroup]="profileUpdateForm">
+                                    <div class="row pt-1">
+                                        <div class="col-12 mb-3">
+                                            <label for="firstName">{{getTranslate("firstName")}}</label>
+                                            <div class="form-group col-8">
+                                                <input type="text" id="firstName" formControlName="firstName"
+                                                    class="form-control" placeholder="İsminiz" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mb-3">
+                                            <label for="lastName">{{getTranslate("lastName")}}</label>
+                                            <div class="form-group col-8">
+                                                <input type="text" id="lastName" formControlName="lastName"
+                                                    class="form-control" placeholder="Soy isminiz" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="email">{{getTranslate("email")}}</label>
+                                            <div class="form-group col-8">
+                                                <input type="email" id="email" formControlName="email"
+                                                    class="form-control" placeholder="E-posta adresiniz" />
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-12">
+                                            <div class="mb-3">
+                                                <div class="form-floating">
+                                                    <select class="form-select form-select" id="categoryId"
+                                                        formControlName="categoryId"
+                                                        aria-label="Floating label select example">
+                                                        <option *ngFor="let branch of branches" [value]="branch.id">
+                                                            {{ branch.name }}
+                                                        </option>
+                                                    </select>
+                                                    <label for="categoryId">{{getTranslate("selectCategory")}}</label>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                (click)="update()" style="z-index: 1;">
+                                {{getTranslate("update")}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="container emp-profile">
     <form method="post">
         <div class="row">
             <div class="col-md-4">
@@ -44,23 +147,10 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <!-- <button type="button" class="btn btn-primary" routerLink="/user/profile/edit">Profili Düzenle</button> -->
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
-                <!-- <div class="profile-work">
-                    <p>WORK LINK</p>
-                    <a href="">Website Link</a><br />
-                    <a href="">Bootsnipp Profile</a><br />
-                    <a href="">Bootply Profile</a>
-                    <p>SKILLS</p>
-                    <a href="">Web Designer</a><br />
-                    <a href="">Web Developer</a><br />
-                    <a href="">WordPress</a><br />
-                    <a href="">WooCommerce</a><br />
-                    <a href="">PHP, .Net</a><br />
-                </div> -->
             </div>
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
@@ -116,24 +206,10 @@
                                         (click)="update()">{{getTranslate("update")}}</button>
                                 </div>
                             </div>
-                            <!-- <div class="row">
-                                <div class="col-md-6">
-                                    <label for="role">Role</label>
-                                </div>
-                                <div class="form-floating col-md-6">
-                                    <select class="form-select form-select" id="role" formControlName="role"
-                                        aria-label="Floating label select example">
-                                        <option *ngFor="let role of roles" [value]="role.id">
-                                            {{ role.roleName }}
-                                        </option>
-                                    </select>
-                                    <label for="categoryId">Rol Seçin</label>
-                                </div>
-                            </div> -->
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-</div>
+</div> -->

@@ -1,4 +1,4 @@
-<body class="text-center">
+<body class="text-center vh-100">
 
     <main class="form-signin">
         <form [formGroup]="registerForm">
@@ -30,19 +30,19 @@
             </div>
 
             <div class="form-floating">
-                <select formControlName="branchId" class="form-select form-select" id="branchId"
+                <select formControlName="lessonId" class="form-select form-select" id="lessonId"
                     aria-label="Floating label select example">
-                    <option *ngFor="let branch of branches" [value]="branch.id">
-                        {{ branch.name }}
+                    <option *ngFor="let lesson of lessons" [value]="lesson.id">
+                        {{ lesson.name }}
                     </option>
                 </select>
-                <label for="branchId">{{getTranslate("selectBranch")}}</label>
+                <label for="lessonId">{{getTranslate("selectBranch")}}</label>
             </div>
 
             <div class="mb-3">
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit"
+            <button class="w-100 btn btn-lg btn-success" type="submit"
                 (click)="register()">{{getTranslate("signup")}}</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>

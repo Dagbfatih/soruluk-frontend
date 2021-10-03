@@ -1,47 +1,22 @@
 html,
 body {
   height: 100%;
-}
-
-body {
-  display: flex;
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  min-height: 900px;
+  display: flex;
+  background-color: rgb(238, 238, 238);
+  height: 95vh;
 }
 
-.form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
+.btn.btn-success:hover {
+  background-color: rgb(63, 81, 93);
 }
 
-.form-signin .checkbox {
-  font-weight: 400;
+.btn.btn-outline-success:hover {
+  background-color: rgb(63, 81, 93);
 }
 
-.form-signin .form-floating:focus-within {
-  z-index: 2;
-}
-
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.btn:hover{
-	transform: scale(1.2);
-}
-
-.btn{
-  transition: transform .2s;
+.custom{
+  align-items: center;
+  display: flex;
+  height: 100%;
 }

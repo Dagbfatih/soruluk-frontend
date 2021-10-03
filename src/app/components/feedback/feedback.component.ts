@@ -41,7 +41,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   getUser() {
-    this.user = this.tokenService.getUserWithJWTFromCookie();
+    this.user = this.tokenService.getUserWithJWT();
   }
 
   createGiveFeedbackForm() {

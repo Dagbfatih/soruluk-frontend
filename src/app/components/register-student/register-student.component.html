@@ -1,4 +1,4 @@
-<body class="text-center">
+<body class="text-center vh-100">
     <main class="form-signin">
         <form [formGroup]="registerForm">
             <h1 class="h3 mb-3 fw-normal">{{getTranslate("pleaseSignup")}}</h1>
@@ -27,7 +27,7 @@
             <div class="mb-3">
             </div>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit"
+            <button class="w-100 btn btn-lg btn-success" type="submit"
                 (click)="register()">{{getTranslate("signup")}}</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>

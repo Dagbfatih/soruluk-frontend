@@ -67,13 +67,14 @@ export class UserResultDetailsComponent implements OnInit {
 
   getCheckedClass(i: number, j: number = -1): boolean {
     if (j == -1) {
-      return this.testResult.questionResults[i].selectedOptionId == 0
+      return this.testResult.questionResults[i].questionResult
+        .selectedOptionId == 0
         ? true
         : false;
     }
 
     if (
-      this.testResult.questionResults[i].selectedOptionId ===
+      this.testResult.questionResults[i].questionResult.selectedOptionId ===
       this.testResult.questionResults[i].question.options[j].id
     ) {
       return true;
@@ -84,27 +85,33 @@ export class UserResultDetailsComponent implements OnInit {
 
   getQuestionResult(questionId: number): QuestionResultDetailsDto {
     return this.testResult.questionResults.find(
-      (q) => q.questionId == questionId
+      (q) => q.question.question.questionId == questionId
     )!;
   }
 
   getIsEmpty(questionId: number): boolean {
     let questionResult = this.getQuestionResult(questionId);
 
-    if (questionResult.selectedOptionId === 0) {
+    if (questionResult.questionResult.selectedOptionId === 0) {
       return true;
     }
     return false;
   }
 
   getIsCorrect(questionId: number, optionId: number): boolean {
-    return this.getQuestionResult(questionId).correctOptionId == optionId;
+    return (
+      this.getQuestionResult(questionId).questionResult.correctOptionId ==
+      optionId
+    );
   }
 
   getIsInCorrect(questionId: number): boolean {
     let questionResult = this.getQuestionResult(questionId);
 
-    if (questionResult.accuracy && questionResult.selectedOptionId !== 0) {
+    if (
+      questionResult.questionResult.accuracy &&
+      questionResult.questionResult.selectedOptionId !== 0
+    ) {
       return true;
     }
     return false;

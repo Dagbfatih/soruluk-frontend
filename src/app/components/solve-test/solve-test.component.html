@@ -1,4 +1,4 @@
-<div class="container mt-3 h-custom">
+<div class="container mt-3">
     <div class="col card">
         <div class="card-header text-center">
             <h3 class="card-title">{{getTranslate("solveTest")}}</h3>
@@ -9,33 +9,33 @@
                     <div class="row">
                         <div class="col text-center mb-3">
                             <h6 class="card-subtitle mb-2 text-muted">{{getTranslate("testName")}}</h6>
-                            <h5 class="card-title text-info">{{test.testName}}</h5>
+                            <h5 class="card-title text-dark">{{test.test.title}}</h5>
                         </div>
                         <div class="col text-center mb-3">
                             <h6 class="card-subtitle mb-2 text-muted">{{getTranslate("testTime")}}</h6>
-                            <h5 class="card-title text-info">{{test.testTime}}</h5>
+                            <h5 class="card-title text-dark">{{test.test.testTime}}</h5>
                         </div>
                         <div class="col text-center mb-3">
                             <h6 class="card-subtitle mb-2 text-muted">{{getTranslate("questions")}}</h6>
-                            <h5 class="card-title text-info">{{test.questions.length}}</h5>
+                            <h5 class="card-title text-dark">{{test.questions.length}}</h5>
                         </div>
                     </div>
                 </li>
                 <li class="list-group-item mb-3">
-                    <div *ngIf="test.testNotes" class="col text-start mb-3">
+                    <div *ngIf="test.test.description" class="col text-start mb-3">
                         <p><strong>{{getTranslate("description")}}</strong></p>
-                        <h6 class="card-title">{{test.testNotes}}</h6>
+                        <h6 class="card-title">{{test.test.description}}</h6>
                     </div>
-                    <div *ngIf="!test.testNotes" class="col text-start mb-3">
+                    <div *ngIf="!test.test.description" class="col text-start mb-3">
                         <p><strong>{{getTranslate("description")}}</strong></p>
                         <h6 class="card-title">{{getTranslate("noDescription")}}</h6>
                     </div>
                 </li>
             </ul>
-    
+
         </div>
         <div class="card-footer text-center">
-            <button type="button" class="btn btn-outline-primary" style="width: 9rem;"
+            <button type="button" class="btn btn-outline-dark" style="width: 9rem;"
                 (click)="start()">{{getTranslate("start")}}</button>
         </div>
     </div>

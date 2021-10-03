@@ -38,15 +38,7 @@ export class QuestionDeleteComponent implements OnInit {
   }
 
   delete() {
-    let deletedQuestion: Question = {
-      questionId: this.question.questionId,
-      brokenQuestion: this.question.brokenQuestion,
-      privacy: this.question.privacy,
-      questionText: this.question.questionText,
-      starQuestion: this.question.starQuestion,
-      userId: this.question.userId,
-      branchId: this.question.branchId,
-    };
+    let deletedQuestion: Question = this.question.question;
 
     this.questionService.delete(deletedQuestion).subscribe(
       (response) => {

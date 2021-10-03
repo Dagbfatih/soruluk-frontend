@@ -1,14 +1,12 @@
-import { Branch } from "../entities/branch";
+import { Customer } from '../entities/customer';
+import { Lesson } from '../entities/lesson';
 
-export interface CustomerDetailsDto{
-    customerId:number;
-    userId:number;
-    roleId:number;
-    roleName:string;
-    firstName:string;
-    lastName:string;
-    email:string;
-    status:boolean;
-    isConfirmed:boolean;
-    branch:Branch;
+export interface CustomerDetailsDto {
+  customerDetails: Customer;
+  roleName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  status: boolean;
+  lesson: Lesson;
 }

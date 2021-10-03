@@ -1,5 +1,5 @@
 import { Test } from '../entities/test';
-import { TestResult } from '../entities/TestResult';
+import { TestResult } from '../entities/testResult';
 import { QuestionResultDetailsDto } from './questionResultDetailsDto';
 
 export interface TestResultDetailsDto {

@@ -1,5 +1,5 @@
-<div class="container h-custom mb-5">
-    <form [formGroup]="giveFeedbackForm" class="form w-50" style="margin-top: 1%;">
+<div class="container vh-100">
+    <form [formGroup]="giveFeedbackForm" class="form">
 
         <div class="mb-3" formArrayName="fromAddresses">
             <div *ngFor="let emailAddress of fromAddressesArray.controls; let i = index">

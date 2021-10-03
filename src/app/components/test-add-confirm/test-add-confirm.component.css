@@ -1,0 +1,11 @@
+body {
+  background-color: transparent;
+}
+
+.container {
+  min-width: 95vm;
+}
+
+.my-card .card-body .card-title {
+  color: #007b5e !important;
+}

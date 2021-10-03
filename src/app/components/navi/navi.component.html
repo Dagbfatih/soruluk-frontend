@@ -1,71 +1,48 @@
 <nav class="navbar navbar-expand-md navbar-light bd-navbar" style="background-color: rgb(2, 189, 148);">
   <div class="container-xxl flex-wrap flex-md-nowrap">
-    <a class="navbar-brand mb-0 h1" routerLink="">Soruluk</a>
+    <!-- <a class="navbar-brand mb-0 h1" routerLink="">Soruluk</a> -->
+    <a class="navbar-brand text-white" routerLink="/">
+      <img src="https://localhost:44389//Logo/soruluk-logo5.png" height="34" class="d-inline-block align-text-top">
+      Soruluk
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
-        <li class="nav-item col-6 col-md-auto">
-          <a class="nav-link p-2" [ngClass]="{'active' : checkRouterContains('questions/details')}" aria-current="page"
-            routerLink="/questions/details">
+      <ul class="navbar-nav flex-wrap bd-navbar-nav pt-2 py-md-0 text-start">
+        <!-- flex-row vardı -->
+        <li class="nav-item col-md-auto">
+          <a class="nav-link text-white" [ngClass]="{'active' : checkRouterContains('questions/details')}"
+            aria-current="page" routerLink="/questions/details">
             {{ getTranslates("questionPool") }}
           </a>
         </li>
-        <li class="nav-item col-6 col-md-auto">
-          <a class="nav-link p-2" [ngClass]="{'active' : checkRouterContains('tests/details')}" aria-current="page"
-            routerLink="/tests/details">
+        <li class="nav-item col-md-auto">
+          <!-- her birinde col 6 vardı -->
+          <a class="nav-link text-white" [ngClass]="{'active' : checkRouterContains('tests/details')}"
+            aria-current="page" routerLink="/tests/details">
             {{ getTranslates("tests") }}
           </a>
         </li>
-        <li class="nav-item col-6 col-md-auto">
-          <a *ngIf="userIsAdmin()" class="nav-link p-2" [ngClass]="{'active' : checkRouterContains('admin')}"
+        <li class="nav-item col-md-auto">
+          <a *ngIf="userIsAdmin()" class="nav-link text-white" [ngClass]="{'active' : checkRouterContains('admin')}"
             aria-current="page" routerLink="/admin">
             {{ getTranslates("adminPanel") }}
           </a>
         </li>
       </ul>
 
-      <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-        <li class="nav-item col-6 col-md-auto">
-          <div *ngIf="!isLog()" class="text-end">
-            <div class="nav-item dropdown dropdown-menu-end">
-              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                {{ getTranslates("login") }}
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a class="dropdown-item" routerLink="/login">
-                    {{getTranslates("login")}}
-                  </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" routerLink="/register">
-                    {{getTranslates("signup")}}
-                  </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" routerLink="/settings">
-                    {{getTranslates("settings")}}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <hr class="d-md-none text-white-50">
 
-          <div *ngIf="isLog()" class="text-end">
+      <ul class="navbar-nav flex-row flex-wrap ms-md-auto ps-2 align-items-center text-start">
+        <li class="nav-item col-8 col-md-auto mb-1">
+          <div *ngIf="isLog()">
             <div class="nav-item dropdown dropdown-menu-end">
-              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <img [src]="baseUrl + profileImage.imagePath" width="40" height="40" class="rounded-circle" />
+              <a class="nav-link dropdown-toggle text-white" id="navbarDropdown"
+                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img *ngIf="profileImageLoaded"  [src]="baseUrl + profileImage.imagePath" width="40" height="40" class="rounded-circle" />
+                {{getUserName()}}
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
@@ -124,15 +101,37 @@
               </ul>
             </div>
           </div>
+          <div *ngIf="!isLog()">
+            <form class="d-flex">
+              <button class="btn btn-outline-light me-2" routerLink="/login" type="button">
+                {{getTranslates("signUp")}}
+              </button>
+              <button class="btn btn-outline-light sign-in" routerLink="/register" type="button">
+                {{getTranslates("signIn")}}
+              </button>
+              <div class="text-white align-items-center ms-2" style="display: flex;">
+              </div>
+            </form>
+          </div>
         </li>
-      </ul>
-      <!-- <div *ngIf="!isLog()" class="navbar-text">
-        <form class="container-fluid justify-content-start">
-          <button class="btn btn-outline-success me-2" routerLink="/register" type="button">Sign Up</button>
-          <button class="btn btn-success" routerLink="/login" type="button">Login</button>
-        </form>
-      </div> -->
 
+        <!-- <li class="nav-item col-6 col-md-auto mb-1 ms-3">
+          <div class="nav-item dropdown text-center">
+            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <img [src]="getLanguageFlagUrl(findFlagPathByCode())" height="25" />
+            </a>
+            <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+              <li *ngFor="let flagPath of flagPaths">
+                <a *ngIf="flagPath.code != getLanguageCodeFromLocalStorage()" class="dropdown-item"
+                  (click)="setLanguage(flagPath.code)">
+                  <img [src]="getLanguageFlagUrl(flagPath.path)" height="25">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li> -->
+      </ul>
     </div>
   </div>
 </nav>

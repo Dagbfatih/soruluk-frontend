@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie';
+import { storageTypes } from '../constants/storageTypes';
 import { User } from '../models/entities/user';
 import { LocalStorageService } from './local-storage.service';
 
@@ -16,49 +17,71 @@ export class TokenService {
     private cookieService: CookieService
   ) {}
 
-  decodeToken(token: string) {
+  decode(token: string) {
     return this.jwtHelperService.decodeToken(token);
   }
 
-  getTokenFromLocalStorage(): string | null {
-    let result = localStorage.getItem(this.tokenString);
-    if (!result) {
-      let token = this.getTokenFromSession();
-      return token;
+  get(): string | null {
+    let token: string = this.cookieService.get(this.tokenString);
+    if (token == null) {
+      token = this.localStorageService.getItem(this.tokenString)!;
+      if (token == null) {
+        token = sessionStorage.getItem(this.tokenString)!;
+        if (token == null) {
+          return null;
+        }
+      }
     }
-    return result;
+
+    return token;
   }
 
-  setTokenOnLocalStorage(token: string): void {
+  getStorageType(): string {
+    if (this.cookieService.get(this.tokenString) !== null) {
+      return storageTypes.cookie;
+    } else if (this.localStorageService.getItem(this.tokenString) !== null) {
+      return storageTypes.localStorage;
+    } else if (sessionStorage.getItem(this.tokenString) !== null) {
+      return storageTypes.sessionStorage;
+    } else {
+      return '';
+    }
+  }
+
+  setCookie(token: string): void {
+    this.cookieService.put(this.tokenString, token);
+  }
+
+  setLocal(token: string): void {
     this.localStorageService.setItem(this.tokenString, token);
   }
 
-  removeToken(): void {
+  setSession(token: string): void {
+    sessionStorage.setItem(this.tokenString, token);
+  }
+
+  remove(): void {
     localStorage.removeItem(this.tokenString);
     sessionStorage.removeItem(this.tokenString);
     this.cookieService.remove(this.tokenString);
   }
 
-  isTokenExpiredOnLocalStorage(token: string): boolean {
-    let isExpired = this.jwtHelperService.isTokenExpired(
-      this.getTokenFromLocalStorage()!
-    );
+  isExpired(token: string): boolean {
+    let isExpired = this.jwtHelperService.isTokenExpired(this.get()!);
 
-    return isExpired != null ? isExpired : true;
+    return isExpired;
   }
 
-  getTokenExpirationDateFromLocalStorage(): Date {
-    let result = this.jwtHelperService.getTokenExpirationDate(
-      this.getTokenFromLocalStorage()!
-    );
+  getExpirationDate(): Date {
+    let result = this.jwtHelperService.getTokenExpirationDate(this.get()!);
     if (result == null) {
       return new Date('0000-00-0T00:00:00');
     }
     return result;
   }
 
-  getUserRolesWithJWTFromLocalStorage(): string[] {
-    let token = this.decodeToken(this.getTokenFromLocalStorage()!);
+  getUserRolesWithJWT(): string[] {
+    let token = this.decode(this.get()!);
 
     if (token != null) {
       let roles =
@@ -77,85 +100,8 @@ export class TokenService {
     return [];
   }
 
-  getUserWithJWTFromLocalStorage() {
-    let token = this.jwtHelperService.decodeToken(
-      this.getTokenFromLocalStorage()!
-    );
-
-    if (token != null) {
-      let userModel: User = {
-        id: +token[
-          Object.keys(token).filter((t) => t.endsWith('nameidentifier'))[0]
-        ],
-        email: token.email,
-        firstName:
-          token[Object.keys(token).filter((t) => t.endsWith('name'))[0]],
-        lastName:
-          token[Object.keys(token).filter((t) => t.endsWith('surname'))[0]],
-        status: Boolean(token.status),
-      };
-
-      return userModel;
-    }
-
-    return null;
-  }
-
-  // ----------- COOKİE SERVİCE -----------
-
-  getTokenFromCookie() {
-    let result: string = this.cookieService.get(this.tokenString);
-    if (!result) {
-      let token = this.getTokenFromSession();
-      return token;
-    }
-    return result;
-  }
-
-  setTokenOnCookie(token: string): void {
-    this.cookieService.put(this.tokenString, token);
-  }
-
-  isTokenExpiredOnCookie(token: string): boolean {
-    let isExpired = this.jwtHelperService.isTokenExpired(
-      this.getTokenFromCookie()!
-    );
-
-    return isExpired != null ? isExpired : true;
-  }
-
-  getTokenExpirationDateFromCookie(): Date {
-    let result = this.jwtHelperService.getTokenExpirationDate(
-      this.getTokenFromCookie()!
-    );
-    if (result == null) {
-      return new Date('0000-00-0T00:00:00');
-    }
-    return result;
-  }
-
-  getUserRolesWithJWTFromCookie(): string[] {
-    let token = this.decodeToken(this.getTokenFromCookie()!);
-
-    if (token != null) {
-      let roles =
-        token[Object.keys(token).filter((r) => r.endsWith('/role'))[0]];
-
-      if (!Array.isArray(roles)) {
-        let array = new Array();
-        array.push(roles);
-
-        return array;
-      }
-
-      return roles;
-    }
-
-    return [];
-  }
-
-  getUserWithJWTFromCookie() {
-    let token = this.jwtHelperService.decodeToken(this.getTokenFromCookie()!);
+  getUserWithJWT(): User {
+    let token = this.decode(this.get()!);
 
     if (token != null) {
       let userModel: User = {
@@ -173,16 +119,6 @@ export class TokenService {
       return userModel;
     }
 
-    return { id: 0 } as User;
-  }
-
-  // Session Storage
-
-  setTokenOnSession(token: string): void {
-    sessionStorage.setItem(this.tokenString, token);
-  }
-
-  getTokenFromSession(): string | null {
-    return sessionStorage.getItem(this.tokenString);
+    return {} as User;
   }
 }

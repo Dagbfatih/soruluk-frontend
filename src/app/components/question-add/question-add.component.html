@@ -6,24 +6,27 @@
     <div class="content">
         <div class="col">
             <div class="card  mx-auto">
-                <div class="card-header">
-                    <div class="row">
-                        <!-- <div class="col">
-                            <h3>Soru Ekle</h3>
-                        </div> -->
-                        <!-- star -->
-                        <div class="col text-end">
-                            <i *ngIf="starQuestion" class="fa fa-star" style="font-size:36px; color: rgb(156, 156, 43);"
-                                (click)="setStarQuestion()"></i>
-                            <i *ngIf="!starQuestion" class="fa fa-star-o"
-                                style="font-size:36px; color: rgb(156, 156, 43);" (click)="setStarQuestion()"></i>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="card-body">
                     <form [formGroup]="questionAddForm" class="form">
                         <ul class="list-group list-group-flush">
+                            <!-- starQuestion -->
+
+
+                            <li class="list-group-item mb-3">
+                                <div class="mb-3">
+                                    <!-- <label for="starQuestion" class="mb-1">{{getTranslate("starQuestion")}}</label> -->
+                                    <div class="form-group" id="starQuestion">
+                                        <i *ngIf="starQuestion" class="fa fa-star"
+                                            style="font-size:36px; color: rgb(156, 156, 43);"
+                                            (click)="setStarQuestion()"></i>
+                                        <i *ngIf="!starQuestion" class="fa fa-star-o"
+                                            style="font-size:36px; color: rgb(156, 156, 43);"
+                                            (click)="setStarQuestion()"></i>
+                                    </div>
+                                </div>
+
+                            </li>
+
                             <!-- questionText -->
                             <li class="list-group-item mb-3">
                                 <div class="mb-3">
@@ -37,20 +40,15 @@
 
                             <!-- options -->
                             <li class="list-group-item mb-3">
-
                                 <div class="col-md-8 mb-3" formArrayName="options">
                                     <label for="options" class="mb-3">
                                         <h4>{{getTranslate("options")}}</h4>
                                     </label>
                                     <div *ngFor="let option of optionsArray.controls; let i = index">
                                         <div class="row">
-                                            <div [formGroupName]="i" class="col-md-11 mb-3">
+                                            <div [formGroupName]="i" class="col-md-10 col-10 mb-3">
                                                 <div class="input-group">
-                                                    <span class="input-group-text btn-success"
-                                                        id="inputGroup-sizing-default">{{getOptionNumberClass(i) |
-                                                        optionPipe:" )"}}
-                                                    </span>
-                                                    <div class="input-group-text btn-success">
+                                                    <div class="input-group-text btn-light">
                                                         <input class="form-check-input mt-0" type="radio" id="accuracy"
                                                             formControlName="accuracy" [value]="i"
                                                             [(ngModel)]="accuracyIndex"
@@ -61,8 +59,8 @@
                                                         style="height: 38px;" placeholder="Seçenek Metni"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-1 text-right mb-3">
-                                                <button style="float: right" type="button" class="btn btn-danger"
+                                            <div class="form-group col-md-2 col-2 text-right mb-3">
+                                                <button style="float: right" type="button" class="btn btn-light"
                                                     (click)="removeOption(i)">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </button>
@@ -70,50 +68,62 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-12 text-right">
-                                        <button type="button" class="btn btn-primary" (click)="addOption()">
+                                        <button type="button" class="btn btn-dark" (click)="addOption()">
                                             <i class="fa fa-plus" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>
 
-                            <!-- categories -->
+                            <!-- Lesson -->
                             <li class="list-group-item mb-3">
-                                <div class="col-md-8 mb-3" formArrayName="categories">
-                                    <label for="categories" class="mb-3">
-                                        <h4>{{getTranslate("categories")}}</h4>
-                                    </label>
-                                    <div *ngFor="let category of categoriesArray.controls; let i = index">
-                                        <div class="row">
-                                            <div [formGroupName]="i" class="col-md-11 mb-3">
-                                                <div class="mb-3">
-                                                    <div class="form-floating">
-                                                        <select class="form-select form-select" id="categoryId"
-                                                            formControlName="categoryId"
-                                                            aria-label="Floating label select example">
-                                                            <option *ngFor="let category of categories"
-                                                                [value]="category.categoryId">
-                                                                {{ category.categoryName }}
-                                                            </option>
-                                                        </select>
-                                                        <label for="categoryId">{{getTranslate("selectCategory")}}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-1 text-right mb-3">
-                                                <button style="float: right" type="button" class="btn btn-danger"
-                                                    (click)="removeCategory(i)">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-12 text-right">
-                                        <button type="button" class="btn btn-primary" (click)="addCategory()">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </button>
+                                <label for="lessonId" class="mb-3">
+                                    <h4>{{getTranslate("lesson")}}</h4>
+                                </label>
+                                <div class="mb-3">
+                                    <div class="form-floating">
+                                        <select #lessonSelect class="form-select form-select" id="lessonId"
+                                            formControlName="lessonId" aria-label="Floating label select example"
+                                            (change)="getAllSubjects(+lessonSelect.value)">
+                                            <option *ngFor="let lesson of lessons" [value]="lesson.id">
+                                                {{ lesson.name }}
+                                            </option>
+                                        </select>
+                                        <label for="lessonId">{{getTranslate("selectLesson")}}</label>
                                     </div>
                                 </div>
+                            </li>
+
+                            <!-- Subject -->
+                            <div *ngIf="!subjectDataLoaded && checkLessonIdValue() !== 0"
+                                class="spinner-border text-dark" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+
+                            <li *ngIf="subjectDataLoaded && checkLessonIdValue() !== 0" class="list-group-item mb-3">
+                                <label for="subjectId" class="mb-3">
+                                    <h4>{{getTranslate("subject")}}</h4>
+                                </label>
+                                <div class="mb-3">
+                                    <div class="form-floating">
+                                        <select class="form-select form-select" id="subjectId"
+                                            formControlName="subjectId" aria-label="Floating label select example">
+                                            <option *ngFor="let subject of subjects" [value]="subject.id">
+                                                {{ subject.name }}
+                                            </option>
+                                        </select>
+                                        <label for="subjectId">{{getTranslate("selectSubject")}}</label>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <!-- Difficulty -->
+                            <li class="list-group-item mb-3">
+                                <label for="difficultyLevel" class="mb-3" class="form-label">
+                                    <h4>{{getTranslate("difficulty")}}</h4>
+                                </label>
+                                <input type="range" formControlName="difficultyLevel" class="form-range custom-range" min="0" max="5"
+                                    step="1" id="difficultyLevel">
                             </li>
 
                             <!-- Privacy -->
@@ -123,12 +133,14 @@
                                         <h4>{{getTranslate("privacy")}}</h4>
                                     </label>
                                     <div class="form-group">
-                                        <div class="form-check form-switch form-switch-lg">
+                                        <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="privacy"
                                                 formControlName="privacy">
-                                            <label class="form-check-label" for="privacy">
-                                                <h6 *ngIf="checkPrivacy()" class="">{{getTranslate("public")}}</h6>
-                                                <h6 *ngIf="!checkPrivacy()">{{getTranslate("private")}}</h6>
+                                            <label *ngIf="checkPrivacy()" class="form-check-label" for="privacy">
+                                                {{getTranslate("public")}}
+                                            </label>
+                                            <label *ngIf="!checkPrivacy()" class="form-check-label" for="privacy">
+                                                {{getTranslate("private")}}
                                             </label>
                                         </div>
                                     </div>

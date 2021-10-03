@@ -4,33 +4,99 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpEventType,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, Observable, ObservableInput, throwError } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { SettingsService } from '../services/settings.service';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { RefreshTokenService } from '../services/refresh-token.service';
+import { AuthService } from '../services/auth.service';
+import { environment } from 'src/environments/environment';
+import { ErrorService } from '../services/error.service';
+import { storageTypes } from '../constants/storageTypes';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  accessToken: string = '';
+  refreshToken: string = '';
+  apiUrl: string = environment.apiUrl;
+  storageType: string = '';
   constructor(
     private tokenService: TokenService,
-    private settingsService: SettingsService
+    private refreshTokenService: RefreshTokenService,
+    private settingsService: SettingsService,
+    private authService: AuthService,
+    private errorService: ErrorService
   ) {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    let token = this.tokenService.getTokenFromCookie()!;
     let newRequest: HttpRequest<any>;
+    this.accessToken = this.tokenService.get()!;
+    this.refreshToken = this.refreshTokenService.get()!;
+    this.storageType = this.tokenService.getStorageType();
 
     newRequest = request.clone({
       headers: request.headers
-        .set('Authorization', 'Bearer ' + token)
+        .set('Authorization', 'Bearer ' + this.accessToken ?? '')
+        .append('refreshToken', this.refreshToken ?? '')
         .append(
           'language',
           this.settingsService.getLanguageCodeFromLocalStorage()
         ),
     });
-    return next.handle(newRequest);
+
+    return next.handle(newRequest).pipe(
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          return this.handleUnauthorizedError(newRequest, next);
+        } else {
+          return throwError(error);
+        }
+      })
+    );
+  }
+
+  handleUnauthorizedError(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    let refreshTokenRequest = request.clone({
+      method: 'POST',
+      url: this.apiUrl + 'auth/refreshtoken',
+    });
+
+    next.handle(refreshTokenRequest).subscribe(
+      (response) => {
+        if (response instanceof HttpResponse) {
+          console.log(response.body.data.accessToken.token);
+          this.setToken(
+            response.body.data.accessToken.token,
+            response.body.data.refreshToken.token
+          );
+        }
+      },
+      (responseError) => {
+        this.tokenService.remove();
+        this.refreshTokenService.remove();
+      }
+    );
+
+    return next.handle(request);
+  }
+
+  setToken(accessToken: string, refreshToken: string) {
+    if (localStorage.getItem('token') !== null) {
+      this.tokenService.setLocal(accessToken);
+      this.refreshTokenService.setLocal(refreshToken);
+    } else {
+      this.tokenService.setSession(accessToken);
+      this.refreshTokenService.setSession(refreshToken);
+    }
   }
 }

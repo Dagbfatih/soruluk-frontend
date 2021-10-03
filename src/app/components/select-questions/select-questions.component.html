@@ -1,0 +1,121 @@
+<body class="text-center">
+    <div class="container w-100">
+
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <div class="card mt-3 mb-3 text-center my-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{test.test.title}}</h5>
+                        <p class="card-text">{{test.test.description}}</p>
+                        <p class="card-text"><small class="text-muted">{{getTranslate('testTimeIs')}}
+                                {{test.test.testTime}}
+                                {{getTranslate('minutes')}}</small></p>
+                        <a href="#" class="btn btn-outline-dark w-50" routerLink="/user/tests/add/confirm"><i class="fa fa-arrow-right" style="font-size: 24px;"></i></a>
+                    </div>
+                </div>
+                <div class="card mt-3 mb-3 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">{{getTranslate('selectQuestionsWantToAdd')}}</h5>
+                        <button class="btn btn-outline-danger" type="button" (click)="clearAllQuestions()">
+                            {{getTranslate('clearAll')}}
+                        </button>
+                    </div>
+                    <ul class="list-group list-group-flush list-group-numbered text-start">
+                        <li *ngFor="let question of test.questions; let i = index;"
+                            class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    <span class="d-inline-block text-truncate" style="max-width: 300px;">
+                                        {{question.question.questionText}}
+                                    </span>
+                                </div>
+                                {{question.userName}}
+                            </div>
+                            <button class="btn btn-outline-danger" type="button"
+                                (click)="removeQuestion(question.question.questionId)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8">
+
+                <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+                </div>
+
+                <!-- <h2 class="h2">{{getTranslate("selectQuestionsWantToAdd")}}</h2> -->
+
+                <div class=" d-flex p-3" style="padding-top: 1%;">
+                    <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara"
+                        aria-label="Search">
+                    <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
+                </div>
+
+                <div class="ps-3 pe-3">
+                    <div class="form-floating mb-3 w-50">
+                        <input type="number" class="form-control form-control-sm" id="optionNumberFilter"
+                            placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
+                        <label for="optionNumberFilter">{{getTranslate("optionNumber")}}</label>
+                    </div>
+                </div>
+
+                <!-- data manage -->
+                <h3 class="text-center" *ngIf="questions.length === 0 && dataLoaded">{{getTranslate("noResults")}}</h3>
+                <div class="row row-cols-1 row-cols-md-3 g-4 ms-0 me-0 text-start" style="min-height: 75vh;">
+                    <div *ngFor="let question of questions 
+                    | questionFilterPipe : filterText : optionNumberFilter 
+                    | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" class="col">
+
+                        <div class="card h-100" style="max-height: 500px;">
+                            <div class="card-header">
+                                <img *ngIf="getProfileImage(question.question.userId)"
+                                    [src]="baseUrl + getProfileImage(question.question.userId).imagePath"
+                                    class="rounded-circle" width="30" height="30">
+                                <div style="display: inline-block; margin-left: 6px;">
+                                    <h6 class="text-start">{{question.userName}}</h6>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title" style="white-space: pre-line; word-wrap: break-word;">
+                                    {{question.question.questionText}}
+                                </p>
+
+                                <div class="text-start">
+                                    <ul class="list-group-mine list-group-flush ms-1 ps-0">
+                                        <li *ngFor="let option of question.options; let i = index"
+                                            class="list-group-item">
+                                            <strong>{{ getOption(i) }})</strong>
+                                            {{ option.optionText }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <div>
+                                    <button *ngIf="!ifQuestionExists(question.question.questionId)"
+                                        class="btn btn-success" type="button" (click)="addQuestion(question)">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    <button *ngIf="ifQuestionExists(question.question.questionId)"
+                                        class="btn btn-outline-danger" type="button"
+                                        (click)="removeQuestion(question.question.questionId)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center d-flex justify-content-center pt-3">
+                    <ngb-pagination [pageSize]="pageSize" [collectionSize]="collectionSize" [(page)]="page"
+                        class="mb-0">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>

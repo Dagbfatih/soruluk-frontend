@@ -1,15 +1,16 @@
-<div class="container h-custom">
+<div class="container">
     <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
         <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
-    
+
     <div class="row mb-3">
-    
+
         <div class="mb-3 d-flex" style="padding-top: 1%;">
-            <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara" aria-label="Search">
+            <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara"
+                aria-label="Search">
             <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
         </div>
-    
+
         <div class="row">
             <div class="col-md-1">
                 <label for="testName" class="mb-0">
@@ -41,11 +42,11 @@
                 </div>
             </div>
             <div class="col-md-5 text-end">
-                <button (click)="openAddTestModal()" type="button"
+                <button routerLink="/user/tests/add" type="submit"
                     class="btn btn-primary">{{getTranslate('add')}}</button>
             </div>
         </div>
-    
+
         <h3 class="text-center" *ngIf="tests.length === 0">{{getTranslate('noResults')}}</h3>
         <table *ngIf="dataLoaded != false && tests.length !== 0" class="table table-hover table-striped">
             <thead>
@@ -62,16 +63,16 @@
             <tbody>
                 <tr *ngFor="let test of tests; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{test.testName}}</td>
-                    <td>{{test.testNotes}}</td>
-                    <td>{{test.testTime}}</td>
+                    <td>{{test.test.title}}</td>
+                    <td>{{test.test.description}}</td>
+                    <td>{{test.test.testTime}}</td>
                     <td>{{test.questions.length}}</td>
-                    <td>{{test.privacy ? getTranslate('public') : getTranslate('private') }}</td>
+                    <td>{{test.test.privacy ? getTranslate('public') : getTranslate('private') }}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                             <button class="btn btn-primary" type="button" style="width: 100px;"
-                                (click)="openUpdateTestModal(test.testId)">{{getTranslate('update')}}</button>
-                            <button class="btn btn-danger" type="button" (click)="openDeleteTestModal(test.testId)"><i
+                                (click)="openUpdateTestModal(test.test.id)">{{getTranslate('update')}}</button>
+                            <button class="btn btn-danger" type="button" (click)="openDeleteTestModal(test.test.id)"><i
                                     class="fa fa-trash"></i></button>
                         </div>
                     </td>

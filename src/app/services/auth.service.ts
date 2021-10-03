@@ -5,8 +5,11 @@ import { environment } from 'src/environments/environment';
 import { CustomerForRegisterDto } from '../models/dtos/customerForRegisterDto';
 import { LoginModel } from '../models/entities/loginModel';
 import { RegisterModel } from '../models/entities/registerModel';
+import { Token } from '../models/entities/token';
 import { TokenModel } from '../models/entities/tokenModel';
 import { ItemResponseModel } from '../models/responseModels/ItemResponseModel';
+import { ResponseModel } from '../models/responseModels/responseModel';
+import { RefreshTokenService } from './refresh-token.service';
 import { TokenService } from './token.service';
 
 @Injectable({
@@ -15,20 +18,21 @@ import { TokenService } from './token.service';
 export class AuthService {
   apiUrl = environment.apiUrl + 'auth/';
 
-  constructor(private httpClient: HttpClient,
-    private tokenService:TokenService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private tokenService: TokenService,
+    private refreshTokenService: RefreshTokenService
+  ) {}
 
-  login(loginModel: LoginModel): Observable<ItemResponseModel<TokenModel>> {
-    return this.httpClient.post<ItemResponseModel<TokenModel>>(
+  login(loginModel: LoginModel): Observable<ItemResponseModel<Token>> {
+    return this.httpClient.post<ItemResponseModel<Token>>(
       this.apiUrl + 'login',
       loginModel
     );
   }
 
-  register(
-    registerModel: RegisterModel
-  ): Observable<ItemResponseModel<TokenModel>> {
-    return this.httpClient.post<ItemResponseModel<TokenModel>>(
+  register(registerModel: RegisterModel): Observable<ItemResponseModel<Token>> {
+    return this.httpClient.post<ItemResponseModel<Token>>(
       this.apiUrl + 'register',
       registerModel
     );
@@ -36,19 +40,34 @@ export class AuthService {
 
   registerWithCustomer(
     customerForRegisterDto: CustomerForRegisterDto
-  ): Observable<ItemResponseModel<TokenModel>> {
-    return this.httpClient.post<ItemResponseModel<TokenModel>>(
+  ): Observable<ItemResponseModel<Token>> {
+    return this.httpClient.post<ItemResponseModel<Token>>(
       this.apiUrl + 'registerwithcustomer',
       customerForRegisterDto
     );
   }
 
+  refreshToken(): Observable<ItemResponseModel<Token>> {
+    return this.httpClient.post<ItemResponseModel<Token>>(
+      this.apiUrl + 'refreshToken',
+      null
+    );
+  }
+
   signOut() {
-    this.tokenService.removeToken();
+    this.httpClient
+      .post<ResponseModel>(
+        this.apiUrl + 'logout',
+        this.tokenService.getUserWithJWT()
+      )
+      .subscribe((response) => {
+        this.tokenService.remove();
+        this.refreshTokenService.remove();
+      });
   }
 
   isAuthenticated() {
-    if (this.tokenService.getTokenFromCookie()) {
+    if (this.tokenService.get()) {
       return true;
     }
     return false;

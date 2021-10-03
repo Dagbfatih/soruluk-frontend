@@ -49,7 +49,7 @@ export class SolveTestComponent implements OnInit {
 
   start() {
     if (this.test) {
-      this.router.navigate(['/exam/' + encodeURIComponent(this.test.testId)]);
+      this.router.navigate(['/exam/' + encodeURIComponent(this.test.test.id)]);
       localStorage.removeItem('testResult');
       localStorage.removeItem('testTime');
     } else {

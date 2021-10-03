@@ -19,7 +19,7 @@ export class QuestionFilterPipePipe implements PipeTransform {
     questions = filterText
       ? questions.filter(
           (q) =>
-            q.questionText.toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            q.question.questionText.toLocaleLowerCase().indexOf(filterText) !== -1 ||
             q.userName.toLocaleLowerCase().indexOf(filterText) !== -1
         )
       : questions;

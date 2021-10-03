@@ -137,7 +137,7 @@ export class UserOperationClaimComponent implements OnInit {
       roleId: this.getCustomerByUser(userId).roleId,
       userId: userId,
       id: this.getCustomerByUser(userId).id,
-      branchId: 1,
+      lessonId: 1,
     };
 
     this.customerService.confirmAccunt(customerModel).subscribe(

@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
-import { CountdownTimerService } from 'ngx-timer';
+import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { slideInAnimation } from './animations/route-animations';
 import { alltranslates, TranslateManager } from './constants/TranslateManager';
 import { SettingsService } from './services/settings.service';
-import { ThemeService } from './services/theme.service';
 
 export let browserRefresh = false;
 
@@ -12,6 +11,7 @@ export let browserRefresh = false;
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  animations: [slideInAnimation],
 })
 export class AppComponent implements OnInit, OnDestroy {
   pageRefreshsubscription: Subscription;
@@ -19,10 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private translateManager: TranslateManager,
-    private settingsService: SettingsService,
-    private countdownTimerService: CountdownTimerService,
-    private themeService: ThemeService,
-    private renderer: Renderer2
+    private settingsService: SettingsService
   ) {}
 
   title = 'funnytest-project';
@@ -61,13 +58,9 @@ export class AppComponent implements OnInit, OnDestroy {
     return alltranslates.get(key);
   }
 
-  // checkTheme() {
-  //   this.themeService.themeChanges().subscribe((theme) => {
-  //     if (theme.oldValue) {
-  //       this.renderer.removeClass(document.body, theme.oldValue);
-  //     }
-  //     this.renderer.addClass(document.body, theme.newValue);
-  //   });
-  // }
-  // Düzenlenecek
+  prepareRoute(outlet: RouterOutlet) {
+    return (
+      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
+    );
+  }
 }

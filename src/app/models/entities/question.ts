@@ -5,5 +5,7 @@ export interface Question {
   brokenQuestion: boolean;
   privacy: boolean;
   userId: number;
-  branchId: number;
+  lessonId: number;
+  subjectId: number;
+  difficultyLevel: number;
 }

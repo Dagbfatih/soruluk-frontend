@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
     | boolean
     | UrlTree {
     let isAdmin = this.tokenService
-      .getUserRolesWithJWTFromCookie()
+      .getUserRolesWithJWT()
       .includes('admin');
 
     if (!isAdmin) {

@@ -169,19 +169,10 @@ export class ExamComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('testResult')) {
       this.getTestResultFromLocalStorage();
     } else {
-      this.testResult.testDetails = {
-        id: this.test.testId,
-        mixedCategory: this.test.mixedCategory,
-        privacy: this.test.privacy,
-        testName: this.test.testName,
-        testNotes: this.test.testNotes,
-        testTime: this.test.testTime,
-        userId: this.user.id,
-        branchId: this.test.branchId,
-      };
+      this.testResult.testDetails = this.test.test;
 
       this.testResult.resultDetails = {
-        testId: this.test.testId,
+        testId: this.test.test.id,
         userId: this.user.id,
         id: 0,
         finishDate: 0,
@@ -192,12 +183,14 @@ export class ExamComponent implements OnInit, OnDestroy {
         let correctOption: number = q.options.find((o) => o.accuracy)?.id!;
         let questionResult: QuestionResultDetailsDto = {
           question: q,
-          selectedOptionId: 0,
-          questionId: q.questionId,
-          testResultId: 0,
-          correctOptionId: correctOption,
-          accuracy: false,
-          questionResultId: 0,
+          questionResult: {
+            id: 0,
+            selectedOptionId: 0,
+            questionId: q.question.questionId,
+            testResultId: 0,
+            correctOptionId: correctOption,
+            accuracy: false,
+          },
         };
 
         this.testResult.questionResults.push(questionResult);
@@ -206,7 +199,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   getUser() {
-    this.user = this.tokenService.getUserWithJWTFromCookie();
+    this.user = this.tokenService.getUserWithJWT();
   }
 
   getQuestion(): QuestionDetailsDto {
@@ -215,7 +208,7 @@ export class ExamComponent implements OnInit, OnDestroy {
 
   getQuestionResult(questionId: number): QuestionResultDetailsDto {
     return this.testResult.questionResults.find(
-      (q) => q.questionId == questionId
+      (q) => q.question.question.questionId == questionId
     )!;
   }
 
@@ -224,7 +217,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   startTimer() {
-    this.examService.start(this.test.testTime);
+    this.examService.start(this.test.test.testTime);
   }
 
   checkStatus() {
@@ -256,12 +249,14 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   optionSelected(event: any, selectedQuestion: number = this.questionOrder) {
-    this.testResult.questionResults[selectedQuestion].selectedOptionId =
-      +event.target.value;
+    this.testResult.questionResults[
+      selectedQuestion
+    ].questionResult.selectedOptionId = +event.target.value;
 
-    this.testResult.questionResults[selectedQuestion].accuracy =
+    this.testResult.questionResults[selectedQuestion].questionResult.accuracy =
       +event.target.value ==
-      this.testResult.questionResults[selectedQuestion].correctOptionId;
+      this.testResult.questionResults[selectedQuestion].questionResult
+        .correctOptionId;
   }
 
   previousQuestion() {
@@ -282,13 +277,15 @@ export class ExamComponent implements OnInit, OnDestroy {
 
   getCheckedClass(i: number, j: number): boolean {
     return (
-      this.testResult.questionResults[i].selectedOptionId ===
+      this.testResult.questionResults[i].questionResult.selectedOptionId ===
       this.test.questions[i].options[j].id
     );
   }
 
   setEmpty() {
-    this.testResult.questionResults[this.questionOrder].selectedOptionId = 0;
+    this.testResult.questionResults[
+      this.questionOrder
+    ].questionResult.selectedOptionId = 0;
   }
 
   finishOnUserRequest() {

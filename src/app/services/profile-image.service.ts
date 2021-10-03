@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ProfileImage } from '../models/entities/ProfileImage';
+import { ProfileImage } from '../models/entities/profileImage';
 import { ItemResponseModel } from '../models/responseModels/ItemResponseModel';
 import { ListResponseModel } from '../models/responseModels/ListResponseModel';
 import { ResponseModel } from '../models/responseModels/responseModel';
@@ -23,7 +23,7 @@ export class ProfileImageService {
   getProfileImageByUser(
     userId: number
   ): Observable<ItemResponseModel<ProfileImage>> {
-    let newPath = this.apiUrl + 'getbyuserid?carId=' + userId;
+    let newPath = this.apiUrl + 'getbyuserid?userId=' + userId;
     return this.httpClient.get<ItemResponseModel<ProfileImage>>(newPath);
   }
 

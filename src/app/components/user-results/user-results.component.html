@@ -1,4 +1,4 @@
-<div class="container h-custom">
+<div class="container">
     <div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
         <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
@@ -18,13 +18,13 @@
         <tbody>
             <tr *ngFor="let testResult of testResults; let i = index;">
                 <td>{{i+1}}</td>
-                <td>{{testResult.testDetails.testName}}</td>
+                <td>{{testResult.testDetails.title}}</td>
                 <td>{{testResult.questionResults.length}}</td>
                 <td>{{getCorrectNumber(testResult)}}</td>
                 <td>{{getIncorrectNumber(testResult)}}</td>
                 <td>{{getEmptyNumber(testResult)}}</td>
                 <td class="text-end">
-                    <button (click)="openResultDetailsModal(testResult.resultDetails.id!)" class="btn btn-outline-info"
+                    <button (click)="openResultDetailsModal(testResult.resultDetails.id!)" class="btn btn-outline-dark"
                         type="button">{{getTranslate("details")}}</button>
                 </td>
             </tr>

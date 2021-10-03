@@ -1,4 +1,4 @@
-<body class="text-center">
+<body class="text-center vh-100">
     <main class="form-signin">
         <form [formGroup]="loginForm">
             <h1 class="h3 mb-3 fw-normal">{{getTranslate("pleaseLogin")}}</h1>
@@ -19,7 +19,7 @@
                     <input formControlName="rememberMe" type="checkbox" value="remember-me"> {{getTranslate("rememberMe")}}
                 </label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit"
+            <button class="w-100 btn btn-lg btn-success" type="submit"
                 (click)="login()">{{getTranslate("login")}}</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>

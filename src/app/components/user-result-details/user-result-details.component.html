@@ -13,7 +13,7 @@
         <div *ngIf="dataLoaded" class="card" style="min-height: 49.7vw;">
             <div class="card-header">
                 <h5 class="card-title">{{questionOrder+1}}.</h5>
-                <p class="card-text">{{getQuestion().questionText}}</p>
+                <p class="card-text">{{getQuestion().question.questionText}}</p>
             </div>
 
             <div class="card-body">
@@ -55,28 +55,29 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <div *ngFor="let question of testResult.questionResults; let i = index;" class="col-md-1 text-center"
-                        style="width: 4rem;">
+                    <div *ngFor="let question of testResult.questionResults; let i = index;"
+                        class="col-md-1 text-center" style="width: 4rem;">
 
-                        <h3 *ngIf="getQuestionResult(question.questionId).selectedOptionId === 0">
+                        <h3
+                            *ngIf="getQuestionResult(question.question.question.questionId).questionResult.selectedOptionId === 0">
                             <span class="badge rounded-pill bg-light text-dark"
-                                [ngClass]="{'badge-outline'   : getQuestion().questionId === question.questionId}">{{i+1}}
+                                [ngClass]="{'badge-outline'   : getQuestion().question.questionId === question.question.question.questionId}">{{i+1}}
                             </span>
                         </h3>
 
                         <h3
-                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 && 
-                            (getQuestionResult(question.questionId).selectedOptionId === getQuestionResult(question.questionId).correctOptionId)">
+                            *ngIf="getQuestionResult(question.question.question.questionId).questionResult.selectedOptionId !== 0 && 
+                            (getQuestionResult(question.question.question.questionId).questionResult.selectedOptionId === getQuestionResult(question.question.question.questionId).questionResult.correctOptionId)">
                             <span class="badge rounded-pill bg-success text-dark"
-                                [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
+                                [ngClass]="{'badge-outline' : getQuestion().question.questionId === question.question.question.questionId}">{{i+1}}
                             </span>
                         </h3>
 
                         <h3
-                            *ngIf="getQuestionResult(question.questionId).selectedOptionId !== 0 
-                            && !(getQuestionResult(question.questionId).selectedOptionId === getQuestionResult(question.questionId).correctOptionId)">
+                            *ngIf="getQuestionResult(question.question.question.questionId).questionResult.selectedOptionId !== 0 
+                            && !(getQuestionResult(question.question.question.questionId).questionResult.selectedOptionId === getQuestionResult(question.question.question.questionId).questionResult.correctOptionId)">
                             <span class="badge rounded-pill bg-danger text-dark"
-                                [ngClass]="{'badge-outline' : getQuestion().questionId === question.questionId}">{{i+1}}
+                                [ngClass]="{'badge-outline' : getQuestion().question.questionId === question.question.question.questionId}">{{i+1}}
                             </span>
                         </h3>
 

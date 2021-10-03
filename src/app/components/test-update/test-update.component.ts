@@ -41,9 +41,8 @@ export class TestUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.test);
-    this.createTestUpdateForm();
     this.getQuestionDetails();
+    this.createTestUpdateForm();
   }
 
   close() {
@@ -56,15 +55,14 @@ export class TestUpdateComponent implements OnInit {
 
   createTestUpdateForm() {
     this.testUpdateForm = this.formBuilder.group({
-      testId: [this.test.testId],
-      testName: [this.test.testName, Validators.required],
-      testNotes: [this.test.testNotes, Validators.required],
-      testTime: [this.test.testTime, Validators.required],
-      privacy: [this.test.privacy, Validators.required],
+      testId: [this.test.test.id],
+      title: [this.test.test.title, Validators.required],
+      description: [this.test.test.description, Validators.required],
+      testTime: [this.test.test.testTime, Validators.required],
+      privacy: [this.test.test.privacy, Validators.required],
       questions: this.formBuilder.array(this.getTestQuestions()),
     });
     this.questionsArray = this.testUpdateForm.get('questions') as FormArray;
-    console.log(this.questionsArray.controls);
   }
 
   getTestQuestions(): FormGroup[] {
@@ -73,15 +71,15 @@ export class TestUpdateComponent implements OnInit {
     this.test.questions.forEach((q) => {
       result.push(
         this.formBuilder.group({
-          questionId: [q.questionId, Validators.required],
-          questionText: [q.questionText],
-          categories: [q.categories],
+          questionId: [q.question.questionId],
+          questionText: [q.question.questionText],
           options: [q.options],
-          starQuestion: [q.starQuestion],
-          brokenQuestion: [q.brokenQuestion],
-          privacy: [q.privacy],
-          userId: [q.userId],
+          starQuestion: [q.question.starQuestion],
+          brokenQuestion: [q.question.brokenQuestion],
+          privacy: [q.question.privacy],
+          userId: [q.question.userId],
           userName: [q.userName],
+          lessonId: [q.question.lessonId],
         })
       );
     });
@@ -90,15 +88,15 @@ export class TestUpdateComponent implements OnInit {
 
   createQuestion(question: QuestionDetailsDto): FormGroup {
     return this.formBuilder.group({
-      questionId: [question.questionId, Validators.required],
-      questionText: [question.questionText],
-      categories: [question.categories],
+      questionId: [question.question.questionId, Validators.required],
+      questionText: [question.question.questionText],
       options: [question.options],
-      starQuestion: [question.starQuestion],
-      brokenQuestion: [question.brokenQuestion],
-      privacy: [question.privacy],
-      userId: [question.userId],
+      starQuestion: [question.question.starQuestion],
+      brokenQuestion: [question.question.brokenQuestion],
+      privacy: [question.question.privacy],
+      userId: [question.question.userId],
       userName: [question.userName],
+      lessonId: [question.question.lessonId],
     });
   }
 
@@ -113,7 +111,11 @@ export class TestUpdateComponent implements OnInit {
       existQuestions.push(Object.assign({}, this.questionsArray.at(i).value));
     }
 
-    if (existQuestions.map((q) => q.questionId).includes(question.questionId)) {
+    if (
+      existQuestions
+        .map((q) => q.question.questionId)
+        .includes(question.question.questionId)
+    ) {
       return true;
     }
     return false;
@@ -122,7 +124,7 @@ export class TestUpdateComponent implements OnInit {
   removeQuestion(question: QuestionDetailsDto) {
     let existQuestions: QuestionDetailsDto[] = this.questionsArray.value;
     let index = existQuestions.findIndex(
-      (q) => q.questionId == question.questionId
+      (q) => q.question.questionId == question.question.questionId
     );
     this.questionsArray.removeAt(index);
   }
@@ -148,9 +150,8 @@ export class TestUpdateComponent implements OnInit {
         this.testUpdateForm.value
       );
 
-      testModel.mixedCategory = false;
-      testModel.userId = this.tokenService.getUserWithJWTFromCookie().id; // if user not exists on jwt, returns user with 'userId:0'
-      testModel.testId = this.test.testId;
+      testModel.test.userId = this.tokenService.getUserWithJWT().id; // if user not exists on jwt, returns user with 'userId:0'
+      testModel.test.id = this.test.test.id;
 
       this.testService.updateWithDetails(testModel).subscribe(
         (response) => {

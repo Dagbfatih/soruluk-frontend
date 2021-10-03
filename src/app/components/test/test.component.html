@@ -1,24 +1,72 @@
-<div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
-    <span class="visually-hidden">{{getTranslate("loading")}}...</span>
-</div>
+<div class="container mb-5">
+    <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
+        <span class="visually-hidden">{{getTranslate("loading")}}...</span>
+    </div>
 
-<table *ngIf="dataLoaded != false" class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>{{getTranslate("userId")}}</th>
-            <th>{{getTranslate("testName")}}</th>
-            <th>{{getTranslate("note")}}</th>
-            <th>TPQ</th>
-            <th>{{getTranslate("privacy")}}</th>
-        </tr>
-    </thead>
-    <tr *ngFor="let test of tests">
-        <td>{{test.id}}</td>
-        <td>{{test.userId}}</td>
-        <td>{{test.testName}}</td>
-        <td>{{test.testNotes}}</td>
-        <td>{{test.testTime}}</td>
-        <td>{{test.privacy}}</td>
-    </tr>
-</table>
+    <div class="row mb-3">
+
+        <div class="mb-3 d-flex" style="padding-top: 1%;">
+            <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara"
+                aria-label="Search">
+            <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row">
+                    <label for="minTime" class="col-sm-2 col-form-label text-center mb-0">
+                        <h6 class="text-center">{{getTranslate("time")}}</h6>
+                    </label>
+                    <div class="col-sm-5">
+                        <input type="number" class="form-control" id="minTime" placeholder="Minimum time"
+                            [(ngModel)]="minTime">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="number" class="form-control" id="maxTime" placeholder="Maximum time"
+                            [(ngModel)]="maxTime">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col">
+                        <button [routerLink]="getFilterRouterClass()" type="button"
+                            class="btn btn-outline-success">{{getTranslate("filter")}}</button>
+                    </div>
+                    <div class="col">
+                        <button *ngIf="getUrl() != '/tests/details'" routerLink="/tests/details" type="button"
+                            class="btn btn-outline-danger">{{getTranslate("clear")}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-center" *ngIf="tests.length === 0">{{getTranslate("noResults")}}</h3>
+        <table *ngIf="dataLoaded != false && tests.length !== 0" class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{getTranslate("name")}}</th>
+                    <th>{{getTranslate("time")}}</th>
+                    <th>{{getTranslate("questionCount")}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let test of tests | testFilterPipe:filterText; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{test.test.title}}</td>
+                    <td>{{test.test.testTime}} {{getTranslate("min")}}</td>
+                    <td>{{test.questions.length}}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-outline-dark"
+                            routerLink="/tests/solve/{{test.test.id}}">{{getTranslate('start')}}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

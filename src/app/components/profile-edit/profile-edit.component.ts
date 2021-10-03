@@ -18,7 +18,13 @@ import { ToastrService } from 'ngx-toastr';
 import { CustomerDetailsDto } from 'src/app/models/dtos/customerDetailsDto';
 import { Router } from '@angular/router';
 import { alltranslates } from 'src/app/constants/TranslateManager';
-import { ProfileImage } from 'src/app/models/entities/ProfileImage';
+import { ProfileImage } from 'src/app/models/entities/profileImage';
+import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
+import { TestDetailsDto } from 'src/app/models/dtos/testDetailsDto';
+import { QuestionService } from 'src/app/services/question.service';
+import { TestService } from 'src/app/services/test.service';
+import { Branch } from 'src/app/models/entities/branch';
+import { BranchService } from 'src/app/services/branch.service';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -37,6 +43,10 @@ export class ProfileEditComponent implements OnInit {
   profileImageUpdateForm: FormGroup = {} as FormGroup;
   roles: Role[];
   selectedFile: ImageSnippet;
+  questions: QuestionDetailsDto[] = [];
+  tests: TestDetailsDto[] = [];
+  branches: Branch[] = [];
+  userToken: User;
 
   constructor(
     private tokenService: TokenService,
@@ -47,14 +57,43 @@ export class ProfileEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private roleService: RoleService,
     private toastrService: ToastrService,
-    private router:Router
+    private router: Router,
+    private questionService: QuestionService,
+    private testService: TestService,
+    private branchService: BranchService
   ) {}
 
   ngOnInit(): void {
+    this.userToken = this.tokenService.getUserWithJWT();
     this.getUserProfileImage();
     this.getCustomerDetails();
+    this.getAllQuestionDetails();
+    this.getAllTestDetails();
+    // this.getAllBranches();
     this.createProfileUpdateForm();
     this.createProfileImageUpdateForm();
+  }
+
+  // getAllBranches() {
+  //   this.branchService.getAll().subscribe((response) => {
+  //     this.branches = response.data;
+  //   });
+  // }
+
+  getAllQuestionDetails() {
+    this.questionService
+      .getDetailsByUser(this.userToken.id)
+      .subscribe((response) => {
+        this.questions = response.data;
+      });
+  }
+
+  getAllTestDetails() {
+    this.testService
+      .getTestDetailsByUser(this.userToken.id)
+      .subscribe((response) => {
+        this.tests = response.data;
+      });
   }
 
   createProfileImageUpdateForm() {
@@ -74,7 +113,7 @@ export class ProfileEditComponent implements OnInit {
 
   getCustomerDetails() {
     this.customerService
-      .getDetailsByUser(this.tokenService.getUserWithJWTFromCookie().id)
+      .getDetailsByUser(this.userToken.id)
       .subscribe(
         (response) => {
           this.customer = response.data;
@@ -93,7 +132,7 @@ export class ProfileEditComponent implements OnInit {
 
   getUserProfileImage() {
     this.profileImageService
-      .getProfileImageByUser(this.tokenService.getUserWithJWTFromCookie().id)
+      .getProfileImageByUser(this.userToken.id)
       .subscribe((response) => {
         this.profileImage = response.data;
         console.log(this.profileImage);
@@ -144,9 +183,9 @@ export class ProfileEditComponent implements OnInit {
           environment.successMessage
         );
       });
-      let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
 
@@ -187,7 +226,7 @@ export class ProfileEditComponent implements OnInit {
   update() {
     if (this.profileUpdateForm.valid) {
       let userModel: User = Object.assign({}, this.profileUpdateForm.value);
-      userModel.id = this.customer.userId;
+      userModel.id = this.customer.customerDetails.userId;
 
       this.userService.updateWithoutPassword(userModel).subscribe(
         (response) => {
@@ -203,7 +242,7 @@ export class ProfileEditComponent implements OnInit {
       );
     }
   }
-  
+
   getTranslate(key: string) {
     return alltranslates.get(key);
   }

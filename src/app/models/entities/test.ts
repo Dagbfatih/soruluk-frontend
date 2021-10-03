@@ -1,10 +1,11 @@
 export interface Test {
   id: number;
   userId: number;
-  testName: string;
-  testNotes: string;
+  title: string;
+  description: string;
   testTime: number;
-  mixedCategory: boolean;
   privacy: boolean;
-  branchId: number;
+  lessonId: number;
+  date: Date;
+  difficultyLevel: number;
 }

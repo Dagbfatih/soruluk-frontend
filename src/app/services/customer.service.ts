@@ -35,6 +35,23 @@ export class CustomerService {
     );
   }
 
+  getAllByUsers(
+    userIds: number[]
+  ): Observable<ListResponseModel<CustomerDetailsDto>> {
+    userIds = userIds.filter(
+      (element, i) => i === userIds.indexOf(element)
+    );
+
+    let params: string="";
+    userIds.forEach((userId) => {
+      params += 'userIds=' + userId + '&';
+    });
+
+    return this.httpClient.get<ListResponseModel<CustomerDetailsDto>>(
+      this.apiUrl + 'getallbyuserids?' + params
+    );
+  }
+
   add(customer: Customer): Observable<ResponseModel> {
     return this.httpClient.post<ResponseModel>(this.apiUrl + 'add', customer);
   }
