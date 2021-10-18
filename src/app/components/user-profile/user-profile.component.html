@@ -1,0 +1,141 @@
+<main>
+    <div class="container">
+        <div class="img" style="background-color: transparent; height: 100px; background-size: cover;"></div>
+        <div class="card social-prof">
+            <div class="card-body">
+                <div class="col-lg-12 d-lg-none">
+                    <!-- xs -->
+                    <div class="text-end">
+                        <button class="btn btn-dark"><i class="fa fa-edit"></i></button>
+                    </div>
+                </div>
+                <div class="col-lg-12 d-none d-lg-block">
+                    <!-- lg -->
+                    <div class="text-end">
+                        <button class="btn btn-dark" routerLink="/user/profile/edit"><i class="fa fa-edit"></i>
+                            {{getTranslate('editProfile')}}</button>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <img *ngIf="profileImage" [src]="baseUrl  + profileImage.imagePath" class="user-profile">
+                    <h3>{{userToken.firstName + ' ' + userToken.lastName}}</h3>
+                    <p>{{getTranslate(customer.roleName + " fromDb")}}</p>
+                </div>
+
+                <!-- profile header -->
+                <div class="row row-cols-auto g-3 align-items-center">
+                    <div class="tabbable col-lg-5 col-xs-10 col-10">
+                        <ul class="nav nav-pills nav-fill custom-color justify-content-center s-nav">
+                            <li class="nav-item ms-1" role="presentation">
+                                <button class="nav-link active" id="user-questions-tab" data-bs-toggle="pill"
+                                    data-bs-target="#user-questions" type="button" role="tab"
+                                    aria-controls="user-questions" aria-selected="true">
+                                    {{getTranslate('myQuestions')}}
+                                </button>
+                            </li>
+                            <li class="nav-item ms-1" role="presentation">
+                                <button class="nav-link" id="user-tests-tab" data-bs-toggle="pill"
+                                    data-bs-target="#user-tests" type="button" role="tab" aria-controls="user-tests"
+                                    aria-selected="true">
+                                    {{getTranslate('myTests')}}
+                                </button>
+                            </li>
+                            <li class="nav-item ms-1" role="presentation">
+                                <button class="nav-link" id="user-results-tab" data-bs-toggle="pill"
+                                    data-bs-target="#user-results" type="button" role="tab" aria-controls="user-results"
+                                    aria-selected="true">
+                                    {{getTranslate('myTestResults')}}
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-7 col-xs-2 col-2">
+                        <div class="d-lg-none">
+                            <!-- xs -->
+                            <div class="dropdown text-end">
+                                <button class="btn btn-secondary" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-h fa-lg"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item">{{getTranslate('addNewQuestion')}}</a></li>
+                                    <li><a class="dropdown-item"
+                                            routerLink="/tests/add">{{getTranslate('createNewTest')}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="d-none d-lg-block">
+                            <!-- lg -->
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-dark me-3"
+                                    (click)="openAddQuestionModal()">{{getTranslate('addNewQuestion')}}</button>
+                                <button class="btn btn-outline-dark"
+                                    routerLink="/user/tests/add">{{getTranslate('createNewTest')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- profile details -->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <div class="h5 text-blue">@JaneSmith</div> -->
+                        <div class="h7 "><strong>{{getTranslate('name')}} :</strong> {{userToken.firstName + ' ' +
+                            userToken.lastName}}
+                        </div>
+                        <div class="h7"><strong>{{getTranslate('about')}} :</strong> {{getTranslate(customer.roleName +
+                            " fromDb")}} </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="h6 text-muted">{{getTranslate('questions')}}</div>
+                            <div class="h5">{{questions.length}}</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="h6 text-muted">{{getTranslate('tests')}}</div>
+                            <div class="h5">{{tests.length}}</div>
+                        </li>
+                    </ul>
+
+                    <div class="card-body">
+                        <button class="btn btn-outline-dark w-100">{{getTranslate('editDetails')}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 gedf-main">
+
+                <!-- <div class="card social-timeline-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-outline-dark me-3 w-100">{{getTranslate('addNewQuestion')}}</button>
+                            <button class="btn btn-outline-dark w-100">{{getTranslate('createNewTest')}}</button>
+                        </div>
+                    </div>
+                </div> 
+                <hr class="style1"> -->
+
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade show active mb-3" id="user-questions" role="tabpanel"
+                        aria-labelledby="contact-tab">
+                        <app-user-questions></app-user-questions>
+                    </div>
+
+                    <div class="tab-pane fade mb-3" id="user-tests" role="tabpanel" aria-labelledby="contact-tab">
+                        <app-user-tests></app-user-tests>
+                    </div>
+
+                    <div class="tab-pane fade mb-3" id="user-results" role="tabpanel" aria-labelledby="contact-tab">
+                        <app-user-results></app-user-results>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>

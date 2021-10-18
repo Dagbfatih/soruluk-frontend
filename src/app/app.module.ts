@@ -46,7 +46,6 @@ import {
   NgbCarouselModule,
   NgbDropdownModule,
   NgbModule,
-  NgbPopover,
   NgbPopoverModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -89,6 +88,10 @@ import { ValdemortModule } from 'ngx-valdemort';
 import { TestAddConfirmComponent } from './components/test-add-confirm/test-add-confirm.component';
 import { DevArchitectureHomePageComponent } from './components/dev-architecture-home-page/dev-architecture-home-page.component';
 import { DevArchitectureTutorialComponent } from './components/dev-architecture-tutorial/dev-architecture-tutorial.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component';
+import { ProfileInfoUpdateComponent } from './components/profile-info-update/profile-info-update.component';
 
 @NgModule({
   declarations: [
@@ -160,6 +163,10 @@ import { DevArchitectureTutorialComponent } from './components/dev-architecture-
     TestAddConfirmComponent,
     DevArchitectureHomePageComponent,
     DevArchitectureTutorialComponent,
+    AboutUsComponent,
+    UserProfileComponent,
+    UserProfileEditComponent,
+    ProfileInfoUpdateComponent,
   ],
   imports: [
     BrowserModule,

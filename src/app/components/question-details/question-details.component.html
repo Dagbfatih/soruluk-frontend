@@ -1,58 +1,131 @@
-<div class="container mb-5">
+<div class="container mb-5 pt-3">
     <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
         <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
 
-    <div class="row">
+    <h1><strong>{{getTranslate("questions")}}</strong></h1>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-3">
+            
+            <div class="">
+                <!-- Ders Filtresi -->
+                <h4 class="mb-3">Ders</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        First checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Second checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Third checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fourth checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fifth checkbox
+                    </li>
+                </ul>
+            </div>
 
-        <div class="mb-3 d-flex" style="padding-top: 1%;">
-            <input [(ngModel)]="filterText" class="form-control me-2" type="search" placeholder="Ara"
-                aria-label="Search">
-            <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
-        </div>
+            <hr>
 
-        <div class="row">
-            <div class="col-md-3">
-                <div class="row mb-3">
-                    <label for="optionNumberFilter"
-                        class="col-sm-6 col-form-label">{{getTranslate("optionNumber")}}</label>
-                    <div class="col-sm-6">
-                        <input type="number" class="form-control" id="optionNumberFilter"
-                            placeholder="filter by option number" [(ngModel)]="optionNumberFilter">
-                    </div>
-                </div>
+            <div class="">
+                <!-- Konu Filtresi -->
+                <h4 class="mb-3">Konu</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        First checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Second checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Third checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fourth checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fifth checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        First checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Second checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Third checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fourth checkbox
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                        Fifth checkbox
+                    </li>
+                </ul>
             </div>
         </div>
 
         <!-- data manage -->
-        <h3 class="text-center" *ngIf="questions.length === 0 && dataLoaded">{{getTranslate("noResults")}}</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-left: 0px;">
-            <div *ngFor="let question of questions 
-            | questionFilterPipe : filterText : optionNumberFilter
-            | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;; let i = index" class="col">
-                <div class="card h-100">
+        <div class="col-9">
+            <h3 class="text-center" *ngIf="questions.length === 0 && dataLoaded">{{getTranslate("noResults")}}</h3>
+            <div class="row g-4" style="margin-left: 0px;">
+                <!-- <div class="d-flex">
+                    <input [(ngModel)]="filterText" class="form-control" type="search" placeholder="Ara"
+                        aria-label="Search">
+                </div> -->
+                <div *ngFor="let question of questions 
+                | questionFilterPipe : filterText : optionNumberFilter
+                | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" class="col-sm-12 col-12">
+                    <div class="card h-100">
 
-                    <div class="card-header">
-                        <img *ngIf="getProfileImage(question.question.userId)"
-                            [src]="baseUrl + getProfileImage(question.question.userId).imagePath" class="rounded-circle mb-4"
-                            width="30" height="30">
-                        <div style="display: inline-block; margin-left: 6px;">
-                            <h6 class="card-title text-start mb-0">{{question.userName}}</h6>
-                            <small class="text-muted mt-0">{{getCustomer(question.question.userId).lesson.name}}</small>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <div class="col-md-1">
+                                    <img *ngIf="getProfileImage(question.question.userId)"
+                                        [src]="baseUrl + getProfileImage(question.question.userId).imagePath"
+                                        class="rounded-circle" width="30" height="30">
+                                </div>
+                                <div class="col ps-3">
+                                    <h6 class="card-title text-start mb-0">{{question.userName}}</h6>
+                                    <small
+                                        class="text-muted mt-0">{{getCustomer(question.question.userId).lesson.name}}</small>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="card-body bg-custom">
-                        <p class="card-text" style="white-space: pre-line; word-wrap: break-word;">
-                            {{question.question.questionText}}
-                        </p>
+                        <div class="card-body bg-custom">
+                            <p class="card-text" style="white-space: pre-line; word-wrap: break-word;">
+                                {{question.question.questionText}}
+                            </p>
 
-                        <div class="text-start">
-                            <ul class="list-group-mine list-group-flush bg-custom">
-                                <li *ngFor="let option of question.options; let i = index" class="list-group-item">
+                            <div class="text-start">
+                                <ul class="list-group-mine list-group-flush bg-custom">
+                                    <li *ngFor="let option of question.options; let i = index" class="list-group-item">
                                         <strong>{{ getOption(i) }})</strong>
                                         {{ option.optionText }}
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

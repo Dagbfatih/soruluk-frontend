@@ -9,12 +9,10 @@
                 <div class="card-body">
                     <form [formGroup]="questionAddForm" class="form">
                         <ul class="list-group list-group-flush">
+
                             <!-- starQuestion -->
-
-
                             <li class="list-group-item mb-3">
                                 <div class="mb-3">
-                                    <!-- <label for="starQuestion" class="mb-1">{{getTranslate("starQuestion")}}</label> -->
                                     <div class="form-group" id="starQuestion">
                                         <i *ngIf="starQuestion" class="fa fa-star"
                                             style="font-size:36px; color: rgb(156, 156, 43);"
@@ -122,8 +120,16 @@
                                 <label for="difficultyLevel" class="mb-3" class="form-label">
                                     <h4>{{getTranslate("difficulty")}}</h4>
                                 </label>
-                                <input type="range" formControlName="difficultyLevel" class="form-range custom-range" min="0" max="5"
-                                    step="1" id="difficultyLevel">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <div class="col-md-1 text-center">
+                                        <h5 class="">{{getDifficultyLevel()}}</h5>
+                                    </div>
+                                    <div class="col">
+                                        <input type="range" formControlName="difficultyLevel"
+                                            class="form-range custom-range" min="1" max="5" step="1"
+                                            id="difficultyLevel">
+                                    </div>
+                                </div>
                             </li>
 
                             <!-- Privacy -->

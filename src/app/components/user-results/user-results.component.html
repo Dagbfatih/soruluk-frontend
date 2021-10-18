@@ -1,4 +1,4 @@
-<div class="container">
+<div class="">
     <div *ngIf="dataLoaded == false" class="spinner-border text-success" role="status">
         <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
@@ -10,8 +10,6 @@
                 <th>{{getTranslate("testName")}}</th>
                 <th>{{getTranslate("questionCount")}}</th>
                 <th>{{getTranslate("correctNumber")}}</th>
-                <th>{{getTranslate("incorrectNumber")}}</th>
-                <th>{{getTranslate("emptyNumber")}}</th>
                 <th></th>
             </tr>
         </thead>
@@ -21,8 +19,6 @@
                 <td>{{testResult.testDetails.title}}</td>
                 <td>{{testResult.questionResults.length}}</td>
                 <td>{{getCorrectNumber(testResult)}}</td>
-                <td>{{getIncorrectNumber(testResult)}}</td>
-                <td>{{getEmptyNumber(testResult)}}</td>
                 <td class="text-end">
                     <button (click)="openResultDetailsModal(testResult.resultDetails.id!)" class="btn btn-outline-dark"
                         type="button">{{getTranslate("details")}}</button>

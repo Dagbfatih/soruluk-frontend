@@ -36,45 +36,40 @@
       <hr class="d-md-none text-white-50">
 
       <ul class="navbar-nav flex-row flex-wrap ms-md-auto ps-2 align-items-center text-start">
-        <li class="nav-item col-8 col-md-auto mb-1">
+        <li class="nav-item col-6 col-md-auto mb-1 me-2">
+          <ul class="friend-list">
+            <li
+              [ngStyle]="{'background-color': checkRouterContains('user/user-profile') ? 'rgba(0, 0, 0, 0.1)' : null }"
+              routerLink="/user/user-profile">
+              <div class="left">
+                <img *ngIf="profileImageLoaded" [src]="baseUrl + profileImage.imagePath">
+              </div>
+              <div *ngIf="customer" class="right">
+                <h3 class="text-white">{{getUserName()}}</h3>
+                <p>{{customer.roleName}}</p>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item col-1 col-md-auto mb-1">
           <div *ngIf="isLog()">
+
             <div class="nav-item dropdown dropdown-menu-end">
-              <a class="nav-link dropdown-toggle text-white" id="navbarDropdown"
-                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img *ngIf="profileImageLoaded"  [src]="baseUrl + profileImage.imagePath" width="40" height="40" class="rounded-circle" />
-                {{getUserName()}}
-              </a>
+              <button class="btn btn-custom dr-arrow btn-secondary dropdown-toggle text-white text-center" type="button"
+                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-toggle="dropdown"
+                aria-haspopup="true">
+                <div class="text-center" style="width: 65px;">
+                  <i class="fa fa-caret-down" style="font-size: 32px;"></i>
+                </div>
+              </button>
+
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
-                  <a class="dropdown-item" routerLink="/user/profile">
+                  <a class="dropdown-item" routerLink="/user/user-profile">
                     {{getTranslates("profile")}}
                   </a>
                 </li>
                 <li *ngIf="userRolesContains('instructor')">
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a *ngIf="userRolesContains('instructor')" class="dropdown-item" routerLink="/user/questions">
-                    {{getTranslates("manageQuestions") }}
-                  </a>
-                </li>
-                <li *ngIf="userRolesContains('instructor')">
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a *ngIf="userRolesContains('instructor')" class="dropdown-item" routerLink="/user/tests">
-                    {{getTranslates("manageTests") }}
-                  </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" routerLink="/user/results">
-                    {{getTranslates("testResults")}}
-                  </a>
-                </li>
-                <li>
                   <hr class="dropdown-divider" />
                 </li>
                 <li>

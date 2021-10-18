@@ -42,7 +42,7 @@ export class TestAddConfirmComponent implements OnInit {
     this.testService.addWithDetails(this.addedTest).subscribe(
       (response) => {
         sessionStorage.removeItem('testAddForm');
-        this.router.navigate(['user/tests']);
+        this.router.navigate(['user/profile']);
         this.toastrService.success(
           response.message,
           environment.successMessage

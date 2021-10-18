@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { alltranslates } from 'src/app/constants/TranslateManager';
+import { CustomerDetailsDto } from 'src/app/models/dtos/customerDetailsDto';
 import { QuestionDetailsDto } from 'src/app/models/dtos/questionDetailsDto';
 import { TestDetailsDto } from 'src/app/models/dtos/testDetailsDto';
 import { User } from 'src/app/models/entities/user';
+import { CustomerService } from 'src/app/services/customer.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { OptionNumberGeneratorService } from 'src/app/services/option-number-generator.service';
 import { TestService } from 'src/app/services/test.service';
@@ -27,6 +29,7 @@ export class UserTestsComponent implements OnInit {
   user: User = {} as User;
   minTime: number = 0;
   maxTime: number = 0;
+  customers: CustomerDetailsDto[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,7 +38,8 @@ export class UserTestsComponent implements OnInit {
     private optionNumberGenerator: OptionNumberGeneratorService,
     private router: Router,
     private tokenService: TokenService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private customerService:CustomerService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +59,15 @@ export class UserTestsComponent implements OnInit {
       .subscribe((response) => {
         this.tests = response.data;
         this.dataLoaded = true;
+        this.getCustomers();
+      });
+  }
+
+  getCustomers() {
+    this.customerService
+      .getAllByUsers(this.tests.map((t) => t.test.userId))
+      .subscribe((response) => {
+        this.customers = response.data;
       });
   }
 
@@ -66,6 +79,7 @@ export class UserTestsComponent implements OnInit {
           (t) => t.test.testTime >= minTime && t.test.testTime <= maxTime
         );
         this.dataLoaded = true;
+        this.getCustomers();
       });
   }
 
@@ -88,10 +102,6 @@ export class UserTestsComponent implements OnInit {
     );
   }
 
-  openAddTestComponent() {
-    this.router.navigate(['/tests/add']);
-  }
-
   getUrl() {
     return this.router.url;
   }
@@ -111,6 +121,10 @@ export class UserTestsComponent implements OnInit {
     } else {
       return '/user/tests';
     }
+  }
+
+  getCustomer(userId: number): CustomerDetailsDto {
+    return this.customers.find((c) => c.customerDetails.userId == userId)!;
   }
 
   getTranslate(key: string) {

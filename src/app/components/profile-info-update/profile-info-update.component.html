@@ -1,0 +1,53 @@
+<h4 class="text-center mb-3">{{getTranslate('editDetails')}}</h4>
+
+<hr>
+
+<div class="vstack gap-2 col-md-10 mx-auto">
+    <form [formGroup]="profileInfoUpdateForm" class="row g-3">
+        <div class="col-md-12">
+            <div class="form-floating">
+                <textarea class="form-control" id="inputEmail4" formControlName="about" placeholder="about" id="about"
+                    style="height: 150px;"></textarea>
+                <label for="about" class="form-label">{{getTranslate('about')}}</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="input-group">
+                <div class="form-floating col-10">
+                    <input type="text" class="form-control" id="dateOfBirth" name="dp" [(ngModel)]="dateOfBirth"
+                        ngbDatepicker placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+                    <label for="dateOfBirth" class="form-label">{{getTranslate('dateOfBirth')}}</label>
+                </div>
+                <button class="btn btn-outline-secondary col-2" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="graduatedSchool" formControlName="graduatedSchool"
+                    placeholder="Graduated School">
+                <label for="graduatedSchool" class="form-label">{{getTranslate('graduatedSchool')}}</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <select class="form-select" id="livingCityId"
+                    formControlName="livingCityId">
+                    <option  *ngFor="let city of cities" ngClass=[value]="city.id">{{city.name}}</option>
+                </select>
+                <label for="livingCityId">{{getTranslate('livingCity')}}</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea class="form-control" id="socialLinks" formControlName="socialLinks"
+                    placeholder="Leave a comment here" style="height: 100px"></textarea>
+                <label for="socialLinks" class="form-label">{{getTranslate('socialLinks')}}</label>
+            </div>
+        </div>
+        <div class="col-12 text-end" (click)="update()">
+            <button class="btn btn-dark">{{getTranslate('save')}}</button>
+        </div>
+    </form>
+</div>

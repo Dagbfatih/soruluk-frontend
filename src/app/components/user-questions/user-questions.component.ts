@@ -27,6 +27,9 @@ export class UserQuestionsComponent implements OnInit {
   categoryId: number;
   filterText: string = '';
   user: User = {} as User;
+  pageSize: number = 6;
+  page: number = 1;
+  collectionSize: number = 1;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,7 +38,7 @@ export class UserQuestionsComponent implements OnInit {
     private optionNumberGenerator: OptionNumberGeneratorService,
     private router: Router,
     private tokenService: TokenService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class UserQuestionsComponent implements OnInit {
       (response) => {
         this.questions = response.data;
         this.dataLoaded = true;
+        this.setCollectionSize();
       },
       (responseError) => {
         this.errorService.writeErrorMessages(responseError);
@@ -82,10 +86,8 @@ export class UserQuestionsComponent implements OnInit {
     }
   }
 
-  openAddQuestionModal() {
-    var modalReferance = this.modalService.open(QuestionAddComponent, {
-      size: 'xl',
-    });
+  setCollectionSize() {
+    this.collectionSize = this.questions.length;
   }
 
   openUpdateQuestionModal(questionId: number) {

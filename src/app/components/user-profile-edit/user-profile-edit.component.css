@@ -1,0 +1,205 @@
+body {
+    background-color: #f0f6ff;
+    color: #28384d;
+  }
+  
+  .custom-color .nav-link.active,
+  .custom-color .nav-link.active:hover {
+    background-color: rgb(1, 216, 169);
+  }
+  
+  .nav-pills > .nav-link.active,
+  .nav-pills > .nav-link.active:hover {
+    background-color: rgb(1, 216, 169);
+  }
+  
+  button.nav-link:not([active]) {
+    color: black;
+    background-color: #f8f9fa;
+  }
+  
+  button.nav-link.active {
+    color: white;
+  }
+  
+  button.my-button {
+    background-color: rgb(1, 216, 169);
+    color: white;
+  }
+  
+  /*social */
+  .card-one {
+    position: relative;
+    width: 300px;
+    background: #fff;
+    box-shadow: 0 10px 7px -5px rgba(0, 0, 0, 0.4);
+  }
+  .card {
+    margin-bottom: 35px;
+    box-shadow: 0 10px 20px 0 rgba(26, 44, 57, 0.14);
+    border: none;
+  }
+  
+  .follower-wrapper li {
+    list-style-type: none;
+    color: #fff;
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .social-profile {
+    color: #fff;
+  }
+  
+  .social-profile a {
+    color: #fff;
+  }
+  
+  .social-profile {
+    position: relative;
+    margin-bottom: 150px;
+  }
+  
+  .social-profile .user-profile {
+    position: absolute;
+    bottom: -75px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    left: 50px;
+  }
+  
+  .social-nav {
+    position: absolute;
+    bottom: 0;
+  }
+  
+  .social-prof {
+    color: #333;
+  }
+  
+  .social-prof .wrapper {
+    width: 70%;
+    margin: auto;
+    margin-top: -130px;
+  }
+  
+  .social-prof img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 5px solid #fff;
+    /*border: 10px solid #70b5e6ee;*/
+  }
+  
+  .social-prof h3 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  
+  .social-prof p {
+    font-size: 18px;
+  }
+  
+  .social-prof .nav-pills {
+    border: none;
+  }
+  
+  .card .nav > li {
+    position: relative;
+    display: block;
+  }
+  
+  .card .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    font-weight: 300;
+    border-radius: 4px;
+  }
+  
+  .card .nav > li > a:focus,
+  .card .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #eee;
+  }
+  
+  .card .s-nav > li > a.active {
+    text-decoration: none;
+    background-color: #3afe;
+    color: #fff;
+  }
+  
+  .text-blue {
+    color: #3afe;
+  }
+  
+  ul.friend-list {
+    margin: 0;
+    padding: 0;
+  }
+  
+  ul.friend-list li {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  ul.friend-list li:hover {
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  ul.friend-list .left img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  ul.friend-list li {
+    padding: 10px;
+  }
+  
+  ul.friend-list .right h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  
+  ul.friend-list .right p {
+    font-size: 11px;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  .social-timeline-card .dropdown-toggle::after {
+    display: none;
+  }
+  
+  .info-card h4 {
+    font-size: 15px;
+  }
+  
+  .info-card h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .social-about .social-info {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .social-about p {
+    margin-bottom: 20px;
+  }
+  
+  .info-card i {
+    color: #3afe;
+  }
+  
+  /*end social*/
+  

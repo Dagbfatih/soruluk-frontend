@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { DevArchitectureHomePageComponent } from './components/dev-architecture-home-page/dev-architecture-home-page.component';
 import { DevArchitectureTutorialComponent } from './components/dev-architecture-tutorial/dev-architecture-tutorial.component';
@@ -25,6 +26,8 @@ import { TestAddComponent } from './components/test-add/test-add.component';
 import { TestDetailsComponent } from './components/test-details/test-details.component';
 import { TestComponent } from './components/test/test.component';
 import { UserOperationClaimComponent } from './components/user-operation-claim/user-operation-claim.component';
+import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserQuestionsComponent } from './components/user-questions/user-questions.component';
 import { UserResultsComponent } from './components/user-results/user-results.component';
 import { UserTestsComponent } from './components/user-tests/user-tests.component';
@@ -85,7 +88,7 @@ const routes: Routes = [
   {
     path: 'user/tests/add/select-questions',
     component: SelectQuestionsComponent,
-    data: { animation: 'Contact' },
+    data: { animation: 'About' },
   },
   {
     path: 'user/tests/add',
@@ -95,16 +98,21 @@ const routes: Routes = [
   {
     path: 'user/tests/add/confirm',
     component: TestAddConfirmComponent,
-    data: { animation: 'About' },
+    data: { animation: 'Contact' },
   },
   {
     path: 'user/profile',
-    component: ProfileComponent,
+    component: UserProfileComponent,
     canActivate: [LoginGuard],
   },
   {
     path: 'user/profile/edit',
-    component: ProfileEditComponent,
+    component: UserProfileEditComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'user/user-profile',
+    component: UserProfileComponent,
     canActivate: [LoginGuard],
   },
   {
@@ -116,6 +124,10 @@ const routes: Routes = [
     path: 'user/tests',
     component: UserTestsComponent,
     canActivate: [LoginGuard],
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent,
   },
   {
     path: 'user/tests/:minTime/:maxTime',

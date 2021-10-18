@@ -6,10 +6,10 @@
         <div class="row mb-3">
             <ul class="list-group list-group-flush mb-5" style="background-color: rgb(238, 238, 238);">
                 <li class="list-group-item" style="background-color: rgb(238, 238, 238);">
-                    <h3 class="text-muted">{{getTranslate("language")}}</h3>
+                    <h3>{{getTranslate("language")}}</h3>
                 </li>
                 <li class="list-group-item" style="background-color: rgb(238, 238, 238);">
-                    <div class="w-25 mb-3">
+                    <div class="col-sm-3 mb-3">
                         <div class="form-floating">
                             <select class="form-select form-select" id="languageCode" [(ngModel)]="languageCode"
                                 aria-label="Floating label select example" (change)="onLanguageChanged($event)">

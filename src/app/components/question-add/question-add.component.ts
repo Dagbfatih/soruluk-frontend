@@ -161,9 +161,7 @@ export class QuestionAddComponent implements OnInit {
       questionModel.question.lessonId = this.customer.lessonId;
       questionModel.question.lessonId = +questionModel.question.lessonId;
       questionModel.question.subjectId = +questionModel.question.subjectId;
-
-      console.log(questionModel);
-
+      
       this.questionService.addWithDetails(questionModel).subscribe(
         (response) => {
           this.toastrService.success('Eklendi', environment.successMessage);

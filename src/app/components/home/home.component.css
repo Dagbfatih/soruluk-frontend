@@ -9,6 +9,10 @@
   border-width: 2px;
 }
 
+.homepage{
+  min-height: 95vh;
+}
+
 .btn-info:hover {
   border-color: rgba(255, 255, 255, 0);
   border-width: 2px;

@@ -1,64 +1,55 @@
-<div class="container mb-5">
+<div class="">
+    <!-- container mb-5 -->
     <div *ngIf="!dataLoaded" class="spinner-border text-success" role="status">
         <span class="visually-hidden">{{getTranslate("loading")}}...</span>
     </div>
 
-    <div class="row">
-        <div class="mb-3 d-flex" style="padding-top: 1%;">
-            <input [(ngModel)]="filterText" class="form-control me-3" type="search" placeholder="Ara"
-                aria-label="Search" />
-            <!-- <button class="btn btn-outline-success" type="submit">{{getTranslate("search")}}</button> -->
-        </div>
+    <div class="">
+        <!-- <div class="vstack gap-2 col-md-12 mx-auto pb-2">
+            <button class="btn btn-outline-dark w-100" type="button">{{getTranslate("newQuestion")}}</button>
+        </div> -->
 
-        <div class="row">
-            <!-- <div class="col-md-5">
-                <div class="mb-3">
-                    <button [routerLink]="getFilterRouterClass()" type="button" class="btn btn-success">
-                        {{getTranslate("filter")}}
-                    </button>
-                </div>
-            </div> -->
-            <div class="col-md-7 text-end">
-                <div class="mb-3">
-                    <button (click)="openAddQuestionModal()" type="button" class="btn btn-dark">
-                        {{getTranslate("add")}}
-                    </button>
-                </div>
-            </div>
+        <div class="mb-3 d-flex">
+            <input [(ngModel)]="filterText" class="form-control" type="search" placeholder="Ara" aria-label="Search" />
         </div>
 
         <!-- data manage -->
         <h3 class="text-center" *ngIf="questions.length === 0">{{getTranslate("noResults")}}</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div *ngFor="
-            let question of questions | questionFilterPipe: filterText;
-            let i = index
-          " class="col">
-                <div class="card h-100">
+        <div class="row g-3">
+            <div *ngFor="let question of questions 
+            | questionFilterPipe: filterText
+            | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" class="col-sm-12">
+                <div class="card">
                     <div class="card-header">
-                        <div class="row">
-                            <h5 class="col card-title">{{ i + 1 }}. {{getTranslate("question")}}</h5>
-                            <div class="col text-end">
-                                <i *ngIf="question.question.starQuestion" class="fa fa-star"
-                                    style="font-size: 36px; color: rgb(197, 197, 38)"></i>
-                                <i *ngIf="!question.question.starQuestion" class="fa fa-star-o"
-                                    style="font-size: 36px; color: rgb(197, 197, 38)"></i>
+                        <div class="d-flex align-items-center">
+                            <div class="col-sm-11">
+                                {{ question.question.questionText }}
+                            </div>
+                            <div class="col-sm-1 text-end">
+                                <div class="dropdown dropstart">
+                                    <button class="btn btn-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa fa-ellipsis-h fa-lg"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" (click)="openUpdateQuestionModal(question.question.questionId)">{{getTranslate('update')}}</a></li>
+                                        <li><a class="dropdown-item" (click)="openDeleteQuestionModal(question.question.questionId)">{{getTranslate('delete')}}</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <p class="card-text">{{ question.question.questionText }}</p>
+                        <!-- <p class="card-text">{{ question.question.questionText }}</p> -->
 
-                        <div>
-                            <ul class="list-group-mine list-group-flush">
-                                <li *ngFor="let option of question.options; let i = index" class="list-group-item">
-                                    <strong>{{ getOption(i) }})</strong>
-                                    {{ option.optionText }}
-                                </li>
-                            </ul>
-                        </div>
+                        <ul class="list-group-mine list-group-flush">
+                            <li *ngFor="let option of question.options; let i = index" class="list-group-item">
+                                <strong>{{ getOption(i) }})</strong>
+                                {{ option.optionText }}
+                            </li>
+                        </ul>
                     </div>
-                    <div class="card-footer text-end">
+                    <!-- <div class="card-footer text-end">
                         <button type="button" class="btn btn-dark me-2"
                             (click)="openUpdateQuestionModal(question.question.questionId)">
                             {{getTranslate("update")}}
@@ -67,9 +58,24 @@
                             (click)="openDeleteQuestionModal(question.question.questionId)">
                             {{getTranslate("delete")}}
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
+    </div>
+    <!-- <div class="d-flex justify-content-center">
+        <div class="col-12 text-end p-3 fixed-bottom">
+            <div class="row">
+                <div class="col-sm-7 offset-sm-3">
+                    <button (click)="openAddQuestionModal()" type="button" class="btn btn-dark btn-circle btn-lg">
+                        <i class="fa fa-plus fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="text-center d-flex justify-content-center pt-3">
+        <ngb-pagination [pageSize]="pageSize" [collectionSize]="collectionSize" [(page)]="page" class="mb-0">
+        </ngb-pagination>
     </div>
 </div>

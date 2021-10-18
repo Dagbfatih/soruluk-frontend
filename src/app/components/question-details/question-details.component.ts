@@ -28,10 +28,9 @@ export class QuestionDetailsComponent implements OnInit {
   profileImages: ProfileImage[] = [];
   baseUrl = environment.baseUrl;
   customers: CustomerDetailsDto[] = [];
-  pageSize: number = 9;
+  pageSize: number = 6;
   page: number = 1;
   collectionSize: number = 1;
-
   categoryId: number = 0;
 
   constructor(

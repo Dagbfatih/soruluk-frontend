@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { alltranslates } from 'src/app/constants/TranslateManager';
+import { CustomerDetailsDto } from 'src/app/models/dtos/customerDetailsDto';
 import { LanguagePath } from 'src/app/models/entities/languagePath';
 import { ProfileImage } from 'src/app/models/entities/profileImage';
 import { User } from 'src/app/models/entities/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { CustomerService } from 'src/app/services/customer.service';
 import { ProfileImageService } from 'src/app/services/profile-image.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -21,6 +23,7 @@ export class NaviComponent implements OnInit {
   profileImage: ProfileImage = {} as ProfileImage;
   baseUrl = environment.baseUrl;
   profileImageLoaded = false;
+  customer: CustomerDetailsDto;
   flagPaths: LanguagePath[] = [
     { path: 'Flags/turkish-flag.png', code: 'tr-TR' },
     { path: 'Flags/english-flag.png', code: 'en-US' },
@@ -32,12 +35,22 @@ export class NaviComponent implements OnInit {
     private profileImageService: ProfileImageService,
     private toastrService: ToastrService,
     private router: Router,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
     this.user = this.tokenService.getUserWithJWT();
     this.isLog() ? this.getUserProfileImage() : null;
+    this.isLog() ? this.getCustomer() : null;
+  }
+
+  getCustomer() {
+    this.customerService
+      .getDetailsByUser(this.user.id)
+      .subscribe((response) => {
+        this.customer = response.data;
+      });
   }
 
   checkRouterContains(searchedItem: string): boolean {

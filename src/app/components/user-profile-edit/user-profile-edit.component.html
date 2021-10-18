@@ -1,0 +1,128 @@
+<main>
+    <div class="container">
+        <div class="img" style="background-color: transparent; height: 100px; background-size: cover;"></div>
+        <div class="card social-prof">
+            <div class="card-body text-center">
+                <div class="col-lg-12 d-lg-none">
+                    <!-- xs -->
+                    <div class="text-end">
+                        <button class="btn btn-dark" routerLink="/user/user-profile"><i
+                                class="fa fa-arrow-left"></i></button>
+                    </div>
+                </div>
+                <div class="col-lg-12 d-none d-lg-block">
+                    <!-- lg -->
+                    <div class="text-end">
+                        <button class="btn btn-dark" routerLink="/user/user-profile">
+                            <i class="fa fa-arrow-left"></i>
+                            {{getTranslate('back')}}
+                        </button>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <img *ngIf="profileImage" [src]="baseUrl  + profileImage.imagePath" class="user-profile">
+                    <h3>{{userToken.firstName + ' ' + userToken.lastName}}</h3>
+                    <!-- <p>{{getTranslate(customer.roleName + " fromDb")}}</p> -->
+                </div>
+
+                <!-- profile header -->
+                <!-- <div class="row row-cols-auto g-3 align-items-center">
+                    <div class="col-lg-5 col-xs-10 col-10">
+                        <ul class="nav nav-pills nav-fill custom-color justify-content-center s-nav">
+                            <li class="nav-item ms-1" role="presentation">
+                                <button class="nav-link active" id="user-questions-tab" data-bs-toggle="pill"
+                                    data-bs-target="#user-questions" type="button" role="tab"
+                                    aria-controls="user-questions" aria-selected="true">
+                                    {{getTranslate('myQuestions')}}
+                                </button>
+                            </li>
+                            <li class="nav-item ms-1" role="presentation">
+                                <button class="nav-link" id="user-tests-tab" data-bs-toggle="pill"
+                                    data-bs-target="#user-tests" type="button" role="tab" aria-controls="user-tests"
+                                    aria-selected="true">
+                                    {{getTranslate('myTests')}}
+                                </button>
+                            </li>
+                            <li class="nav-item ms-1" role="presentation">
+                                <button class="nav-link" id="user-results-tab" data-bs-toggle="pill"
+                                    data-bs-target="#user-results" type="button" role="tab" aria-controls="user-results"
+                                    aria-selected="true">
+                                    {{getTranslate('myTestResults')}}
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-7 col-xs-2 col-2">
+                        <div class="d-lg-none">
+                            <div class="dropdown text-end">
+                                <button class="btn btn-secondary" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-h fa-lg"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item">{{getTranslate('addNewQuestion')}}</a></li>
+                                    <li><a class="dropdown-item" routerLink="/tests/add">{{getTranslate('createNewTest')}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="d-none d-lg-block">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-dark me-3 ">{{getTranslate('addNewQuestion')}}</button>
+                                <button class="btn btn-outline-dark" routerLink="/user/tests/add">{{getTranslate('createNewTest')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="card social-prof">
+                    <div class="card-body">
+                        <h4 class="text-center mb-3">{{getTranslate('editProfile')}}</h4>
+                        <hr>
+                        <div class="vstack gap-2 col-md-10 mx-auto">
+                            <form [formGroup]="profileUpdateForm" class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" formControlName="firstName"
+                                            id="inputEmail4" [placeholder]="userToken.firstName"
+                                            [value]="userToken.firstName">
+                                        <label for="inputEmail4" class="form-label">Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" formControlName="lastName"
+                                            id="inputPassword4" [placeholder]="userToken.lastName"
+                                            [value]="userToken.lastName">
+                                        <label for="inputPassword4" class="form-label">Surname</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="inputAddress"
+                                            formControlName="email" [placeholder]="userToken.email"
+                                            [value]="userToken.email">
+                                        <label for="inputAddress" class="form-label">Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-dark"
+                                        (click)="update()">{{getTranslate('save')}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="card social-prof">
+                    <div class="card-body">
+                        <app-profile-info-update></app-profile-info-update>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
